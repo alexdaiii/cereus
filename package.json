@@ -1,0 +1,78 @@
+{
+  "name": "@alexdaiii/cereus",
+  "version": "0.1.0",
+  "description": "React component library designed to visualize protein and genomic sequence annotations",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint --ext .ts,.tsx src",
+    "lint:fix": "eslint --fix --ext .ts,.tsx src",
+    "build": "vite build",
+    "storybook": "storybook dev --ci -p 6006",
+    "build-storybook": "storybook build",
+    "test": "vitest run",
+    "test-watch": "vitest",
+    "test:ui": "vitest --ui",
+    "doggo": "npm run format && npm run lint:fix && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexdaiii/cereus.git"
+  },
+  "keywords": [
+    "react",
+    "genome",
+    "protein",
+    "visualizations"
+  ],
+  "author": "Alexander Chang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexdaiii/cereus/issues"
+  },
+  "homepage": "https://github.com/alexdaiii/cereus#readme",
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.7",
+    "@storybook/addon-interactions": "^7.6.7",
+    "@storybook/addon-links": "^7.6.7",
+    "@storybook/addon-onboarding": "^1.0.10",
+    "@storybook/blocks": "^7.6.7",
+    "@storybook/react": "^7.6.7",
+    "@storybook/react-vite": "^7.6.7",
+    "@storybook/test": "^7.6.7",
+    "@stylexjs/rollup-plugin": "^0.4.1",
+    "@stylexjs/stylex": "^0.4.1",
+    "@testing-library/jest-dom": "^6.2.0",
+    "@testing-library/react": "^14.1.2",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/react": "^18.2.47",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-storybook": "^0.6.15",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "jsdom": "^23.2.0",
+    "prettier": "^3.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.6.7",
+    "typescript": "^5.3.3",
+    "vite": "^4.5.1",
+    "vite-plugin-dts": "^3.7.0",
+    "vitest": "^1.1.3"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}
