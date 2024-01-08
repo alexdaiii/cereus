@@ -4,7 +4,8 @@
 
 This project aims to create a modern React component library for visualizing
 protein and genomic sequence annotations.
-Inspired by [@rcsb/rcsb-saguaro](https://github.com/rcsb/saguaro), this library
+Inspired by [@rcsb/rcsb-saguaro](https://github.com/rcsb/rcsb-saguaro), this
+library
 is designed to work seamlessly with popular modern React frameworks
 such as
 Next.js, Remix, Create React App, and Vite.
@@ -30,4 +31,3 @@ project [here](https://chromatic.com).
 ## Usage
 
 Provide code examples and screenshots of your project in action.
-

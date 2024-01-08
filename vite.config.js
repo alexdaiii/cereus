@@ -1,6 +1,6 @@
-import stylex from '@stylexjs/rollup-plugin';
 import {defineConfig} from 'vite';
 import dts from 'vite-plugin-dts';
+import svgr from 'vite-plugin-svgr';
 
 import packageJson from './package.json';
 
@@ -29,15 +29,17 @@ export default defineConfig({
     emptyOutDir: true, // Clears the output directory before building.
   },
   plugins: [
+    svgr(),
     dts(), // Uses the 'vite-plugin-dts' plugin for generating TypeScript declaration files (d.ts).
-    stylex({
-      classNamePrefix: `${packageJson.name.replace(/[^a-zA-Z0-9-_]/g, '')}-`, // Sets the prefix for generated class names.
-      fileName: 'stylex.module.css', // Sets the name of the generated CSS file.
-    }),
   ],
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './setupTests.ts',
+  },
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
   },
 });
