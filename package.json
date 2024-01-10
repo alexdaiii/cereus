@@ -38,6 +38,7 @@
   },
   "homepage": "https://github.com/alexdaiii/cereus#readme",
   "devDependencies": {
+    "@next/eslint-plugin-next": "^14.0.4",
     "@storybook/addon-essentials": "^7.6.7",
     "@storybook/addon-interactions": "^7.6.7",
     "@storybook/addon-links": "^7.6.7",
@@ -78,6 +79,7 @@
   },
   "dependencies": {
     "@visx/axis": "^3.5.0",
+    "@visx/gradient": "^3.3.0",
     "@visx/grid": "^3.5.0",
     "@visx/group": "^3.3.0",
     "@visx/react-spring": "^3.5.1",

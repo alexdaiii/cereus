@@ -6,7 +6,9 @@ const meta: Meta<typeof CereusSequenceViewer> = {
   component: CereusSequenceViewer,
   title: 'CereusSequenceViewer',
   tags: ['autodocs'], // Add your tags here
-  args: {},
+  args: {
+    domainMax: 100,
+  },
   argTypes: {
     // disable setting props on background arg
   },
@@ -33,7 +35,7 @@ export const Primary: Story = {
 export const WithBackground: Story = {
   args: {
     background: ({width, height}) => {
-      return <rect width={width} height={height} fill="lightblue" />;
+      return <rect width={width} height={height} fill="#F9F9F9" />;
     },
   },
   parameters: {
@@ -48,7 +50,7 @@ export const WithBackground: Story = {
   <CereusSequenceViewer
   background={
     ({width, height}) => {
-      return <rect width={width} height={height} fill="lightblue" />;
+      return <rect width={width} height={height} fill="#F9F9F9" />;
     }
   }
 />

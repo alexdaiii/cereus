@@ -1,44 +1,25 @@
-import {Axis} from '@visx/axis';
-import {scaleBand} from '@visx/scale';
+import {AnimatedAxis} from '@visx/react-spring';
+import {scaleLinear} from '@visx/scale';
 
-import {useSequenceViewer} from '@/hooks/useSequenceViewer';
-import {breakpoints} from '@/types/styles';
+import {useGraphConfig} from '@/hooks/useSequenceViewer';
+import {TrackDataBase, oTrackTypes} from '@/types/dataTypes';
 
 type Props = {
   sequence: string;
+  start?: number;
 };
 
-export const SequenceTrack = ({sequence}: Props) => {
-  const letters = sequence.split('').map((val, idx) => ({val, idx}));
+export interface SequenceTrackData extends TrackDataBase, Props {
+  trackType: typeof oTrackTypes.sequence;
+}
 
-  const {
-    width,
-    horizontalAxis: {padding},
-  } = useSequenceViewer();
+export const SequenceTrack = ({sequence, start = 1}: Props) => {
+  const {domainMin, domainMax, chartXMin, chartXMax} = useGraphConfig();
 
-  return (
-    <Axis
-      scale={scaleBand({
-        domain: letters,
-        range: [padding, width - padding],
-      })}
-      tickFormat={val => val.val}
-      strokeWidth={0}
-      numTicks={getNumTicks(width)}
-    />
-  );
-};
+  const scale = scaleLinear({
+    domain: [domainMin, domainMax],
+    range: [chartXMin, chartXMax],
+  });
 
-const getNumTicks = (width: number) => {
-  if (width > breakpoints.lg) {
-    return 0;
-  }
-  if (width > breakpoints.md) {
-    return 35;
-  }
-  if (width > breakpoints.sm) {
-    return 30;
-  }
-
-  return 25;
+  return <AnimatedAxis scale={scale} />;
 };

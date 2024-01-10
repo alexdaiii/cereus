@@ -3,24 +3,12 @@ import {ParentSize} from '@visx/responsive';
 import React from 'react';
 
 import {
-  BoardConfig,
+  DEFAULT_GRAPH_CONFIG,
+  GraphConfig,
   SequenceViewerContext,
 } from '@/context/SequenceViewerContext';
-import {DeepPartial, DeepRequired} from '@/types/util';
 
-/**
- * Prop values for overriding default props for elements of the CereusSequenceViewer
- */
-type OverrideProps = {
-  /**
-   * Override width of the parent size component
-   */
-  widthOverride?: number;
-  /**
-   * Override height of the parent size component
-   */
-  heightOverride?: number;
-};
+type GraphConfigProps = Partial<GraphConfig> & {domainMax: number};
 
 /**
  * Props of the FeatureViewer component
@@ -32,31 +20,30 @@ type Props = {
    */
   background?: (props: {width: number; height: number}) => React.ReactNode;
   /**
-   * Configuration for the Board
+   * Override width of the parent size component
    */
-  boardConfig: DeepPartial<BoardConfig> & {
-    max: number;
-  };
+  widthOverride?: number;
   /**
-   * Margins configuration for the Board
+   * Override height of the parent size component
    */
-  margin?: {top: number; right: number; bottom: number; left: number};
-} & OverrideProps;
-
-const defaultBoardConfig = {
-  animate: true,
-  paddingX: 10,
-  domain: {
-    min: 0,
-  },
-};
+  heightOverride?: number;
+} & GraphConfigProps;
 
 export const CereusSequenceViewer = ({
   children,
   background,
   widthOverride,
   heightOverride,
-  boardConfig,
+  animate = DEFAULT_GRAPH_CONFIG.animate,
+  domainMin = DEFAULT_GRAPH_CONFIG.domainMin,
+  domainMax,
+  paddingTop = DEFAULT_GRAPH_CONFIG.paddingTop,
+  paddingBottom = DEFAULT_GRAPH_CONFIG.paddingBottom,
+  paddingLeft = DEFAULT_GRAPH_CONFIG.paddingLeft,
+  paddingRight = DEFAULT_GRAPH_CONFIG.paddingRight,
+  leftAxisWidth = DEFAULT_GRAPH_CONFIG.leftAxisWidth,
+  includeTopAxis = DEFAULT_GRAPH_CONFIG.includeTopAxis,
+  topAxisHeight = DEFAULT_GRAPH_CONFIG.topAxisHeight,
 }: Props) => {
   return (
     <ParentSize>
@@ -64,18 +51,40 @@ export const CereusSequenceViewer = ({
         width = widthOverride ?? width;
         height = heightOverride ?? height;
 
+        // bounds
+        const xMax = width - paddingLeft - paddingRight;
+        const chartXMin = paddingLeft + leftAxisWidth;
+        const yMax = height - paddingTop - paddingBottom;
+        const chartYMin = includeTopAxis
+          ? topAxisHeight + paddingTop
+          : paddingTop;
+
         return width < 10 ? null : (
           <SequenceViewerContext.Provider
             value={{
               width,
               height,
-              boardConfig: {
-                ...defaultBoardConfig,
-                ...boardConfig,
-                domain: {
-                  min: defaultBoardConfig.domain.min ?? boardConfig.domain?.min,
-                  max: boardConfig.max,
-                },
+              graphConfig: {
+                animate,
+                domainMin,
+                domainMax,
+                paddingTop,
+                paddingBottom,
+                paddingLeft,
+                paddingRight,
+                leftAxisWidth,
+                includeTopAxis,
+                topAxisHeight,
+              },
+              computedGraphConfig: {
+                xMin: paddingLeft,
+                xMax,
+                yMin: paddingTop,
+                yMax,
+                chartXMin,
+                chartXMax: xMax,
+                chartYMin,
+                chartYMax: yMax,
               },
             }}
           >
@@ -86,7 +95,9 @@ export const CereusSequenceViewer = ({
             >
               <svg width={width} height={height}>
                 {background && background({width, height})}
-                <Group>{children}</Group>
+                <Group top={paddingTop} left={paddingLeft}>
+                  {children}
+                </Group>
               </svg>
             </div>
           </SequenceViewerContext.Provider>
