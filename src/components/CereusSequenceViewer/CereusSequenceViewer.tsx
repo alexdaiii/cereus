@@ -88,18 +88,12 @@ export const CereusSequenceViewer = ({
               },
             }}
           >
-            <div
-              style={{
-                position: 'relative',
-              }}
-            >
-              <svg width={width} height={height}>
-                {background && background({width, height})}
-                <Group top={paddingTop} left={paddingLeft}>
-                  {children}
-                </Group>
-              </svg>
-            </div>
+            <svg width={width} height={height}>
+              {background && background({width, height})}
+              <Group top={paddingTop} left={paddingLeft}>
+                {children}
+              </Group>
+            </svg>
           </SequenceViewerContext.Provider>
         );
       }}
