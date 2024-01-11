@@ -22,7 +22,13 @@ export const Primary: Story = {
   args: {
     children: ({width, height}) => {
       return (
-        <div>
+        <div
+          style={{
+            backgroundColor: 'red',
+            width: '100%',
+            height: '100%',
+          }}
+        >
           width: {width}, height: {height}
         </div>
       );
