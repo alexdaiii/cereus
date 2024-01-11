@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react';
 
-import {CereusSequenceViewer} from '@/components/CereusSequenceViewer';
+import {CereusSequenceViewerB1} from '@/components';
 
 import {GraphAxisTop} from './GraphAxisTop';
 
@@ -25,14 +25,14 @@ export const Animated: Story = {
           height: '500px',
         }}
       >
-        <CereusSequenceViewer
+        <CereusSequenceViewerB1
           domainMax={DOMAIN_MAX}
           background={({width, height}) => {
             return <rect width={width} height={height} fill="#F9F9F9" />;
           }}
         >
           <GraphAxisTop {...args} />
-        </CereusSequenceViewer>
+        </CereusSequenceViewerB1>
       </div>
     );
   },
@@ -46,7 +46,7 @@ export const NotAnimated: Story = {
           height: '500px',
         }}
       >
-        <CereusSequenceViewer
+        <CereusSequenceViewerB1
           domainMax={DOMAIN_MAX}
           animate={false}
           background={({width, height}) => {
@@ -54,7 +54,7 @@ export const NotAnimated: Story = {
           }}
         >
           <GraphAxisTop {...args} />
-        </CereusSequenceViewer>
+        </CereusSequenceViewerB1>
       </div>
     );
   },

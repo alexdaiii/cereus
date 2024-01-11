@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from '@storybook/react';
 
-import {CereusSequenceViewer} from '../../CereusSequenceViewer';
+import {CereusSequenceViewerB1} from '../../CereusSequenceViewerB1';
 import {GraphAxisTop} from '../../GraphAxis/GraphAxisTop';
 import {ChartArea} from '../../TrackArea';
 import {SequenceTrack} from './SequenceTrack';
@@ -24,7 +24,7 @@ const meta: Meta<typeof SequenceTrack> = {
           height: 500,
         }}
       >
-        <CereusSequenceViewer
+        <CereusSequenceViewerB1
           domainMax={args.sequence.length}
           background={({width, height}) => {
             return <rect width={width} height={height} fill="#F9F9F9" />;
@@ -34,7 +34,7 @@ const meta: Meta<typeof SequenceTrack> = {
           <ChartArea>
             <SequenceTrack {...args} />
           </ChartArea>
-        </CereusSequenceViewer>
+        </CereusSequenceViewerB1>
       </div>
     );
   },

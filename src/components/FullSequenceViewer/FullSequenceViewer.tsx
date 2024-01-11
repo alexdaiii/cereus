@@ -154,12 +154,14 @@ export const FullSequenceViewer = ({
     <>
       <div
         style={{
-          height: `${5.5 * NUM_TRACKS}rem`,
-          // overflowY: 'auto',
+          aspectRatio: '4/5',
         }}
       >
         <ParentSize>
           {({width, height}) => {
+            console.log('width', width);
+            console.log('height', height);
+
             return (
               <SequenceViewer
                 {...{
@@ -173,7 +175,6 @@ export const FullSequenceViewer = ({
           }}
         </ParentSize>
       </div>
-      <p>other stuff</p>
     </>
   );
 };

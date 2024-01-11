@@ -29,6 +29,10 @@ export interface RowData {
    */
   composite?: boolean;
   /**
+   * Is the row shown
+   */
+  visible?: boolean;
+  /**
    * Data for each track in the row.
    */
   tracks: (TrackDataBase & {

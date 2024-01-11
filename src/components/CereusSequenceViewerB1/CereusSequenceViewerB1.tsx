@@ -29,7 +29,7 @@ type Props = {
   heightOverride?: number;
 } & GraphConfigProps;
 
-export const CereusSequenceViewer = ({
+export const CereusSequenceViewerB1 = ({
   children,
   background,
   widthOverride,

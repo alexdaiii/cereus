@@ -1,10 +1,10 @@
 import {Meta, StoryObj} from '@storybook/react';
 
-import {CereusSequenceViewer} from './CereusSequenceViewer';
+import {CereusSequenceViewerB1} from './CereusSequenceViewerB1';
 
-const meta: Meta<typeof CereusSequenceViewer> = {
-  component: CereusSequenceViewer,
-  title: 'CereusSequenceViewer',
+const meta: Meta<typeof CereusSequenceViewerB1> = {
+  component: CereusSequenceViewerB1,
+  title: 'CereusSequenceViewerB1',
   tags: ['autodocs'], // Add your tags here
   args: {
     domainMax: 100,
@@ -19,14 +19,14 @@ const meta: Meta<typeof CereusSequenceViewer> = {
           height: '500px',
         }}
       >
-        <CereusSequenceViewer {...args} />
+        <CereusSequenceViewerB1 {...args} />
       </div>
     );
   },
 };
 export default meta;
 
-type Story = StoryObj<typeof CereusSequenceViewer>;
+type Story = StoryObj<typeof CereusSequenceViewerB1>;
 
 export const Primary: Story = {
   args: {},
