@@ -1,4 +1,4 @@
-import {GraphConfig} from '@/context/SequenceViewerContext/types';
+import {GraphConfig} from '@/context/SequenceViewerContextOld/types';
 
 export const DEFAULT_GRAPH_CONFIG: GraphConfig = {
   animate: true,

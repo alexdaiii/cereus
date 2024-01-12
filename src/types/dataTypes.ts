@@ -7,9 +7,9 @@ export const oTrackTypes = {
 export type TrackType = Enumify<typeof oTrackTypes> | string;
 
 /**
- * Data for a single row in the sequence viewer.
+ * Base data shape for a single row in the sequence viewer.
  */
-export interface RowData {
+export interface RowDataBase {
   /**
    * Id used to identify the row. Should be unique.
    */
@@ -19,10 +19,6 @@ export interface RowData {
    * @default RowData.id
    */
   title?: string;
-  /**
-   * Background color for the row.
-   */
-  color?: string;
   /**
    * Display all the tracks in this row in a single track
    * @default false
@@ -35,13 +31,11 @@ export interface RowData {
   /**
    * Data for each track in the row.
    */
-  tracks: (TrackDataBase & {
-    [key: string]: unknown;
-  })[];
+  tracks: (TrackDataBase & Record<string, unknown>)[];
 }
 
 /**
- * Data for a single track in the sequence viewer.
+ * Base data shape for a single track in the sequence viewer.
  */
 export interface TrackDataBase {
   /**
@@ -54,25 +48,4 @@ export interface TrackDataBase {
   trackType?: TrackType;
 }
 
-// const tracks = [new SequenceTrackData('ABCD')];
-//
-// const rows = [
-//   {
-//     id: 'row1',
-//     tracks: tracks,
-//   },
-// ];
-//
-// const foo = (rows: RowData[]) => {
-//   for (let i = 0; i < rows.length; i++) {
-//     const row = rows[i];
-//
-//     for (let j = 0; j < row.tracks.length; j++) {
-//       const track = row.tracks[j];
-//
-//       if (track instanceof SequenceTrackData) {
-//         console.log(track.sequence);
-//       }
-//     }
-//   }
-// };
+export type RowData = RowDataBase & Record<string, unknown>;

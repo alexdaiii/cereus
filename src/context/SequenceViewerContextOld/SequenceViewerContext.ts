@@ -1,7 +1,7 @@
 import {createContext} from 'react';
 
-import {DEFAULT_GRAPH_CONFIG} from '@/context/SequenceViewerContext/defaults';
-import {SequenceViewerContextType} from '@/context/SequenceViewerContext/types';
+import {DEFAULT_GRAPH_CONFIG} from '@/context/SequenceViewerContextOld/defaults';
+import {SequenceViewerContextType} from '@/context/SequenceViewerContextOld/types';
 
 export const SequenceViewerContext = createContext<SequenceViewerContextType>({
   width: 0,

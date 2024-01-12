@@ -8,12 +8,12 @@ import {Text} from '@visx/text';
 import {schemeSet1} from 'd3-scale-chromatic';
 import {useMemo} from 'react';
 
-import {RowData} from '@/types/dataTypes';
+import {RowDataBase} from '@/types/dataTypes';
 import {breakpoints} from '@/utils/styles';
 
 const sequence = 'ATGCGATCGATCGATCGATCGCTAGACGTATCG';
 
-const rowData: RowData[] = [
+const rowData: RowDataBase[] = [
   {
     rowId: 'row1',
     title: 'Sequence',

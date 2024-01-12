@@ -1,12 +1,11 @@
 import {Group} from '@visx/group';
 import {ParentSize} from '@visx/responsive';
 import React from 'react';
-
 import {
   DEFAULT_GRAPH_CONFIG,
   GraphConfig,
   SequenceViewerContext,
-} from '@/context/SequenceViewerContext';
+} from 'src/context/SequenceViewerContextOld';
 
 type GraphConfigProps = Partial<GraphConfig> & {domainMax: number};
 

@@ -41,7 +41,9 @@ module.exports = {
       },
     ],
     'no-console': 'warn',
-    "@typescript-eslint/no-explicit-any": "warn"
+    "@typescript-eslint/no-explicit-any": "warn",
+    "no-restricted-globals": ["warn", "window", "document", "navigator"],
+
   },
 
   settings: {

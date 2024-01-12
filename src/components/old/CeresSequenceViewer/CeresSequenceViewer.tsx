@@ -2,10 +2,10 @@ import {
   CombinableSequenceViewerContainerProps,
   SequenceViewerContainer,
 } from '@/components/SequenceViewerContainer';
-import {RowData} from '@/types/dataTypes';
+import {RowDataBase} from '@/types/dataTypes';
 
 type Props = {
-  data: RowData[];
+  data: RowDataBase[];
 } & CombinableSequenceViewerContainerProps;
 
 export const CeresSequenceViewer = ({
@@ -31,7 +31,7 @@ export const CeresSequenceViewer = ({
   );
 };
 
-export const getNumDisplayedTracks = (data: RowData[]) => {
+export const getNumDisplayedTracks = (data: RowDataBase[]) => {
   let numDisplayedTracks = 0;
 
   for (let i = 0; i < data.length; i++) {

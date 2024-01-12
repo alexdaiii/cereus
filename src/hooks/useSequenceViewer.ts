@@ -1,6 +1,5 @@
 import {useContext} from 'react';
-
-import {SequenceViewerContext} from '@/context/SequenceViewerContext';
+import {SequenceViewerContext} from 'src/context/SequenceViewerContextOld';
 
 export const useGraphConfig = () => {
   const {graphConfig, computedGraphConfig} = useContext(SequenceViewerContext);
