@@ -35,18 +35,17 @@ export const ThemeProvider = ({
   const remPx = useGetRem();
 
   // If undefined, then calculate the padding based on the width
-  const yAxisPaddingIsUndefined = yAxisPadding === undefined;
   const yAxisPaddingCalc = useMemo(() => {
-    if (yAxisPaddingIsUndefined) {
+    if (yAxisPadding === undefined) {
       return {
         top: 0,
         right: 0,
         bottom: 0,
-        left: 0,
+        left: calculateYAxisPaddingLeft(width, remPx),
       };
     }
     return yAxisPadding;
-  }, [yAxisPadding]);
+  }, [remPx, width, yAxisPadding]);
 
   return (
     <ThemeContext.Provider
