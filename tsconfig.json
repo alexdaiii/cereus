@@ -41,11 +41,18 @@
     "baseUrl": ".",
     // This must be specified if "paths" is specified.
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
       // This mapping instructs TypeScript to root any import starting with "@" to the "src" directory.
-    }
+    },
+    "types": [
+      "@testing-library/jest-dom"
+    ]
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   // Specifies the directory to include when searching for TypeScript files.
   "exclude": [
     "dist",
