@@ -7,7 +7,9 @@ import {
   ChartAreaStyleContext,
   ChartItemPadding,
   ChartItemStyleContextType,
-} from '../../../context';
+} from '@/context';
+import {useChartAreaStyle} from '@/hooks';
+
 import {
   AxisBottomStyleProvider,
   AxisLeftStyleProvider,
@@ -48,6 +50,27 @@ const checkExpVals = (
   expect(actualVals.top, 'top value incorrect').toBe(expVals.top);
   expect(actualVals.left, 'left value incorrect').toBe(expVals.left);
 };
+
+const TestHookComponent = ({
+  children,
+}: {
+  children: (val: ChartItemStyleContextType) => ReactNode;
+}) => {
+  const val = useChartAreaStyle();
+  return <>{children(val)}</>;
+};
+
+const TestComsumerComponent = ({
+  children,
+}: {
+  children: (val: ChartItemStyleContextType) => ReactNode;
+}) => (
+  <ChartAreaStyleContext.Consumer>
+    {val => {
+      return <>{children(val)}</>;
+    }}
+  </ChartAreaStyleContext.Consumer>
+);
 
 describe('ChartAreaStyleProvider', () => {
   afterEach(() => {
@@ -195,271 +218,296 @@ describe('ChartAreaStyleProvider', () => {
   };
 
   describe.each([
-    [
-      'no axes providers',
-      ({children}: TestEleProp) => {
-        return <>{children}</>;
-      },
-      {
-        totalTopHeight: 0,
-        totalBottomHeight: 0,
-        totalLeftWidth: 0,
-        totalRightWidth: 0,
-      },
-    ],
-    [
-      'top axes provider',
-      ({children}: TestEleProp) => {
-        return (
-          <AxisTopStyleProvider
-            height={50}
-            width={10}
-            paddingTop={5}
-            paddingRight={10}
-            paddingBottom={15}
-            paddingLeft={20}
-          >
-            {children}
-          </AxisTopStyleProvider>
-        );
-      },
-      {
-        totalTopHeight: 50 + 5 + 15,
-        totalBottomHeight: 0,
-        totalLeftWidth: 0,
-        totalRightWidth: 0,
-      },
-    ],
-    [
-      'bottom axes provider',
-      ({children}: TestEleProp) => {
-        return (
-          <AxisBottomStyleProvider
-            width={50}
-            height={25}
-            paddingTop={10}
-            paddingRight={20}
-            paddingBottom={30}
-            paddingLeft={40}
-          >
-            {children}
-          </AxisBottomStyleProvider>
-        );
-      },
-      {
-        totalTopHeight: 0,
-        totalBottomHeight: 25 + 10 + 30,
-        totalLeftWidth: 0,
-        totalRightWidth: 0,
-      },
-    ],
-    [
-      'left axes provider',
-      ({children}: TestEleProp) => {
-        return (
-          <AxisLeftStyleProvider
-            width={1}
-            height={2}
-            paddingTop={3}
-            paddingRight={4}
-            paddingBottom={5}
-            paddingLeft={6}
-          >
-            {children}
-          </AxisLeftStyleProvider>
-        );
-      },
-      {
-        totalTopHeight: 0,
-        totalBottomHeight: 0,
-        totalLeftWidth: 1 + 4 + 6,
-        totalRightWidth: 0,
-      },
-    ],
-    [
-      'right axes provider',
-      ({children}: TestEleProp) => (
-        <AxisRightStyleProvider
-          width={64}
-          height={32}
-          paddingTop={16}
-          paddingRight={8}
-          paddingBottom={4}
-          paddingLeft={2}
-        >
-          {children}
-        </AxisRightStyleProvider>
-      ),
-      {
-        totalTopHeight: 0,
-        totalBottomHeight: 0,
-        totalLeftWidth: 0,
-        totalRightWidth: 64 + 8 + 2,
-      },
-    ],
-    [
-      't & b axes provider',
-      ({children}: TestEleProp) => (
-        <AxisTopStyleProvider
-          width={3}
-          height={9}
-          paddingTop={27}
-          paddingRight={81}
-          paddingBottom={243}
-          paddingLeft={729}
-        >
-          <AxisBottomStyleProvider
-            width={12}
-            height={24}
-            paddingTop={36}
-            paddingRight={48}
-            paddingLeft={60}
-            paddingBottom={72}
-          >
-            {children}
-          </AxisBottomStyleProvider>
-        </AxisTopStyleProvider>
-      ),
-      {
-        totalTopHeight: 9 + 27 + 243,
-        totalBottomHeight: 24 + 36 + 72,
-        totalLeftWidth: 0,
-        totalRightWidth: 0,
-      },
-    ],
-    [
-      'l & r axes provider',
-      ({children}: TestEleProp) => (
-        <AxisLeftStyleProvider
-          width={4}
-          height={8}
-          paddingTop={12}
-          paddingRight={16}
-          paddingBottom={20}
-          paddingLeft={24}
-        >
+    ['consumer user', TestComsumerComponent],
+    ['hook user', TestHookComponent],
+  ])('Inner component: %s', (_o: string, InnerEle) => {
+    describe.each([
+      [
+        'no axes providers',
+        ({children}: TestEleProp) => {
+          return <>{children}</>;
+        },
+        {
+          totalTopHeight: 0,
+          totalBottomHeight: 0,
+          totalLeftWidth: 0,
+          totalRightWidth: 0,
+        },
+      ],
+      [
+        'top axes provider',
+        ({children}: TestEleProp) => {
+          return (
+            <AxisTopStyleProvider
+              height={50}
+              width={10}
+              paddingTop={5}
+              paddingRight={10}
+              paddingBottom={15}
+              paddingLeft={20}
+            >
+              {children}
+            </AxisTopStyleProvider>
+          );
+        },
+        {
+          totalTopHeight: 50 + 5 + 15,
+          totalBottomHeight: 0,
+          totalLeftWidth: 0,
+          totalRightWidth: 0,
+        },
+      ],
+      [
+        'bottom axes provider',
+        ({children}: TestEleProp) => {
+          return (
+            <AxisBottomStyleProvider
+              width={50}
+              height={25}
+              paddingTop={10}
+              paddingRight={20}
+              paddingBottom={30}
+              paddingLeft={40}
+            >
+              {children}
+            </AxisBottomStyleProvider>
+          );
+        },
+        {
+          totalTopHeight: 0,
+          totalBottomHeight: 25 + 10 + 30,
+          totalLeftWidth: 0,
+          totalRightWidth: 0,
+        },
+      ],
+      [
+        'left axes provider',
+        ({children}: TestEleProp) => {
+          return (
+            <AxisLeftStyleProvider
+              width={1}
+              height={2}
+              paddingTop={3}
+              paddingRight={4}
+              paddingBottom={5}
+              paddingLeft={6}
+            >
+              {children}
+            </AxisLeftStyleProvider>
+          );
+        },
+        {
+          totalTopHeight: 0,
+          totalBottomHeight: 0,
+          totalLeftWidth: 1 + 4 + 6,
+          totalRightWidth: 0,
+        },
+      ],
+      [
+        'right axes provider',
+        ({children}: TestEleProp) => (
           <AxisRightStyleProvider
-            width={32}
-            height={64}
-            paddingTop={128}
-            paddingRight={256}
-            paddingBottom={512}
-            paddingLeft={1024}
+            width={64}
+            height={32}
+            paddingTop={16}
+            paddingRight={8}
+            paddingBottom={4}
+            paddingLeft={2}
           >
             {children}
           </AxisRightStyleProvider>
-        </AxisLeftStyleProvider>
-      ),
-      {
-        totalTopHeight: 0,
-        totalBottomHeight: 0,
-        totalLeftWidth: 4 + 16 + 24,
-        totalRightWidth: 32 + 256 + 1024,
-      },
-    ],
-    [
-      'all axes provider',
-      ({children}: TestEleProp) => {
-        return (
-          <AxisTopStyleProvider
-            width={2}
-            height={10}
-            paddingTop={18}
-            paddingRight={26}
-            paddingBottom={34}
-            paddingLeft={42}
-          >
-            <AxisRightStyleProvider
-              width={4}
-              height={12}
-              paddingTop={20}
-              paddingRight={28}
-              paddingBottom={36}
-              paddingLeft={44}
-            >
-              <AxisBottomStyleProvider
-                width={6}
-                height={14}
-                paddingTop={22}
-                paddingRight={30}
-                paddingBottom={38}
-                paddingLeft={46}
-              >
-                <AxisLeftStyleProvider
-                  width={8}
-                  height={16}
-                  paddingTop={24}
-                  paddingRight={32}
-                  paddingBottom={40}
-                  paddingLeft={48}
-                >
-                  {children}
-                </AxisLeftStyleProvider>
-              </AxisBottomStyleProvider>
-            </AxisRightStyleProvider>
-          </AxisTopStyleProvider>
-        );
-      },
-      {
-        totalTopHeight: 10 + 18 + 34,
-        totalBottomHeight: 14 + 22 + 38,
-        totalLeftWidth: 8 + 32 + 48,
-        totalRightWidth: 4 + 28 + 44,
-      },
-    ],
-  ])('With axis providers: %s', (_n: string, TestEle, info: AxisTotalSize) => {
-    it.each([
-      ['no included axes', {}],
-      ['top axis included', {includeTopAxis: true}],
-      ['bottom axis included', {includeBottomAxis: true}],
-      ['left axis included', {includeLeftAxis: true}],
-      ['right axis included', {includeRightAxis: true}],
-      ['t & b axes included', {includeTopAxis: true, includeBottomAxis: true}],
-      ['l & r axes included', {includeLeftAxis: true, includeRightAxis: true}],
-      [
-        'all axes included',
+        ),
         {
-          includeTopAxis: true,
-          includeBottomAxis: true,
-          includeLeftAxis: true,
-          includeRightAxis: true,
+          totalTopHeight: 0,
+          totalBottomHeight: 0,
+          totalLeftWidth: 0,
+          totalRightWidth: 64 + 8 + 2,
         },
       ],
-    ])(`With included axes: %s`, (_m: string, includedAxes: IncludedAxes) => {
-      const axesSize = {
-        top: includedAxes.includeTopAxis ? info.totalTopHeight : 0,
-        bottom: includedAxes.includeBottomAxis ? info.totalBottomHeight : 0,
-        left: includedAxes.includeLeftAxis ? info.totalLeftWidth : 0,
-        right: includedAxes.includeRightAxis ? info.totalRightWidth : 0,
-      };
+      [
+        't & b axes provider',
+        ({children}: TestEleProp) => (
+          <AxisTopStyleProvider
+            width={3}
+            height={9}
+            paddingTop={27}
+            paddingRight={81}
+            paddingBottom={243}
+            paddingLeft={729}
+          >
+            <AxisBottomStyleProvider
+              width={12}
+              height={24}
+              paddingTop={36}
+              paddingRight={48}
+              paddingLeft={60}
+              paddingBottom={72}
+            >
+              {children}
+            </AxisBottomStyleProvider>
+          </AxisTopStyleProvider>
+        ),
+        {
+          totalTopHeight: 9 + 27 + 243,
+          totalBottomHeight: 24 + 36 + 72,
+          totalLeftWidth: 0,
+          totalRightWidth: 0,
+        },
+      ],
+      [
+        'l & r axes provider',
+        ({children}: TestEleProp) => (
+          <AxisLeftStyleProvider
+            width={4}
+            height={8}
+            paddingTop={12}
+            paddingRight={16}
+            paddingBottom={20}
+            paddingLeft={24}
+          >
+            <AxisRightStyleProvider
+              width={32}
+              height={64}
+              paddingTop={128}
+              paddingRight={256}
+              paddingBottom={512}
+              paddingLeft={1024}
+            >
+              {children}
+            </AxisRightStyleProvider>
+          </AxisLeftStyleProvider>
+        ),
+        {
+          totalTopHeight: 0,
+          totalBottomHeight: 0,
+          totalLeftWidth: 4 + 16 + 24,
+          totalRightWidth: 32 + 256 + 1024,
+        },
+      ],
+      [
+        'all axes provider',
+        ({children}: TestEleProp) => {
+          return (
+            <AxisTopStyleProvider
+              width={2}
+              height={10}
+              paddingTop={18}
+              paddingRight={26}
+              paddingBottom={34}
+              paddingLeft={42}
+            >
+              <AxisRightStyleProvider
+                width={4}
+                height={12}
+                paddingTop={20}
+                paddingRight={28}
+                paddingBottom={36}
+                paddingLeft={44}
+              >
+                <AxisBottomStyleProvider
+                  width={6}
+                  height={14}
+                  paddingTop={22}
+                  paddingRight={30}
+                  paddingBottom={38}
+                  paddingLeft={46}
+                >
+                  <AxisLeftStyleProvider
+                    width={8}
+                    height={16}
+                    paddingTop={24}
+                    paddingRight={32}
+                    paddingBottom={40}
+                    paddingLeft={48}
+                  >
+                    {children}
+                  </AxisLeftStyleProvider>
+                </AxisBottomStyleProvider>
+              </AxisRightStyleProvider>
+            </AxisTopStyleProvider>
+          );
+        },
+        {
+          totalTopHeight: 10 + 18 + 34,
+          totalBottomHeight: 14 + 22 + 38,
+          totalLeftWidth: 8 + 32 + 48,
+          totalRightWidth: 4 + 28 + 44,
+        },
+      ],
+    ])(
+      'With axis providers: %s',
+      (_n: string, TestEle, info: AxisTotalSize) => {
+        it.each([
+          ['no included axes', {}],
+          ['top axis included', {includeTopAxis: true}],
+          ['bottom axis included', {includeBottomAxis: true}],
+          ['left axis included', {includeLeftAxis: true}],
+          ['right axis included', {includeRightAxis: true}],
+          [
+            't & b axes included',
+            {
+              includeTopAxis: true,
+              includeBottomAxis: true,
+            },
+          ],
+          [
+            'l & r axes included',
+            {
+              includeLeftAxis: true,
+              includeRightAxis: true,
+            },
+          ],
+          [
+            'all axes included',
+            {
+              includeTopAxis: true,
+              includeBottomAxis: true,
+              includeLeftAxis: true,
+              includeRightAxis: true,
+            },
+          ],
+        ])(
+          `With included axes: %s`,
+          (_m: string, includedAxes: IncludedAxes) => {
+            const axesSize = {
+              top: includedAxes.includeTopAxis ? info.totalTopHeight : 0,
+              bottom: includedAxes.includeBottomAxis
+                ? info.totalBottomHeight
+                : 0,
+              left: includedAxes.includeLeftAxis ? info.totalLeftWidth : 0,
+              right: includedAxes.includeRightAxis ? info.totalRightWidth : 0,
+            };
 
-      const [WIDTH, HEIGHT] = [25000, 10000];
+            const [WIDTH, HEIGHT] = [25000, 10000];
 
-      const expectedVals = {
-        height: HEIGHT - axesSize.top - axesSize.bottom,
-        width: WIDTH - axesSize.left - axesSize.right,
-        top: axesSize.top,
-        left: axesSize.left,
-      };
+            const expectedVals = {
+              height: HEIGHT - axesSize.top - axesSize.bottom,
+              width: WIDTH - axesSize.left - axesSize.right,
+              top: axesSize.top,
+              left: axesSize.left,
+            };
 
-      let actual;
+            let actual;
 
-      render(
-        <GraphAreaStyleProvider height={HEIGHT} width={WIDTH}>
-          <TestEle>
-            <ChartAreaStyleProvider {...includedAxes}>
-              <ChartAreaStyleContext.Consumer>
-                {val => {
-                  actual = val;
-                  return <></>;
-                }}
-              </ChartAreaStyleContext.Consumer>
-            </ChartAreaStyleProvider>
-          </TestEle>
-        </GraphAreaStyleProvider>,
-      );
+            render(
+              <GraphAreaStyleProvider height={HEIGHT} width={WIDTH}>
+                <TestEle>
+                  <ChartAreaStyleProvider {...includedAxes}>
+                    <InnerEle>
+                      {val => {
+                        actual = val;
+                        return <></>;
+                      }}
+                    </InnerEle>
+                  </ChartAreaStyleProvider>
+                </TestEle>
+              </GraphAreaStyleProvider>,
+            );
 
-      checkExpVals(expectedVals, actual!);
-    });
+            checkExpVals(expectedVals, actual!);
+          },
+        );
+      },
+    );
   });
 });

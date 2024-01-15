@@ -15,4 +15,4 @@ export const useAxisTopStyle = () => useContext(AxisTopStyleContext);
 export const useAxisBottomStyle = () => useContext(AxisBottomStyleContext);
 export const useAxisLeftStyle = () => useContext(AxisLeftStyleContext);
 export const useAxisRightStyle = () => useContext(AxisRightStyleContext);
-export const useChartItemStyle = () => useContext(ChartAreaStyleContext);
+export const useChartAreaStyle = () => useContext(ChartAreaStyleContext);

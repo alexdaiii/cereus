@@ -13,14 +13,14 @@ import {
   GraphAreaStyleContext,
   GraphComponentStyleContextType,
 } from '@/context';
-
 import {
   useAxisBottomStyle,
   useAxisLeftStyle,
   useAxisRightStyle,
   useAxisTopStyle,
   useGraphAreaStyle,
-} from '../../hooks/useGraphItemStyleContext';
+} from '@/hooks';
+
 import {
   AxisBottomStyleProvider,
   AxisLeftStyleProvider,
