@@ -43,8 +43,10 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@test/*": [
+        "test/*"
       ]
-      // This mapping instructs TypeScript to root any import starting with "@" to the "src" directory.
     },
     "types": [
       "@testing-library/jest-dom"

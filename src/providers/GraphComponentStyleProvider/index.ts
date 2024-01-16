@@ -1,2 +1,3 @@
-export * from './GraphComponentStyleProvider';
-export * from './ChartAreaStyleProvider';
+export * from './PlotAreaStyleProvider';
+export * from './GraphAreaStyleProvider';
+export * from './AxisStyleProvider';

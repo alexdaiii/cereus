@@ -40,6 +40,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
+      '@test': '/test',
     },
   },
 });

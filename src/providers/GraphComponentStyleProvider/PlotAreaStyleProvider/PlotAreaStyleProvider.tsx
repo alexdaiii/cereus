@@ -1,6 +1,6 @@
 import {ReactNode} from 'react';
 
-import {ChartAreaStyleContext, GraphComponentStyleContextType} from '@/context';
+import {AxisStyleContextType, PlotAreaStyleContext} from '@/context';
 import {
   useAxisBottomStyle,
   useAxisLeftStyle,
@@ -9,41 +9,53 @@ import {
   useGraphAreaStyle,
 } from '@/hooks/useGraphItemStyleContext';
 
-type ChartItemStyleProviderProps = {
+type PlotAreaStyleProviderProps = {
   children: ReactNode;
   /**
-   * Include the top X axis in calculating the height of the chart.
+   * Include an axis on top of the plot area in calculating the height of the chart.
    */
   includeTopAxis?: boolean;
   /**
-   * Include the bottom X axis in calculating the height of the chart.
+   * Include an axis on the bottom of the plot area in calculating the height of the chart.
    */
   includeBottomAxis?: boolean;
   /**
-   * Include the left Y axis in calculating the width of the chart.
+   * Include an axis on the left of the plot area in calculating the width of the chart.
    */
   includeLeftAxis?: boolean;
   /**
-   * Include the right Y axis in calculating the width of the chart.
+   * Include an axis on the right of the plot area in calculating the width of the chart.
    */
   includeRightAxis?: boolean;
 };
 
-const calcXAxisHeight = (style: GraphComponentStyleContextType) => {
+/**
+ * Calculates the full height of an axis including padding
+ */
+const calcXAxisHeight = (style: AxisStyleContextType) => {
   return style.height + style.paddingTop + style.paddingBottom;
 };
 
-const calcYAxisWidth = (style: GraphComponentStyleContextType) => {
+/**
+ * Calculates the full width of an axis including padding
+ */
+const calcYAxisWidth = (style: AxisStyleContextType) => {
   return style.width + style.paddingLeft + style.paddingRight;
 };
 
-export const ChartAreaStyleProvider = ({
+/**
+ * Provides the height and width of the plot area.
+ * Calculates the height, width, and offset inside the graph area from the
+ * surrounding GraphAreaStyleProvider and AxisStyleProviders
+ * @param PlotAreaStyleProviderProps props {@link PlotAreaStyleProviderProps}
+ */
+export const PlotAreaStyleProvider = ({
   children,
   includeTopAxis = false,
   includeBottomAxis = false,
   includeLeftAxis = false,
   includeRightAxis = false,
-}: ChartItemStyleProviderProps) => {
+}: PlotAreaStyleProviderProps) => {
   const graphAreaStyle = useGraphAreaStyle();
   const topAxisStyle = useAxisTopStyle();
   const bottomAxisStyle = useAxisBottomStyle();
@@ -66,19 +78,11 @@ export const ChartAreaStyleProvider = ({
     ? calcYAxisWidth(rightAxisStyle)
     : DEFAULT_SIZE;
 
-  // graph padding
-  const graphYPadding =
-    graphAreaStyle.paddingTop + graphAreaStyle.paddingBottom;
-  const graphXPadding =
-    graphAreaStyle.paddingLeft + graphAreaStyle.paddingRight;
-
-  const height =
-    graphAreaStyle.height - (topAxisHeight + bottomAxisHeight) - graphYPadding;
-  const width =
-    graphAreaStyle.width - (leftAxisWidth + rightAxisWidth) - graphXPadding;
+  const height = graphAreaStyle.height - (topAxisHeight + bottomAxisHeight);
+  const width = graphAreaStyle.width - (leftAxisWidth + rightAxisWidth);
 
   return (
-    <ChartAreaStyleContext.Provider
+    <PlotAreaStyleContext.Provider
       value={{
         height,
         width,
@@ -87,6 +91,6 @@ export const ChartAreaStyleProvider = ({
       }}
     >
       {children}
-    </ChartAreaStyleContext.Provider>
+    </PlotAreaStyleContext.Provider>
   );
 };
