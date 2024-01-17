@@ -1,4 +1,4 @@
-import React from 'react';
+import {ReactNode} from 'react';
 
 import {GraphAreaStyleContext, GraphItemMargin} from '@/context';
 
@@ -14,7 +14,7 @@ export type GraphAreaParentSize = {
 };
 
 export type GraphAreaStyleProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 } & GraphAreaParentSize &
   Partial<GraphItemMargin>;
 

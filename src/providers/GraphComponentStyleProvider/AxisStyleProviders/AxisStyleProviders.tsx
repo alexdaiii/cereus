@@ -1,4 +1,4 @@
-import React from 'react';
+import {Context, ReactNode} from 'react';
 
 import {
   AxisBottomStyleContext,
@@ -17,7 +17,7 @@ import {
  * {@link AxisStyleProviderProps}
  */
 export type AxisStyleProvidersProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 } & GraphItemSize &
   Partial<GraphItemPadding> &
   Partial<GroupOffset>;
@@ -28,7 +28,7 @@ export type AxisStyleProvidersProps = {
  * @param displayName Optional display name for the provider
  */
 const createAxisStyleProvider = (
-  AxisStyleContext: React.Context<AxisStyleContextType>,
+  AxisStyleContext: Context<AxisStyleContextType>,
   displayName: string,
 ) => {
   const AxisStyleProvider = ({

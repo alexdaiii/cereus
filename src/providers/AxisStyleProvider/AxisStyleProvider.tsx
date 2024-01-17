@@ -1,5 +1,5 @@
 import {isEqual} from 'lodash';
-import React, {memo} from 'react';
+import {ReactNode, memo} from 'react';
 
 import {GraphItemPadding} from '@/context';
 import {useGraphAreaStyle} from '@/hooks';
@@ -53,7 +53,7 @@ type VerticalAxisProps = {
  * Not the same as AxisStyleProvidersProps {@link AxisStyleProvidersProps}
  */
 export type AxisStyleProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Top axis config
    */
@@ -171,8 +171,8 @@ export const AxisStyleProviderNoMemo = ({
  * A high level component that crates all four AxisStyleProviders (Top, Bottom, Left, Right).
  * Should be used inside a `<GraphAreaStyleProvider/>`. {@link GraphAreaStyleProvider}
  *
- * Automatically calculates the *width* of AxisTopStyleProvider and AxisBottomStyleProvider
- * and the *height* of AxisLeftStyleProvider and AxisRightStyleProvider.
+ * Automatically calculates the *width* of {@link AxisTopStyleProvider} and {@link AxisBottomStyleProvider}
+ * and the *height* of {@link AxisLeftStyleProvider} and {@link AxisRightStyleProvider}.
  *
  * Memoized with `isEqual` from `lodash` (all props except `children` are compared).
  */
