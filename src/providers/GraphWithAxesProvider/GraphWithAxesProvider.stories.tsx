@@ -1,3 +1,4 @@
+/* v8 ignore start */
 import {Meta, StoryObj} from '@storybook/react';
 
 import {GraphWithAxesProvider} from './GraphWithAxesProvider';
