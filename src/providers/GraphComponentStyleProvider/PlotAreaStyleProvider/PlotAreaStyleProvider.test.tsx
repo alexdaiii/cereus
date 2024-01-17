@@ -357,7 +357,12 @@ describe('PlotAreaStyleProvider', () => {
             let actual!: PlotAreaStyleContextType;
 
             render(
-              <PlotAreaStyleProvider {...includedAxes}>
+              <PlotAreaStyleProvider
+                includeTopAxis={includedAxes.includeTopAxis}
+                includeBottomAxis={includedAxes.includeBottomAxis}
+                includeLeftAxis={includedAxes.includeLeftAxis}
+                includeRightAxis={includedAxes.includeRightAxis}
+              >
                 <Child>
                   {value => {
                     actual = value;

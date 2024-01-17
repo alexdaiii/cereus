@@ -1,6 +1,6 @@
 import {ReactNode} from 'react';
 
-import {AxisStyleContextType, PlotAreaStyleContext} from '@/context';
+import {PlotAreaStyleContext} from '@/context';
 import {
   useAxisBottomStyle,
   useAxisLeftStyle,
@@ -8,6 +8,10 @@ import {
   useAxisTopStyle,
   useGraphAreaStyle,
 } from '@/hooks/useGraphItemStyleContext';
+import {
+  calcAxisHeight,
+  calcAxisWidth,
+} from '@/providers/GraphComponentStyleProvider/utils';
 
 type PlotAreaStyleProviderProps = {
   children: ReactNode;
@@ -27,20 +31,6 @@ type PlotAreaStyleProviderProps = {
    * Include an axis on the right of the plot area in calculating the width of the chart.
    */
   includeRightAxis?: boolean;
-};
-
-/**
- * Calculates the full height of an axis including padding
- */
-const calcXAxisHeight = (style: AxisStyleContextType) => {
-  return style.height + style.paddingTop + style.paddingBottom;
-};
-
-/**
- * Calculates the full width of an axis including padding
- */
-const calcYAxisWidth = (style: AxisStyleContextType) => {
-  return style.width + style.paddingLeft + style.paddingRight;
 };
 
 /**
@@ -66,16 +56,16 @@ export const PlotAreaStyleProvider = ({
 
   // Axis height and width
   const topAxisHeight = includeTopAxis
-    ? calcXAxisHeight(topAxisStyle)
+    ? calcAxisHeight(topAxisStyle)
     : DEFAULT_SIZE;
   const bottomAxisHeight = includeBottomAxis
-    ? calcXAxisHeight(bottomAxisStyle)
+    ? calcAxisHeight(bottomAxisStyle)
     : DEFAULT_SIZE;
   const leftAxisWidth = includeLeftAxis
-    ? calcYAxisWidth(leftAxisStyle)
+    ? calcAxisWidth(leftAxisStyle)
     : DEFAULT_SIZE;
   const rightAxisWidth = includeRightAxis
-    ? calcYAxisWidth(rightAxisStyle)
+    ? calcAxisWidth(rightAxisStyle)
     : DEFAULT_SIZE;
 
   const height = graphAreaStyle.height - (topAxisHeight + bottomAxisHeight);

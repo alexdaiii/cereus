@@ -48,7 +48,10 @@ describe('GraphAreaStyleProvider', () => {
         <GraphAreaStyleProvider
           parentWidth={WIDTH}
           parentHeight={HEIGHT}
-          {...margin}
+          marginTop={margin.marginTop}
+          marginRight={margin.marginRight}
+          marginBottom={margin.marginBottom}
+          marginLeft={margin.marginLeft}
         >
           <Component>
             {value => {

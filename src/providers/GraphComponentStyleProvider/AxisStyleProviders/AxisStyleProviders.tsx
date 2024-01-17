@@ -11,7 +11,12 @@ import {
   GroupOffset,
 } from '@/context';
 
-export type AxisStyleProviderProps = {
+/**
+ * Prop for a **single** axis style provider (top, bottom, left, right axis)
+ * @see AxisStyleProviderProps if you meant to use the provider that creates all four axis style providers
+ * {@link AxisStyleProviderProps}
+ */
+export type AxisStyleProvidersProps = {
   children: React.ReactNode;
 } & GraphItemSize &
   Partial<GraphItemPadding> &
@@ -36,7 +41,7 @@ const createAxisStyleProvider = (
     paddingLeft = 0,
     top = 0,
     left = 0,
-  }: AxisStyleProviderProps) => {
+  }: AxisStyleProvidersProps) => {
     return (
       <AxisStyleContext.Provider
         value={{

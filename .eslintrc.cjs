@@ -12,7 +12,7 @@ module.exports = {
   parser: '@typescript-eslint/parser', // Leverages TS ESTree to lint TypeScript
 
   // Add additional rules and configuration options
-  plugins: ['@typescript-eslint', 'unused-imports' , '@next/next'],
+  plugins: ['@typescript-eslint', 'unused-imports'],
 
   // Extend various ESLint configurations and plugins
   extends: [
@@ -24,10 +24,10 @@ module.exports = {
     'plugin:prettier/recommended', // Prettier plugin integration
     'plugin:react-hooks/recommended', // Recommended rules for React hooks
     'plugin:storybook/recommended', // Recommended rules for Storybook
-    'plugin:@next/next/recommended',
   ],
   rules: {
     'react/react-in-jsx-scope': 'off',
+    'react/jsx-props-no-spreading': 'error',
     'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
@@ -41,9 +41,8 @@ module.exports = {
       },
     ],
     'no-console': 'warn',
-    "@typescript-eslint/no-explicit-any": "warn",
-    "no-restricted-globals": ["warn", "window", "document", "navigator"],
-
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'no-restricted-globals': ['warn', 'window', 'document', 'navigator'],
   },
 
   settings: {

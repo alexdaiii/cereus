@@ -20,7 +20,8 @@
     "test-watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage run",
-    "doggo": "npm run format && npm run lint:fix && npm run test"
+    "doggo": "npm run format && npm run lint:fix && npm run test:coverage",
+    "build:tested": "npm run doggo && npm run build"
   },
   "repository": {
     "type": "git",
@@ -78,6 +79,7 @@
     "vite": "^4.5.1",
     "vite-plugin-dts": "^3.7.0",
     "vite-plugin-svgr": "^4.2.0",
+    "vite-tsconfig-paths": "^4.3.0",
     "vitest": "^1.2.0"
   },
   "peerDependencies": {
@@ -94,6 +96,7 @@
     "@visx/shape": "^3.5.0",
     "@visx/text": "^3.3.0",
     "@visx/tooltip": "^3.3.0",
-    "d3-scale-chromatic": "^3.0.0"
+    "d3-scale-chromatic": "^3.0.0",
+    "lodash": "^4.17.21"
   }
 }

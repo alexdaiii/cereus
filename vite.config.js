@@ -1,6 +1,7 @@
 import {defineConfig} from 'vite';
 import dts from 'vite-plugin-dts';
 import svgr from 'vite-plugin-svgr';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 import packageJson from './package.json';
 
@@ -31,13 +32,12 @@ export default defineConfig({
   plugins: [
     svgr(),
     dts(), // Uses the 'vite-plugin-dts' plugin for generating TypeScript declaration files (d.ts).
+    tsconfigPaths(),
   ],
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './setupTests.ts',
-  },
-  resolve: {
     alias: {
       '@': '/src',
       '@test': '/test',

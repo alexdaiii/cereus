@@ -2,8 +2,7 @@ import React from 'react';
 
 import {GraphAreaStyleContext, GraphItemMargin} from '@/context';
 
-type GraphAreaStyleProviderProps = {
-  children: React.ReactNode;
+export type GraphAreaParentSize = {
   /**
    * Width of the parent element. Usually the width of the svg.
    */
@@ -12,11 +11,19 @@ type GraphAreaStyleProviderProps = {
    * Height of the parent element. Usually the height of the svg.
    */
   parentHeight: number;
-} & Partial<GraphItemMargin>;
+};
+
+export type GraphAreaStyleProviderProps = {
+  children: React.ReactNode;
+} & GraphAreaParentSize &
+  Partial<GraphItemMargin>;
 
 /**
  * Provides the calculated width, height, and transform of the graph area
- * based on the parent width and height and the margins.
+ * based on a parent width and height and the margins.
+ *
+ * Usually the parent width and height are the width and height of the svg.
+ *
  * @param GraphAreaStyleProviderProps props {@link GraphAreaStyleProviderProps}
  */
 export const GraphAreaStyleProvider = ({

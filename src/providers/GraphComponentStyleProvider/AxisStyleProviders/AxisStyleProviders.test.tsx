@@ -19,7 +19,7 @@ import {
   AxisBottomStyleProvider,
   AxisLeftStyleProvider,
   AxisRightStyleProvider,
-  AxisStyleProviderProps,
+  AxisStyleProvidersProps,
   AxisTopStyleProvider,
 } from '@/providers';
 
@@ -132,7 +132,7 @@ describe.each([
           paddingLeft: 40,
         },
       ],
-    ])('%s', (_: string, style: Omit<AxisStyleProviderProps, 'children'>) => {
+    ])('%s', (_: string, style: Omit<AxisStyleProvidersProps, 'children'>) => {
       const DEFAULT_VALUES = {
         paddingTop: 0,
         paddingRight: 0,
@@ -146,7 +146,14 @@ describe.each([
       let actual: AxisStyleContextType | undefined;
 
       render(
-        <Provider {...style}>
+        <Provider
+          width={style.width}
+          height={style.height}
+          paddingTop={style.paddingTop}
+          paddingRight={style.paddingRight}
+          paddingBottom={style.paddingBottom}
+          paddingLeft={style.paddingLeft}
+        >
           <Child>
             {val => {
               actual = val;
