@@ -1,15 +1,7 @@
-import {Enumify} from '@/types/utilTypes';
-
-export const oTrackTypes = {
-  sequence: 'sequence',
-} as const;
-
-export type TrackType = Enumify<typeof oTrackTypes> | string;
-
 /**
  * Base data shape for a single row in the sequence viewer.
  */
-export interface RowDataBase {
+export type RowData<TrackTypeT extends string = string> = {
   /**
    * Id used to identify the row. Should be unique.
    */
@@ -18,34 +10,32 @@ export interface RowDataBase {
    * Row title. If left blank, will be set to the row id.
    * @default RowData.id
    */
-  title?: string;
+  title: string;
   /**
    * Display all the tracks in this row in a single track
    * @default false
    */
-  composite?: boolean;
+  composite: boolean;
   /**
    * Is the row shown
    */
-  visible?: boolean;
+  visible: boolean;
   /**
    * Data for each track in the row.
    */
-  tracks: (TrackDataBase & Record<string, unknown>)[];
-}
+  tracks: TrackData<TrackTypeT>[];
+};
 
 /**
  * Base data shape for a single track in the sequence viewer.
  */
-export interface TrackDataBase {
+export type TrackData<TrackTypeT extends string = string> = {
   /**
    * Globally unique id for the track.
    */
   trackId: string;
   /**
-   * Type of track.
+   * Type of track to display.
    */
-  trackType?: TrackType;
-}
-
-export type RowData = RowDataBase & Record<string, unknown>;
+  trackType: TrackTypeT;
+};
