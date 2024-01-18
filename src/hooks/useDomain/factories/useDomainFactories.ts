@@ -21,7 +21,13 @@ export const createGetVisibleRowsHook = <T extends RowData>(
   return () => {
     const {data} = useContext(DomainContext);
 
-    return data.filter(row => row.visible);
+    const rows = [];
+    for (let i = 0; i < data.length; ++i) {
+      if (data[i].visible) {
+        rows.push(data[i]);
+      }
+    }
+    return rows;
   };
 };
 
@@ -36,9 +42,7 @@ export const createGetVisibleRowCountHook = <T extends RowData>(
 
     let numVisibleRows = 0;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].visible) {
-        numVisibleRows++;
-      }
+      numVisibleRows += +data[i].visible;
     }
 
     return numVisibleRows;
@@ -56,10 +60,9 @@ export const createGetVisibleTrackCountHook = <T extends RowData>(
 
     let numVisibleTracks = 0;
     for (let i = 0; i < data.length; i++) {
-      numVisibleTracks +=
-        +data[i].visible * data[i].tracks.length -
-        data[i].tracks.length * +data[i].composite +
-        +data[i].composite;
+      numVisibleTracks += +data[i].visible * data[i].tracks.length;
     }
+
+    return numVisibleTracks;
   };
 };

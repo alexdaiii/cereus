@@ -2,10 +2,10 @@ import {createContext} from "react";
 
 import {RowData} from "@/types";
 
-export type DomainContextType<RowDataT extends RowData> = {
+export type DomainContextType<T extends RowData> = {
   domainMin: number;
   domainMax: number;
-  data: RowDataT[];
+  data: T[];
 };
 
 /**
@@ -13,19 +13,31 @@ export type DomainContextType<RowDataT extends RowData> = {
  * generic {@link DomainContextType}.
  * Use this to create a new custom and typed context for your data.
  *
- * The RowDataT type must extend {@link RowData}, which is a generic row
- * data type that takes in a TrackTypeT type. The TrackT type can be anything
- * that extends string.
+ * The `RowDataT `type must extend {@link RowData}, which is a generic row
+ * data type that takes in a `TracksT` type.
+ *
+ * `TrackT` type must extend
+ * {@link TrackData}, which is a generic track data type that takes in
+ * a `TrackTypeT` type and `TrackDataT` type.
+ *
+ * The `TrackT` type can be anything that extends string.
+ *
+ * The `TrackDataT` type can be any type.
  *
  * @example
- * ```
- * type MyTrackTypes = 'line' | 'bar' | 'area';
- * type MyRowData = RowData<MyTrackTypes> & {foo: number; bar: string};
- * const MyDomainContext = createDomainContext<MyRowData>();
+ * ```ts
+ * type TrackType1 = TrackData<"foo", {bar: number}>
+ * type TrackType2 = TrackData<"baz", {qux: string}>
+ * type TrackType3 = TrackData<"quux", {quuz: boolean}[]>
+ *
+ * type MyRowData = RowData<TrackType1 | TrackType2 | TrackType3>
+ *
+ * const MyDomainContext = createDomainContext<MyRowData>()
+ *
  * ```
  */
-export const createDomainContext = <RowDataT extends RowData>() => {
-  return createContext<DomainContextType<RowDataT>>({
+export const createDomainContext = <T extends RowData>() => {
+  return createContext<DomainContextType<T>>({
     domainMin: 0,
     domainMax: 0,
     data: [],

@@ -1,7 +1,7 @@
 /**
  * Base data shape for a single row in the sequence viewer.
  */
-export type RowData<TrackTypeT extends string = string> = {
+export type RowData<TracksT extends TrackData = TrackData> = {
   /**
    * Id used to identify the row. Should be unique.
    */
@@ -12,24 +12,22 @@ export type RowData<TrackTypeT extends string = string> = {
    */
   title: string;
   /**
-   * Display all the tracks in this row in a single track
-   * @default false
-   */
-  composite: boolean;
-  /**
    * Is the row shown
    */
   visible: boolean;
   /**
    * Data for each track in the row.
    */
-  tracks: TrackData<TrackTypeT>[];
+  tracks: TracksT[];
 };
 
 /**
  * Base data shape for a single track in the sequence viewer.
  */
-export type TrackData<TrackTypeT extends string = string> = {
+export type TrackData<
+  TrackTypeT extends string = string,
+  TrackDataT = unknown,
+> = {
   /**
    * Globally unique id for the track.
    */
@@ -38,4 +36,8 @@ export type TrackData<TrackTypeT extends string = string> = {
    * Type of track to display.
    */
   trackType: TrackTypeT;
+  /**
+   * Data to display in the track.
+   */
+  data: TrackDataT;
 };

@@ -1,2 +1,2 @@
-export * from "./CeresDomainContext";
+export * from "./CereusDomainContext";
 export * from "./factories";

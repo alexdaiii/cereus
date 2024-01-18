@@ -2,18 +2,18 @@ import "@testing-library/jest-dom";
 import {render} from "@testing-library/react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {CeresDomainProvider} from "./CeresDomainProvider";
+import {CereusDomainProvider} from "./CereusDomainProvider";
 
-describe("CeresDomainProvider", () => {
+describe("CereusDomainProvider", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("should render without crashing", () => {
     render(
-      <CeresDomainProvider domainMax={4} data={[]}>
+      <CereusDomainProvider domainMax={4} data={[]}>
         <></>
-      </CeresDomainProvider>,
+      </CereusDomainProvider>,
     );
 
     expect(true).toBeTruthy();

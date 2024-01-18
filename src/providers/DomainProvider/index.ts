@@ -1,2 +1,2 @@
 export * from "./DomainProviderFactories";
-export * from "./CeresDomainProvider";
+export * from "./CereusDomainProvider";

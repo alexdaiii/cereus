@@ -1,9 +1,9 @@
 import {Meta, StoryObj} from "@storybook/react";
 
-import {CeresDomainProvider} from "./CeresDomainProvider";
+import {CereusDomainProvider} from "./CereusDomainProvider";
 
-const meta: Meta<typeof CeresDomainProvider> = {
-  component: CeresDomainProvider,
+const meta: Meta<typeof CereusDomainProvider> = {
+  component: CereusDomainProvider,
   title: "CeresDomainProvider",
   tags: ["autodocs"], // Add your tags here
   args: {},
@@ -11,7 +11,7 @@ const meta: Meta<typeof CeresDomainProvider> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof CeresDomainProvider>;
+type Story = StoryObj<typeof CereusDomainProvider>;
 
 export const Primary: Story = {
   args: {},
