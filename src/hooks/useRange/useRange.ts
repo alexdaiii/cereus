@@ -1,6 +1,6 @@
-import {useContext} from 'react';
+import {useContext} from "react";
 
-import {PlotAreaStyleContext} from '@/context';
+import {PlotAreaStyleContext} from "@/context";
 
 export type PlotRange = {
   minX: number;

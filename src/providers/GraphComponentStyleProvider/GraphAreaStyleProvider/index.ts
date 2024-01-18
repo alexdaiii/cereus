@@ -1,1 +1,1 @@
-export * from './GraphAreaStyleProvider';
+export * from "./GraphAreaStyleProvider";

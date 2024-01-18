@@ -1,23 +1,23 @@
-import '@testing-library/jest-dom';
-import {render} from '@testing-library/react';
-import {afterEach, describe, expect, it, vi} from 'vitest';
+import "@testing-library/jest-dom";
+import {render} from "@testing-library/react";
+import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {AxisStyleContextType} from '../../context';
+import {AxisStyleContextType} from "../../context";
 import {
   useAxisBottomStyle,
   useAxisLeftStyle,
   useAxisRightStyle,
   useAxisTopStyle,
-} from '../../hooks';
-import {GraphAreaStyleProvider} from '../GraphComponentStyleProvider';
+} from "../../hooks";
+import {GraphAreaStyleProvider} from "../GraphComponentStyleProvider";
 import {
   AxisStyleProvider,
   AxisStyleProviderNoMemo,
   AxisStyleProviderProps,
-} from './AxisStyleProvider';
+} from "./AxisStyleProvider";
 
-describe('AxisStyleProvider', () => {
-  it('should render without crashing', () => {
+describe("AxisStyleProvider", () => {
+  it("should render without crashing", () => {
     render(
       <AxisStyleProvider
         topAxis={{
@@ -39,9 +39,9 @@ describe('AxisStyleProvider', () => {
   });
 
   it.each([
-    ['undefined', {}],
+    ["undefined", {}],
     [
-      'empty object',
+      "empty object",
       {
         topAxis: {},
         bottomAxis: {},
@@ -50,7 +50,7 @@ describe('AxisStyleProvider', () => {
       },
     ],
   ])(
-    'should provide height and width values with %s args',
+    "should provide height and width values with %s args",
     (_, args: Partial<AxisStyleProviderProps>) => {
       let topAxisStyle!: AxisStyleContextType;
       let bottomAxisStyle!: AxisStyleContextType;
@@ -87,17 +87,17 @@ describe('AxisStyleProvider', () => {
         left: 0,
       };
 
-      expect(topAxisStyle, 'topAxisStyle').toEqual(expected);
+      expect(topAxisStyle, "topAxisStyle").toEqual(expected);
 
-      expect(bottomAxisStyle, 'bottomAxisStyle').toEqual(expected);
+      expect(bottomAxisStyle, "bottomAxisStyle").toEqual(expected);
 
-      expect(leftAxisStyle, 'leftAxisStyle').toEqual(expected);
+      expect(leftAxisStyle, "leftAxisStyle").toEqual(expected);
 
-      expect(rightAxisStyle, 'rightAxisStyle').toEqual(expected);
+      expect(rightAxisStyle, "rightAxisStyle").toEqual(expected);
     },
   );
 
-  it('should calculate axes height and width correctly', () => {
+  it("should calculate axes height and width correctly", () => {
     const topAxis = {
       height: 2,
       paddingTop: 1,
@@ -158,7 +158,7 @@ describe('AxisStyleProvider', () => {
       </GraphAreaStyleProvider>,
     );
 
-    expect(topAxisStyle, 'topAxisStyle').toEqual({
+    expect(topAxisStyle, "topAxisStyle").toEqual({
       width: chartWidth,
       height: topAxis.height,
       paddingTop: topAxis.paddingTop,
@@ -169,7 +169,7 @@ describe('AxisStyleProvider', () => {
       left: leftAxis.width + leftAxis.paddingLeft,
     });
 
-    expect(bottomAxisStyle, 'bottomAxisStyle').toEqual({
+    expect(bottomAxisStyle, "bottomAxisStyle").toEqual({
       width: chartWidth,
       height: bottomAxis.height,
       paddingTop: 0,
@@ -180,7 +180,7 @@ describe('AxisStyleProvider', () => {
       left: leftAxis.width + leftAxis.paddingLeft,
     });
 
-    expect(leftAxisStyle, 'leftAxisStyle').toEqual({
+    expect(leftAxisStyle, "leftAxisStyle").toEqual({
       width: leftAxis.width,
       height: chartHeight,
       paddingTop: 0,
@@ -191,7 +191,7 @@ describe('AxisStyleProvider', () => {
       left: 0,
     });
 
-    expect(rightAxisStyle, 'rightAxisStyle').toEqual({
+    expect(rightAxisStyle, "rightAxisStyle").toEqual({
       width: rightAxis.width,
       height: chartHeight,
       paddingTop: 0,
@@ -203,15 +203,15 @@ describe('AxisStyleProvider', () => {
     });
   });
 
-  describe('memoization', () => {
+  describe("memoization", () => {
     afterEach(() => {
       vi.restoreAllMocks();
     });
 
     it.each([
-      ['undefined', {}],
+      ["undefined", {}],
       [
-        'empty object',
+        "empty object",
         {
           topAxis: {},
           bottomAxis: {},
@@ -220,7 +220,7 @@ describe('AxisStyleProvider', () => {
         },
       ],
       [
-        'just height or width',
+        "just height or width",
         {
           topAxis: {
             height: 5,
@@ -237,7 +237,7 @@ describe('AxisStyleProvider', () => {
         },
       ],
       [
-        'all values',
+        "all values",
         {
           topAxis: {
             height: 5,
@@ -262,7 +262,7 @@ describe('AxisStyleProvider', () => {
         },
       ],
     ])(
-      'renders once if all axis props are the same with props: %s',
+      "renders once if all axis props are the same with props: %s",
       (_, providerProps: Partial<AxisStyleProviderProps>) => {
         const mockFn = vi.fn();
         const SomeChildFn = () => {
@@ -271,7 +271,7 @@ describe('AxisStyleProvider', () => {
         };
 
         const TestComponent = (
-          props: Omit<AxisStyleProviderProps, 'children'>,
+          props: Omit<AxisStyleProviderProps, "children">,
         ) => {
           return (
             <AxisStyleProvider
@@ -319,7 +319,7 @@ describe('AxisStyleProvider', () => {
       },
     );
 
-    it('renders more than once if not memoized (AxisStyleProviderNoMemo)', () => {
+    it("renders more than once if not memoized (AxisStyleProviderNoMemo)", () => {
       const mockFn = vi.fn();
       const SomeChildFn = () => {
         mockFn();
@@ -327,7 +327,7 @@ describe('AxisStyleProvider', () => {
       };
 
       const TestComponent = (
-        props: Omit<AxisStyleProviderProps, 'children'>,
+        props: Omit<AxisStyleProviderProps, "children">,
       ) => {
         return (
           <AxisStyleProviderNoMemo

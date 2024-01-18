@@ -1,1 +1,1 @@
-export * from './PlotAreaStyleProvider';
+export * from "./PlotAreaStyleProvider";

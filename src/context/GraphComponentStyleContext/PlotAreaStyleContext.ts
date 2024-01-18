@@ -1,9 +1,9 @@
-import {createContext} from 'react';
+import {createContext} from "react";
 
 import {
   GraphItemSize,
   GroupOffset,
-} from '@/context/GraphComponentStyleContext/types';
+} from "@/context/GraphComponentStyleContext/types";
 
 export type PlotAreaStyleContextType = GraphItemSize & GroupOffset;
 

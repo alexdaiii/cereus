@@ -1,6 +1,6 @@
-import {createContext} from 'react';
+import {createContext} from "react";
 
-import {RowData} from '@/types';
+import {RowData} from "@/types";
 
 export type DomainContextType<RowDataT extends RowData> = {
   domainMin: number;

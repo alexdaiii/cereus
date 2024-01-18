@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode} from "react";
 
 /**
  * Creates a function that returns a component that renders the value of a context.
@@ -10,7 +10,7 @@ export const TestConsumerComponentMaker = <T,>(
   const TestConsumer = ({children}: {children: (value: T) => ReactNode}) => {
     return <Context.Consumer>{value => children(value)}</Context.Consumer>;
   };
-  TestConsumer.displayName = displayName ?? 'TestConsumerComponent';
+  TestConsumer.displayName = displayName ?? "TestConsumerComponent";
   return TestConsumer;
 };
 
@@ -27,7 +27,7 @@ export const TestHookComponentMaker = <T,>(
     const value = hook();
     return <>{children(value)}</>;
   };
-  TestHook.displayName = displayName ?? 'TestHookComponent';
+  TestHook.displayName = displayName ?? "TestHookComponent";
   return TestHook;
 };
 
@@ -36,3 +36,17 @@ export type TestChildElement<T> = ({
 }: {
   children: (value: T) => React.ReactNode;
 }) => React.ReactNode;
+
+/**
+ * Creates a function that returns a component calls a callback with the value of a hook.
+ */
+export const TestProviderValsMaker = <T,>(
+  hook: () => T,
+  setActual: (actual: T) => void,
+) => {
+  return function TestComponent() {
+    setActual(hook());
+
+    return <></>;
+  };
+};

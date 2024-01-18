@@ -1,3 +1,3 @@
-export * from './dataTypes';
-export * from './stylesTypes';
-export * from './utilTypes';
+export * from "./dataTypes";
+export * from "./stylesTypes";
+export * from "./utilTypes";

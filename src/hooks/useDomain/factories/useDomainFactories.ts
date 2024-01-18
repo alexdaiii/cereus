@@ -1,8 +1,11 @@
-import {Context, useContext} from 'react';
+import {Context, useContext} from "react";
 
-import {DomainContextType} from '@/context/DomainContext/factories';
-import {RowData} from '@/types';
+import {DomainContextType} from "@/context";
+import {RowData} from "@/types";
 
+/**
+ * Factory that creates a hook that returns the domain context
+ */
 export const createUseDomainHook = <T extends RowData>(
   DomainContext: Context<DomainContextType<T>>,
 ) => {
@@ -10,7 +13,7 @@ export const createUseDomainHook = <T extends RowData>(
 };
 
 /**
- * Creates a hook that returns an array of all visible rows
+ * Factory that returns a hook that returns the visible rows.
  */
 export const createGetVisibleRowsHook = <T extends RowData>(
   DomainContext: Context<DomainContextType<T>>,
@@ -23,7 +26,7 @@ export const createGetVisibleRowsHook = <T extends RowData>(
 };
 
 /**
- * Creates a hook that returns the number of visible rows
+ * Factory that returns a hook that returns the number of visible rows.
  */
 export const createGetVisibleRowCountHook = <T extends RowData>(
   DomainContext: Context<DomainContextType<T>>,
@@ -43,8 +46,7 @@ export const createGetVisibleRowCountHook = <T extends RowData>(
 };
 
 /**
- * Creates a hook that returns the number of visible tracks.
- * For rows that have composite tracks, then only the first track is counted.
+ * Factory that returns a hook that returns the number of visible tracks.
  */
 export const createGetVisibleTrackCountHook = <T extends RowData>(
   DomainContext: Context<DomainContextType<T>>,

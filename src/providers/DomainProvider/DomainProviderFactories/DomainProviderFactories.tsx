@@ -1,7 +1,7 @@
-import {Context, ReactNode} from 'react';
+import {Context, ReactNode} from "react";
 
-import {DomainContextType} from '@/context';
-import {RowData} from '@/types';
+import {DomainContextType} from "@/context";
+import {RowData} from "@/types";
 
 type DomainProviderProps<T extends RowData> = {
   children: ReactNode;
@@ -10,7 +10,7 @@ type DomainProviderProps<T extends RowData> = {
    * @default 0
    */
   domainMin?: number;
-} & Omit<DomainContextType<T>, 'domainMin'>;
+} & Omit<DomainContextType<T>, "domainMin">;
 
 /**
  * Creates a typed DomainProvider component.

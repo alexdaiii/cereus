@@ -1,12 +1,12 @@
 /* v8 ignore start */
-import {Meta, StoryObj} from '@storybook/react';
+import {Meta, StoryObj} from "@storybook/react";
 
-import {GraphWithAxesProvider} from './GraphWithAxesProvider';
+import {GraphWithAxesProvider} from "./GraphWithAxesProvider";
 
 const meta: Meta<typeof GraphWithAxesProvider> = {
   component: GraphWithAxesProvider,
-  title: 'GraphWithAxesProvider',
-  tags: ['autodocs'], // Add your tags here
+  title: "GraphWithAxesProvider",
+  tags: ["autodocs"], // Add your tags here
   args: {},
   argTypes: {},
 };

@@ -1,3 +1,3 @@
-export * from './PlotAreaStyleProvider';
-export * from './GraphAreaStyleProvider';
-export * from './AxisStyleProviders';
+export * from "./PlotAreaStyleProvider";
+export * from "./GraphAreaStyleProvider";
+export * from "./AxisStyleProviders";

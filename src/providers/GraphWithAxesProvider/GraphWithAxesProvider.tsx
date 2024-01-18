@@ -1,15 +1,14 @@
-import {isEqual} from 'lodash';
-import {memo} from 'react';
+import {isEqual} from "lodash";
+import {memo} from "react";
 
-import {GraphItemMargin} from '@/context';
+import {GraphItemMargin} from "@/context";
 import {
   AxisStyleProvider,
   AxisStyleProviderProps,
   GraphAreaParentSize,
   GraphAreaStyleProvider,
   PlotAreaStyleProvider,
-} from '@/providers';
-import {DeepPartial} from '@/types';
+} from "@/providers";
 
 export type GraphWithAxesProviderProps = {
   children: React.ReactNode;
@@ -17,7 +16,7 @@ export type GraphWithAxesProviderProps = {
    * Margins around the graph area
    */
   margin?: Partial<GraphItemMargin>;
-} & Omit<DeepPartial<AxisStyleProviderProps>, 'children'> &
+} & Omit<AxisStyleProviderProps, "children"> &
   GraphAreaParentSize;
 
 /**

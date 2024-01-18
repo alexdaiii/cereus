@@ -1,11 +1,11 @@
-import {render} from '@testing-library/react';
-import {FC} from 'react';
-import {beforeEach, describe, expect, it} from 'vitest';
+import {render} from "@testing-library/react";
+import {FC} from "react";
+import {beforeEach, describe, expect, it} from "vitest";
 
-import {PlotAreaStyleContext} from '../../context';
-import {PlotRange, useRange} from './useRange';
+import {PlotAreaStyleContext} from "../../context";
+import {PlotRange, useRange} from "./useRange";
 
-describe('useRange', () => {
+describe("useRange", () => {
   let TestComponent: FC;
   let actual: PlotRange;
 
@@ -16,7 +16,7 @@ describe('useRange', () => {
     };
   });
 
-  it('should have default values when outside of a context', () => {
+  it("should have default values when outside of a context", () => {
     render(<TestComponent />);
 
     expect(actual).toEqual({

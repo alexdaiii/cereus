@@ -1,1 +1,1 @@
-export * from './GraphWithAxesProvider';
+export * from "./GraphWithAxesProvider";

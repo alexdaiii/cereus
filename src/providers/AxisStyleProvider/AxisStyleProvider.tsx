@@ -1,18 +1,18 @@
-import {isEqual} from 'lodash';
-import {ReactNode, memo} from 'react';
+import {isEqual} from "lodash";
+import {ReactNode, memo} from "react";
 
-import {GraphItemPadding} from '@/context';
-import {useGraphAreaStyle} from '@/hooks';
+import {GraphItemPadding} from "@/context";
+import {useGraphAreaStyle} from "@/hooks";
 import {
   AxisBottomStyleProvider,
   AxisLeftStyleProvider,
   AxisRightStyleProvider,
   AxisTopStyleProvider,
-} from '@/providers';
+} from "@/providers";
 import {
   calcAxisHeight,
   calcAxisWidth,
-} from '@/providers/GraphComponentStyleProvider/utils';
+} from "@/providers/GraphComponentStyleProvider/utils";
 
 type HorizontalAxisProps = {
   /**

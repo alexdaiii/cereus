@@ -1,1 +1,1 @@
-export * from './AxisStyleProvider';
+export * from "./AxisStyleProvider";

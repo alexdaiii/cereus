@@ -1,5 +1,6 @@
-import {CeresDomainContext} from '@/context';
-import {createDomainProvider} from '@/providers';
+import {createDomainProvider} from "src/providers/DomainProvider/DomainProviderFactories";
+
+import {CeresDomainContext} from "@/context";
 
 /**
  * Provider for the CeresSequenceViewer domain.
@@ -8,5 +9,5 @@ import {createDomainProvider} from '@/providers';
  */
 export const CeresDomainProvider = createDomainProvider(
   CeresDomainContext,
-  'CeresDomainProvider',
+  "CeresDomainProvider",
 );

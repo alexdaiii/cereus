@@ -1,11 +1,11 @@
-import {Meta, StoryObj} from '@storybook/react';
+import {Meta, StoryObj} from "@storybook/react";
 
-import {CeresDomainProvider} from './CeresDomainProvider';
+import {CeresDomainProvider} from "./CeresDomainProvider";
 
 const meta: Meta<typeof CeresDomainProvider> = {
   component: CeresDomainProvider,
-  title: 'CeresDomainProvider',
-  tags: ['autodocs'], // Add your tags here
+  title: "CeresDomainProvider",
+  tags: ["autodocs"], // Add your tags here
   args: {},
   argTypes: {},
 };

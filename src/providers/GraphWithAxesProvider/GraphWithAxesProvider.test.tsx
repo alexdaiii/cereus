@@ -1,9 +1,9 @@
-import '@testing-library/jest-dom';
-import {render} from '@testing-library/react';
-import {FC} from 'react';
-import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
+import "@testing-library/jest-dom";
+import {render, screen} from "@testing-library/react";
+import {FC} from "react";
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
-import {GraphAreaStyleContextType, PlotAreaStyleContextType} from '@/context';
+import {GraphAreaStyleContextType, PlotAreaStyleContextType} from "@/context";
 import {
   useAxisBottomStyle,
   useAxisLeftStyle,
@@ -11,17 +11,17 @@ import {
   useAxisTopStyle,
   useGraphAreaStyle,
   usePlotAreaStyle,
-} from '@/hooks';
+} from "@/hooks";
 
-import {AxisStyleProviderProps} from '../AxisStyleProvider';
+import {AxisStyleProviderProps} from "../AxisStyleProvider";
 import {
   GraphWithAxesProvider,
   GraphWithAxesProviderProps,
-} from './GraphWithAxesProvider';
+} from "./GraphWithAxesProvider";
 
-type TestInput = Omit<GraphWithAxesProviderProps, 'children'>;
+type TestInput = Omit<GraphWithAxesProviderProps, "children">;
 
-describe('GraphWithAxesProvider', () => {
+describe("GraphWithAxesProvider", () => {
   let actual: {
     graphStyle: ReturnType<typeof useGraphAreaStyle>;
     axisLeftStyle: ReturnType<typeof useAxisLeftStyle>;
@@ -64,17 +64,19 @@ describe('GraphWithAxesProvider', () => {
     vi.restoreAllMocks();
   });
 
-  it('should render without crashing', () => {
+  it("should render without crashing", () => {
     render(
       <GraphWithAxesProvider parentWidth={500} parentHeight={500}>
-        <></>
+        <div>Test</div>
       </GraphWithAxesProvider>,
     );
+
+    expect(screen.getByText("Test")).toBeInTheDocument();
   });
 
   it.each([
     [
-      'no margin',
+      "no margin",
       {parentWidth: 500, parentHeight: 500},
       {
         width: 500,
@@ -88,7 +90,7 @@ describe('GraphWithAxesProvider', () => {
       },
     ],
     [
-      'with margin',
+      "with margin",
       {
         parentHeight: 500,
         parentWidth: 500,
@@ -111,7 +113,7 @@ describe('GraphWithAxesProvider', () => {
       },
     ],
   ])(
-    'Should set correct values for graph area %s',
+    "Should set correct values for graph area %s",
     (
       _,
       {parentHeight, parentWidth, margin}: TestInput,
@@ -134,7 +136,7 @@ describe('GraphWithAxesProvider', () => {
   // test branch else
   it.each([
     [
-      'undefined vals',
+      "undefined vals",
       {
         leftAxis: undefined,
         rightAxis: undefined,
@@ -143,7 +145,7 @@ describe('GraphWithAxesProvider', () => {
       },
     ],
     [
-      'empty object',
+      "empty object",
       {
         leftAxis: {},
         rightAxis: {},
@@ -160,7 +162,7 @@ describe('GraphWithAxesProvider', () => {
         rightAxis,
         bottomAxis,
         topAxis,
-      }: Omit<AxisStyleProviderProps, 'children'>,
+      }: Omit<AxisStyleProviderProps, "children">,
     ) => {
       const [WIDTH, HEIGHT] = [500, 500];
       render(
@@ -229,7 +231,7 @@ describe('GraphWithAxesProvider', () => {
   );
 
   // test branch if
-  it('Should set correct values with axis with values', () => {
+  it("Should set correct values with axis with values", () => {
     const axes = {
       leftAxis: {
         width: 50,
@@ -320,7 +322,7 @@ describe('GraphWithAxesProvider', () => {
     expect(actual.plotStyle).toEqual(expectedPlotSize);
   });
 
-  it('Should rerender only if all values changes - deep object equality', () => {
+  it("Should rerender only if all values changes - deep object equality", () => {
     const mockFn = vi.fn();
     const SomeChildFn = () => {
       mockFn();

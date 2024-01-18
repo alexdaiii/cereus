@@ -1,6 +1,6 @@
-import '@testing-library/jest-dom';
-import {render} from '@testing-library/react';
-import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
+import "@testing-library/jest-dom";
+import {render} from "@testing-library/react";
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
 import {
   AxisStyleContextType,
@@ -10,15 +10,15 @@ import {
   GroupOffset,
   PlotAreaStyleContext,
   PlotAreaStyleContextType,
-} from '@/context';
-import {usePlotAreaStyle} from '@/hooks';
-import * as exports from '@/hooks/useGraphItemStyleContext';
-import {PlotAreaStyleProvider} from '@/providers';
+} from "@/context";
+import {usePlotAreaStyle} from "@/hooks";
+import * as exports from "@/hooks/useGraphItemStyleContext";
+import {PlotAreaStyleProvider} from "@/providers";
 
 import {
   TestConsumerComponentMaker,
   TestHookComponentMaker,
-} from '@test/TestProviderHelpers';
+} from "@test/TestProviderHelpers";
 
 type IncludedAxes = {
   /**
@@ -42,12 +42,12 @@ type IncludedAxes = {
 const TestHookComponent = TestHookComponentMaker(usePlotAreaStyle);
 const TestComsumerComponent = TestConsumerComponentMaker(PlotAreaStyleContext);
 
-describe('PlotAreaStyleProvider', () => {
+describe("PlotAreaStyleProvider", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('should render', () => {
+  it("should render", () => {
     render(
       <PlotAreaStyleProvider>
         <></>
@@ -56,10 +56,10 @@ describe('PlotAreaStyleProvider', () => {
   });
 
   describe.each([
-    ['Consumer', TestComsumerComponent],
-    ['Hook', TestHookComponent],
-  ])('with a %s child component consumer', (_, Child) => {
-    it('does not crash when not in GraphArea or AxisStyleProviders', () => {
+    ["Consumer", TestComsumerComponent],
+    ["Hook", TestHookComponent],
+  ])("with a %s child component consumer", (_, Child) => {
+    it("does not crash when not in GraphArea or AxisStyleProviders", () => {
       let actual!: PlotAreaStyleContextType;
 
       render(
@@ -85,14 +85,14 @@ describe('PlotAreaStyleProvider', () => {
 
     it.each([
       [
-        'no margin',
+        "no margin",
         {
           width: 1000,
           height: 500,
         },
       ],
       [
-        'x margins',
+        "x margins",
         {
           width: 250,
           height: 750,
@@ -101,7 +101,7 @@ describe('PlotAreaStyleProvider', () => {
         },
       ],
       [
-        'y margins',
+        "y margins",
         {
           width: 400,
           height: 800,
@@ -110,7 +110,7 @@ describe('PlotAreaStyleProvider', () => {
         },
       ],
     ])(
-      'gets graph area dimensions from useGraphAreaStyle from provider with %s',
+      "gets graph area dimensions from useGraphAreaStyle from provider with %s",
       (
         _,
         graphArea: GraphItemSize & Partial<GraphItemMargin & GroupOffset>,
@@ -127,7 +127,7 @@ describe('PlotAreaStyleProvider', () => {
           ...graphArea,
         };
 
-        vi.spyOn(exports, 'useGraphAreaStyle').mockImplementation(() => {
+        vi.spyOn(exports, "useGraphAreaStyle").mockImplementation(() => {
           return useGraphAreaVal;
         });
 
@@ -155,11 +155,11 @@ describe('PlotAreaStyleProvider', () => {
       },
     );
 
-    describe('inside a GraphAreaStyleProvider', () => {
+    describe("inside a GraphAreaStyleProvider", () => {
       const [GRAPH_WIDTH, GRAPH_HEIGHT] = [1000, 500];
 
       beforeEach(() => {
-        vi.spyOn(exports, 'useGraphAreaStyle').mockImplementation(() => {
+        vi.spyOn(exports, "useGraphAreaStyle").mockImplementation(() => {
           return {
             width: GRAPH_WIDTH,
             height: GRAPH_HEIGHT,
@@ -174,13 +174,13 @@ describe('PlotAreaStyleProvider', () => {
       });
 
       it.each([
-        ['no axes', {}],
-        ['Top', {includeTopAxis: true}],
-        ['Bottom', {includeBottomAxis: true}],
-        ['Left', {includeLeftAxis: true}],
-        ['Right', {includeRightAxis: true}],
+        ["no axes", {}],
+        ["Top", {includeTopAxis: true}],
+        ["Bottom", {includeBottomAxis: true}],
+        ["Left", {includeLeftAxis: true}],
+        ["Right", {includeRightAxis: true}],
         [
-          'Any',
+          "Any",
           {
             includeTopAxis: true,
             includeBottomAxis: true,
@@ -189,7 +189,7 @@ describe('PlotAreaStyleProvider', () => {
           },
         ],
       ])(
-        'requires being in an Axis%sProvider to subtract axes height or width from the graph area',
+        "requires being in an Axis%sProvider to subtract axes height or width from the graph area",
         (_, includedAxes: IncludedAxes) => {
           let actual!: PlotAreaStyleContextType;
 
@@ -220,7 +220,7 @@ describe('PlotAreaStyleProvider', () => {
         },
       );
 
-      describe('inside all AxisStyleProviders', () => {
+      describe("inside all AxisStyleProviders", () => {
         const baseAxisStyle = {
           width: 2,
           height: 3,
@@ -267,23 +267,23 @@ describe('PlotAreaStyleProvider', () => {
           bottomAxisStyle.paddingBottom;
 
         beforeEach(() => {
-          vi.spyOn(exports, 'useAxisLeftStyle').mockImplementation(() => {
+          vi.spyOn(exports, "useAxisLeftStyle").mockImplementation(() => {
             return leftAxisStyle;
           });
-          vi.spyOn(exports, 'useAxisTopStyle').mockImplementation(() => {
+          vi.spyOn(exports, "useAxisTopStyle").mockImplementation(() => {
             return topAxisStyle;
           });
-          vi.spyOn(exports, 'useAxisRightStyle').mockImplementation(() => {
+          vi.spyOn(exports, "useAxisRightStyle").mockImplementation(() => {
             return rightAxisStyle;
           });
-          vi.spyOn(exports, 'useAxisBottomStyle').mockImplementation(() => {
+          vi.spyOn(exports, "useAxisBottomStyle").mockImplementation(() => {
             return bottomAxisStyle;
           });
         });
 
         it.each([
           [
-            'none',
+            "none",
             {},
             {
               width: GRAPH_WIDTH,
@@ -293,7 +293,7 @@ describe('PlotAreaStyleProvider', () => {
             },
           ],
           [
-            'top',
+            "top",
             {includeTopAxis: true},
             {
               width: GRAPH_WIDTH,
@@ -303,7 +303,7 @@ describe('PlotAreaStyleProvider', () => {
             },
           ],
           [
-            'bottom',
+            "bottom",
             {includeBottomAxis: true},
             {
               width: GRAPH_WIDTH,
@@ -313,7 +313,7 @@ describe('PlotAreaStyleProvider', () => {
             },
           ],
           [
-            'left',
+            "left",
             {includeLeftAxis: true},
             {
               width: GRAPH_WIDTH - leftAxisTotalWidth,
@@ -323,7 +323,7 @@ describe('PlotAreaStyleProvider', () => {
             },
           ],
           [
-            'right',
+            "right",
             {includeRightAxis: true},
             {
               width: GRAPH_WIDTH - rightAxisTotalWidth,
@@ -333,7 +333,7 @@ describe('PlotAreaStyleProvider', () => {
             },
           ],
           [
-            'all',
+            "all",
             {
               includeBottomAxis: true,
               includeLeftAxis: true,
@@ -348,7 +348,7 @@ describe('PlotAreaStyleProvider', () => {
             },
           ],
         ])(
-          'correctly subtracts %s axis height from graph area',
+          "correctly subtracts %s axis height from graph area",
           (
             _,
             includedAxes: IncludedAxes,

@@ -1,6 +1,6 @@
-import '@testing-library/jest-dom';
-import {render} from '@testing-library/react';
-import {beforeEach, describe, expect, it} from 'vitest';
+import "@testing-library/jest-dom";
+import {render} from "@testing-library/react";
+import {beforeEach, describe, expect, it} from "vitest";
 
 import {
   AxisBottomStyleContext,
@@ -8,53 +8,53 @@ import {
   AxisRightStyleContext,
   AxisStyleContextType,
   AxisTopStyleContext,
-} from '@/context';
+} from "@/context";
 import {
   useAxisBottomStyle,
   useAxisLeftStyle,
   useAxisRightStyle,
   useAxisTopStyle,
-} from '@/hooks';
+} from "@/hooks";
 import {
   AxisBottomStyleProvider,
   AxisLeftStyleProvider,
   AxisRightStyleProvider,
   AxisStyleProvidersProps,
   AxisTopStyleProvider,
-} from '@/providers';
+} from "@/providers";
 
 import {
   TestChildElement,
   TestConsumerComponentMaker,
   TestHookComponentMaker,
-} from '@test/TestProviderHelpers';
+} from "@test/TestProviderHelpers";
 
 describe.each([
   [
-    'AxisTopStyleProvider',
+    "AxisTopStyleProvider",
     AxisTopStyleProvider,
     TestConsumerComponentMaker(AxisTopStyleContext),
     TestHookComponentMaker(useAxisTopStyle),
   ],
   [
-    'AxisRightStyleProvider',
+    "AxisRightStyleProvider",
     AxisRightStyleProvider,
     TestConsumerComponentMaker(AxisRightStyleContext),
     TestHookComponentMaker(useAxisRightStyle),
   ],
   [
-    'AxisBottomStyleProvider',
+    "AxisBottomStyleProvider",
     AxisBottomStyleProvider,
     TestConsumerComponentMaker(AxisBottomStyleContext),
     TestHookComponentMaker(useAxisBottomStyle),
   ],
   [
-    'AxisLeftStyleProvider',
+    "AxisLeftStyleProvider",
     AxisLeftStyleProvider,
     TestConsumerComponentMaker(AxisLeftStyleContext),
     TestHookComponentMaker(useAxisLeftStyle),
   ],
-])('Provider: %s', (_: string, Provider, Consumer, hook) => {
+])("Provider: %s", (_: string, Provider, Consumer, hook) => {
   let Children: {
     [key: string]: TestChildElement<AxisStyleContextType>;
   };
@@ -66,7 +66,7 @@ describe.each([
     };
   });
 
-  it('should render', () => {
+  it("should render", () => {
     render(
       <Provider width={5} height={10}>
         <></>
@@ -74,7 +74,7 @@ describe.each([
     );
   });
 
-  describe.each(['consumer', 'hook'])('%s', property => {
+  describe.each(["consumer", "hook"])("%s", property => {
     let Child: TestChildElement<AxisStyleContextType>;
 
     beforeEach(() => {
@@ -83,14 +83,14 @@ describe.each([
 
     it.each([
       [
-        'just width and height',
+        "just width and height",
         {
           width: 50,
           height: 100,
         },
       ],
       [
-        'with top padding',
+        "with top padding",
         {
           width: 100,
           height: 200,
@@ -98,7 +98,7 @@ describe.each([
         },
       ],
       [
-        'with right padding',
+        "with right padding",
         {
           width: 200,
           height: 100,
@@ -106,7 +106,7 @@ describe.each([
         },
       ],
       [
-        'with bottom padding',
+        "with bottom padding",
         {
           width: 100,
           height: 200,
@@ -114,7 +114,7 @@ describe.each([
         },
       ],
       [
-        'with left padding',
+        "with left padding",
         {
           width: 200,
           height: 100,
@@ -122,7 +122,7 @@ describe.each([
         },
       ],
       [
-        'with all padding',
+        "with all padding",
         {
           width: 200,
           height: 100,
@@ -132,7 +132,7 @@ describe.each([
           paddingLeft: 40,
         },
       ],
-    ])('%s', (_: string, style: Omit<AxisStyleProvidersProps, 'children'>) => {
+    ])("%s", (_: string, style: Omit<AxisStyleProvidersProps, "children">) => {
       const DEFAULT_VALUES = {
         paddingTop: 0,
         paddingRight: 0,
@@ -166,7 +166,7 @@ describe.each([
       expect(actual).toEqual(expected);
     });
 
-    it('Context provides default values', () => {
+    it("Context provides default values", () => {
       const expected = {
         width: 0,
         height: 0,

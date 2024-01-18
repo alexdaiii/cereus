@@ -1,4 +1,4 @@
-import {Group} from '@visx/group';
+import {Group} from "@visx/group";
 
 import {
   useAxisBottomStyle,
@@ -7,7 +7,7 @@ import {
   useAxisTopStyle,
   useGraphAreaStyle,
   usePlotAreaStyle,
-} from '@/hooks';
+} from "@/hooks";
 import {
   AxisBottomStyleProvider,
   AxisLeftStyleProvider,
@@ -15,7 +15,7 @@ import {
   AxisTopStyleProvider,
   GraphAreaStyleProvider,
   PlotAreaStyleProvider,
-} from '@/providers';
+} from "@/providers";
 
 type MyChartProps = {
   width: number;
@@ -111,7 +111,7 @@ const InnerComponent = ({
         height={graphStyle.height}
         width={graphStyle.width}
         fill="rgba(255,140,0,.9)"
-        stroke={'orange'}
+        stroke={"orange"}
         strokeWidth={2}
       />
 
@@ -121,7 +121,7 @@ const InnerComponent = ({
           height={chartStyle.height}
           width={chartStyle.width}
           fill="rgba(148,0,211,.75)"
-          stroke={'pink'}
+          stroke={"pink"}
           strokeWidth={2}
         />
       </Group>
@@ -132,7 +132,7 @@ const InnerComponent = ({
             height={topAxisStyle.height}
             width={topAxisStyle.width}
             fill="rgba(0,255,0,.75)"
-            stroke={'yellow'}
+            stroke={"yellow"}
             strokeWidth={2}
           />
         </Group>
@@ -143,7 +143,7 @@ const InnerComponent = ({
             height={leftAxisStyle.height}
             width={leftAxisStyle.width}
             fill="rgba(112,128,144,.75)"
-            stroke={'black'}
+            stroke={"black"}
             strokeWidth={2}
           />
         </Group>
@@ -154,7 +154,7 @@ const InnerComponent = ({
             height={bottomAxisStyle.height}
             width={bottomAxisStyle.width}
             fill="rgba(255,0,0,.75)"
-            stroke={'purple'}
+            stroke={"purple"}
             strokeWidth={2}
           />
         </Group>
@@ -165,7 +165,7 @@ const InnerComponent = ({
             height={rightAxisStyle.height}
             width={rightAxisStyle.width}
             fill="rgba(255,255,240,.75)"
-            stroke={'brown'}
+            stroke={"brown"}
             strokeWidth={2}
           />
         </Group>

@@ -9,45 +9,45 @@ module.exports = {
   root: true,
 
   // Specify the parser for TypeScript (using @typescript-eslint/parser)
-  parser: '@typescript-eslint/parser', // Leverages TS ESTree to lint TypeScript
+  parser: "@typescript-eslint/parser", // Leverages TS ESTree to lint TypeScript
 
   // Add additional rules and configuration options
-  plugins: ['@typescript-eslint', 'unused-imports'],
+  plugins: ["@typescript-eslint", "unused-imports"],
 
   // Extend various ESLint configurations and plugins
   extends: [
-    'eslint:recommended', // ESLint recommended rules
-    'plugin:react/recommended', // React recommended rules
-    'plugin:@typescript-eslint/recommended', // TypeScript recommended rules
-    'plugin:@typescript-eslint/eslint-recommended', // ESLint overrides for TypeScript
-    'prettier', // Prettier rules
-    'plugin:prettier/recommended', // Prettier plugin integration
-    'plugin:react-hooks/recommended', // Recommended rules for React hooks
-    'plugin:storybook/recommended', // Recommended rules for Storybook
+    "eslint:recommended", // ESLint recommended rules
+    "plugin:react/recommended", // React recommended rules
+    "plugin:@typescript-eslint/recommended", // TypeScript recommended rules
+    "plugin:@typescript-eslint/eslint-recommended", // ESLint overrides for TypeScript
+    "prettier", // Prettier rules
+    "plugin:prettier/recommended", // Prettier plugin integration
+    "plugin:react-hooks/recommended", // Recommended rules for React hooks
+    "plugin:storybook/recommended", // Recommended rules for Storybook
   ],
   rules: {
-    'react/react-in-jsx-scope': 'off',
-    'react/jsx-props-no-spreading': 'error',
-    'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
-    '@typescript-eslint/no-unused-vars': 'off',
-    'unused-imports/no-unused-imports': 'error',
-    'unused-imports/no-unused-vars': [
-      'warn',
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "error",
+    "no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
       {
-        vars: 'all',
-        varsIgnorePattern: '^_',
-        args: 'after-used',
-        argsIgnorePattern: '^_',
+        vars: "all",
+        varsIgnorePattern: "^_",
+        args: "after-used",
+        argsIgnorePattern: "^_",
       },
     ],
-    'no-console': 'warn',
-    '@typescript-eslint/no-explicit-any': 'warn',
-    'no-restricted-globals': ['warn', 'window', 'document', 'navigator'],
+    "no-console": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "no-restricted-globals": ["warn", "window", "document", "navigator"],
   },
 
   settings: {
     react: {
-      version: 'detect',
+      version: "detect",
     },
   },
 };

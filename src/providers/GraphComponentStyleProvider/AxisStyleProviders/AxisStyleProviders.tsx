@@ -1,4 +1,4 @@
-import {Context, ReactNode} from 'react';
+import {Context, ReactNode} from "react";
 
 import {
   AxisBottomStyleContext,
@@ -9,7 +9,7 @@ import {
   GraphItemPadding,
   GraphItemSize,
   GroupOffset,
-} from '@/context';
+} from "@/context";
 
 /**
  * Prop for a **single** axis style provider (top, bottom, left, right axis)
@@ -23,7 +23,7 @@ export type AxisStyleProvidersProps = {
   Partial<GroupOffset>;
 
 /**
- * Creates a function that returns an axis style context provider
+ * Factory that returns an axis style context provider
  * @param AxisStyleContext An axis style context
  * @param displayName Optional display name for the provider
  */
@@ -65,20 +65,20 @@ const createAxisStyleProvider = (
 
 export const AxisTopStyleProvider = createAxisStyleProvider(
   AxisTopStyleContext,
-  'AxisTopStyleProvider',
+  "AxisTopStyleProvider",
 );
 
 export const AxisBottomStyleProvider = createAxisStyleProvider(
   AxisBottomStyleContext,
-  'AxisBottomStyleProvider',
+  "AxisBottomStyleProvider",
 );
 
 export const AxisLeftStyleProvider = createAxisStyleProvider(
   AxisLeftStyleContext,
-  'AxisLeftStyleProvider',
+  "AxisLeftStyleProvider",
 );
 
 export const AxisRightStyleProvider = createAxisStyleProvider(
   AxisRightStyleContext,
-  'AxisRightStyleProvider',
+  "AxisRightStyleProvider",
 );

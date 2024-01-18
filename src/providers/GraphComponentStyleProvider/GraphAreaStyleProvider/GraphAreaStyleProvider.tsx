@@ -1,16 +1,21 @@
-import {ReactNode} from 'react';
+import {ReactNode} from "react";
 
-import {GraphAreaStyleContext, GraphItemMargin} from '@/context';
+import {GraphAreaStyleContext, GraphItemMargin} from "@/context";
+import {useParentSize} from "@/hooks";
 
 export type GraphAreaParentSize = {
   /**
    * Width of the parent element. Usually the width of the svg.
+   * Not required if using the {@link ParentSizeProvider}.
+   * @default 0
    */
-  parentWidth: number;
+  parentWidth?: number;
   /**
    * Height of the parent element. Usually the height of the svg.
+   * Not required if using the {@link ParentSizeProvider}.
+   * @default 0
    */
-  parentHeight: number;
+  parentHeight?: number;
 };
 
 export type GraphAreaStyleProviderProps = {
@@ -35,6 +40,11 @@ export const GraphAreaStyleProvider = ({
   marginBottom = 0,
   marginLeft = 0,
 }: GraphAreaStyleProviderProps) => {
+  const {width: pWidth, height: pHeight} = useParentSize();
+
+  parentWidth = parentWidth ?? pWidth;
+  parentHeight = parentHeight ?? pHeight;
+
   const width = parentWidth - marginLeft - marginRight;
   const height = parentHeight - marginTop - marginBottom;
 

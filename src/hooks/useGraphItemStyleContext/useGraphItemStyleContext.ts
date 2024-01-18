@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext} from "react";
 
 import {
   AxisBottomStyleContext,
@@ -7,7 +7,7 @@ import {
   AxisTopStyleContext,
   GraphAreaStyleContext,
   PlotAreaStyleContext,
-} from '@/context';
+} from "@/context";
 
 /**
  * Hook for accessing the style context for a graphing area

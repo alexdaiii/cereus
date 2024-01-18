@@ -1,17 +1,17 @@
-import {ReactNode} from 'react';
+import {ReactNode} from "react";
 
-import {PlotAreaStyleContext} from '@/context';
+import {PlotAreaStyleContext} from "@/context";
 import {
   useAxisBottomStyle,
   useAxisLeftStyle,
   useAxisRightStyle,
   useAxisTopStyle,
   useGraphAreaStyle,
-} from '@/hooks/useGraphItemStyleContext';
+} from "@/hooks/useGraphItemStyleContext";
 import {
   calcAxisHeight,
   calcAxisWidth,
-} from '@/providers/GraphComponentStyleProvider/utils';
+} from "@/providers/GraphComponentStyleProvider/utils";
 
 type PlotAreaStyleProviderProps = {
   children: ReactNode;

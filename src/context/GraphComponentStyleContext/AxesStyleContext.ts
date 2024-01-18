@@ -1,10 +1,10 @@
-import {createContext} from 'react';
+import {createContext} from "react";
 
 import {
   GraphItemPadding,
   GraphItemSize,
   GroupOffset,
-} from '@/context/GraphComponentStyleContext/types';
+} from "@/context/GraphComponentStyleContext/types";
 
 export type AxisStyleContextType = GraphItemSize &
   GraphItemPadding &

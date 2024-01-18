@@ -1,1 +1,1 @@
-export * from './CeresDomainProvider';
+export * from "./CeresDomainProvider";
