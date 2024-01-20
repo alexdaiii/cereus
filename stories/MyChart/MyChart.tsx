@@ -20,10 +20,12 @@ import {
   useParentSize,
   usePlotAreaStyle,
 } from "../../src";
+import {CereusDomainProvider, CereusRowData} from "../../src/tracks";
 
 type MyChartProps = {
   margin?: GraphItemMargin;
   aspectRatio?: string;
+  maxWidth?: number;
 
   topAxisHeight?: number;
   bottomAxisHeight?: number;
@@ -31,41 +33,64 @@ type MyChartProps = {
   rightAxisWidth?: number;
 };
 
+const sequence =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+const data: CereusRowData[] = [
+  {
+    rowId: "row-1",
+    title: "Sequence",
+    visible: true,
+    tracks: [
+      {
+        trackType: "sequence",
+        trackId: "row-1-track-1",
+        data: {
+          begin: 1,
+          sequence,
+        },
+      },
+    ],
+  },
+];
+
 export const MyChart = ({
   margin,
   aspectRatio = "16/9",
+  maxWidth = 700,
   topAxisHeight,
   bottomAxisHeight,
   leftAxisWidth,
   rightAxisWidth,
 }: MyChartProps) => {
   return (
-    <div
-      style={{
-        aspectRatio,
-        maxWidth: "700px",
-      }}
-    >
-      <ParentSizeProvider fallbackHeight={500} fallbackWidth={500}>
-        <GraphWithAxesProvider
-          margin={margin}
-          topAxis={{
-            height: topAxisHeight,
-          }}
-          rightAxis={{
-            width: rightAxisWidth,
-          }}
-          bottomAxis={{
-            height: bottomAxisHeight,
-          }}
-          leftAxis={{
-            width: leftAxisWidth,
-          }}
-        >
-          <MyPlot />
-        </GraphWithAxesProvider>
-      </ParentSizeProvider>
-    </div>
+    <CereusDomainProvider domainMax={sequence.length} data={data}>
+      <div
+        style={{
+          aspectRatio,
+          maxWidth,
+        }}
+      >
+        <ParentSizeProvider fallbackHeight={500} fallbackWidth={500}>
+          <GraphWithAxesProvider
+            margin={margin}
+            topAxis={{
+              height: topAxisHeight,
+            }}
+            rightAxis={{
+              width: rightAxisWidth,
+            }}
+            bottomAxis={{
+              height: bottomAxisHeight,
+            }}
+            leftAxis={{
+              width: leftAxisWidth,
+            }}
+          >
+            <MyPlot />
+          </GraphWithAxesProvider>
+        </ParentSizeProvider>
+      </div>
+    </CereusDomainProvider>
   );
 };
 
