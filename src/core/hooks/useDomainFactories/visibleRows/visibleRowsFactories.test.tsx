@@ -6,6 +6,7 @@ import {
   DomainContextType,
   RowData,
   createGetVisibleRowCountHook,
+  createGetVisibleRowIdsHook,
   createGetVisibleRowsHook,
 } from "@/core";
 
@@ -102,7 +103,7 @@ describe("createGetVisibleRowCountHook", () => {
     });
   });
 
-  it("should return empty array if not in provider", () => {
+  it("should return 0 if not in provider", () => {
     const useGetVisibleRows = createGetVisibleRowCountHook(context);
 
     const {result} = renderHook(() => useGetVisibleRows());
@@ -142,6 +143,72 @@ describe("createGetVisibleRowCountHook", () => {
       });
 
       expect(result.current).toEqual(expected);
+    },
+  );
+});
+
+describe("createGetVisibleRowIdsHook", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  let context: Context<DomainContextType<RowData>>;
+
+  beforeEach(() => {
+    context = createContext<DomainContextType<RowData>>({
+      domainMin: 0,
+      domainMax: 0,
+      data: [],
+    });
+  });
+
+  it("should return empty array if not in provider", () => {
+    const useGetVisibleRows = createGetVisibleRowIdsHook(context);
+
+    const {result} = renderHook(() => useGetVisibleRows());
+
+    expect(result.current).toEqual([]);
+  });
+
+  it.each([
+    ["no row data", [], []],
+    ["1 row", [true], [0]],
+    ["1 row, not visible", [false], []],
+    ["multiple rows", [true, true, false, true, false, true], [5, 3, 1, 0]],
+  ])(
+    "Should return num visible rows when there are %s",
+    (_, visible, expected) => {
+      const useGetVisibleRows = createGetVisibleRowIdsHook(context);
+
+      const data = visible.map((row, index) => ({
+        rowId: `row-${index}`,
+        title: `Row ${index}`,
+        visible: row,
+        tracks: [],
+      }));
+
+      const {result} = renderHook(() => useGetVisibleRows(), {
+        wrapper: ({children}) => (
+          <context.Provider
+            value={{
+              domainMin: 0,
+              domainMax: 0,
+              data,
+            }}
+          >
+            {children}
+          </context.Provider>
+        ),
+      });
+
+      expect(result.current).toHaveLength(expected.length);
+
+      // actually ids can be in any order so sort them
+      const expectedIds = expected.map(idx => data[idx].rowId);
+      expectedIds.sort();
+
+      result.current.sort();
+      expect(result.current).toEqual(expectedIds);
     },
   );
 });

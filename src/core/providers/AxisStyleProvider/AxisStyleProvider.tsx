@@ -14,7 +14,7 @@ import {
   calcAxisWidth,
 } from "@/core/providers/GraphComponentStyleProvider/utils";
 
-type HorizontalAxisProps = {
+export type HorizontalAxisProps = {
   /**
    * Axis height
    */
@@ -31,7 +31,7 @@ type HorizontalAxisProps = {
   paddingBottom?: number;
 };
 
-type VerticalAxisProps = {
+export type VerticalAxisProps = {
   /**
    * Axis width
    */
