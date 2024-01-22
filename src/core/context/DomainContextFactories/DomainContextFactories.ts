@@ -23,11 +23,19 @@ export type DomainContextType<T extends RowData> = {
    */
   visibleRows: T[];
   /**
-   * Visible row IDs (computed)
+   * Visible row IDs (computed). The same as
+   *
+   * ```
+   * visibleRows.map(row => row.id)
+   * ```
    */
   visibleRowIds: string[];
   /**
-   * The number of visible rows (computed)
+   * The number of visible rows (computed). The same as
+   *
+   * ```
+   * visibleRows.length
+   * ```
    */
   visibleRowsCount: number;
   /**
@@ -35,18 +43,26 @@ export type DomainContextType<T extends RowData> = {
    */
   visibleTracks: T["tracks"][number][];
   /**
-   * Visible track IDs (computed)
+   * Visible track IDs (computed). The same as
+   *
+   * ```
+   * visibleTracks.map(track => track.id)
+   * ```
    */
   visibleTrackIds: string[];
   /**
-   * The number of visible tracks (computed)
+   * The number of visible tracks (computed). The same as
+   *
+   * ```
+   * visibleTracks.length
+   * ```
    */
   visibleTracksCount: number;
   /**
    * The number of visible tracks in each row. The index of the array
    * corresponds to the index of the row in the `data` array.
    */
-  visibleTracksCountPerRow: number[];
+  visibleTracksCountPerRow: Map<string, number>;
 };
 
 /**
@@ -89,6 +105,6 @@ export const createDomainContext = <T extends RowData>() => {
     visibleTracks: [],
     visibleTrackIds: [],
     visibleTracksCount: 0,
-    visibleTracksCountPerRow: [],
+    visibleTracksCountPerRow: new Map(),
   });
 };

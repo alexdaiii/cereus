@@ -69,17 +69,20 @@ const calculateVisibleRows = <T extends RowData>(data: T[]) => {
 
   const visibleTracks: T["tracks"][number][] = [];
   const visibleTrackIds: string[] = [];
-  const visibleTracksCountPerRow: number[] = [];
+  const visibleTracksCountPerRow = new Map<string, number>();
 
   for (let i = 0; i < data.length; i++) {
+    visibleTracksCountPerRow.set(
+      data[i].rowId,
+      +data[i].visible * data[i].tracks.length,
+    );
+
     if (!data[i].visible) {
-      visibleTracksCountPerRow.push(0);
       continue;
     }
 
     visibleRows.push(data[i]);
     visibleRowIds.push(data[i].rowId);
-    visibleTracksCountPerRow.push(data[i].tracks.length);
 
     for (let j = 0; j < data[i].tracks.length; j++) {
       visibleTracks.push(data[i].tracks[j]);

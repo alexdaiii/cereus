@@ -82,7 +82,7 @@ describe("DomainProvider", () => {
       visibleTrackIds: [],
       visibleTracks: [],
       visibleTracksCount: 0,
-      visibleTracksCountPerRow: [],
+      visibleTracksCountPerRow: new Map(),
     });
 
     TestProvider = createDomainProvider(context, "TestDomainProvider");
@@ -95,7 +95,7 @@ describe("DomainProvider", () => {
       {
         numVisibleRows: 0,
         numVisibleTracks: 0,
-        visibleTracksPerRow: [],
+        visibleTracksPerRow: new Map(),
       },
     ],
     [
@@ -104,7 +104,7 @@ describe("DomainProvider", () => {
       {
         numVisibleRows: 1,
         numVisibleTracks: 0,
-        visibleTracksPerRow: [0],
+        visibleTracksPerRow: new Map([["row-0", 0]]),
       },
     ],
     [
@@ -113,7 +113,7 @@ describe("DomainProvider", () => {
       {
         numVisibleRows: 0,
         numVisibleTracks: 0,
-        visibleTracksPerRow: [0],
+        visibleTracksPerRow: new Map([["row-0", 0]]),
       },
     ],
     [
@@ -122,7 +122,15 @@ describe("DomainProvider", () => {
       {
         numVisibleRows: 4,
         numVisibleTracks: 1 + 3 + 5,
-        visibleTracksPerRow: [0, 1, 0, 3, 0, 5],
+        // visibleTracksPerRow: [0, 1, 0, 3, 0, 5],
+        visibleTracksPerRow: new Map([
+          ["row-0", 0],
+          ["row-1", 1],
+          ["row-2", 0],
+          ["row-3", 3],
+          ["row-4", 0],
+          ["row-5", 5],
+        ]),
       },
     ],
   ])(
