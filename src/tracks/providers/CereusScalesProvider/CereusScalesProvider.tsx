@@ -36,7 +36,6 @@ export const CereusScalesProvider = ({
   const {
     domainMin,
     domainMax,
-    visibleRowsCount,
     visibleTracksCountPerRow,
     visibleTracksCount,
     visibleRowIds,
@@ -74,7 +73,6 @@ export const CereusScalesProvider = ({
     maxY,
     minY,
     visibleRowIds,
-    visibleRowsCount,
     visibleTracksCount,
     visibleTracksCountPerRow,
     yScalePaddingInner,
@@ -124,8 +122,8 @@ const scaleBandProportional = (
   const height = maxY - minY + 1;
 
   // calculate the size of the padding
-  const paddingInnerSize = yScalePaddingInner * height;
-  const paddingOuterSize = yScalePaddingOuter * height;
+  const paddingInnerSize = (yScalePaddingInner / denominator) * height;
+  const paddingOuterSize = (yScalePaddingOuter / denominator) * height;
 
   const {range, bandwidth} = createProportionalRange(
     minY,
@@ -178,6 +176,7 @@ const createProportionalRange = (
 
     const proportion = tracksInRow / denominator;
     const bandSize = height * proportion;
+
     bandwidth.set(rowId, bandSize);
 
     range.push(bandStart);

@@ -1,5 +1,64 @@
-type CereusPlotProps = {};
+import {scaleBand} from "@visx/scale";
+import {ReactNode, useMemo} from "react";
 
-export const CereusPlot = ({}: CereusPlotProps) => {
-  return <div>CereusPlot</div>;
+import {CereusTracks, useCereusDomain, useCereusScale} from "@/tracks";
+
+export type CereusRowGroupType = {
+  index: number;
+  y0: number;
+  tracks: CereusTrackGroupType[];
+};
+
+export type CereusTrackGroupType = {
+  index: number;
+  height: number;
+  y: number;
+  data: CereusTracks;
+};
+
+export type CereusPlotProps = {
+  children: (rowGroup: CereusRowGroupType[]) => ReactNode;
+};
+
+/**
+ * Similar to a `<BarGroup>` or `<BarGroupHorizontal>` from @visx/shape.
+ * @constructor
+ */
+export const CereusPlot = ({children}: CereusPlotProps) => {
+  const {visibleRows} = useCereusDomain();
+  const {yScaleStart, yBandwidth} = useCereusScale();
+
+  /**
+   * Similar to https://github.com/airbnb/visx/blob/master/packages/visx-shape/src/shapes/BarGroupHorizontal.tsx
+   */
+  const rowGroup = useMemo(() => {
+    return visibleRows.map((row, i) => {
+      const rowBandwidth = yBandwidth.get(row.rowId) ?? 0;
+      const trackScale = scaleBand({
+        domain: row.tracks.map(track => track.trackId),
+        range: [0, rowBandwidth],
+      });
+
+      return {
+        index: i,
+        /**
+         * The start position of the row group.
+         */
+        y0: yScaleStart(row.rowId) ?? 0,
+        tracks: row.tracks.map((track, j) => {
+          return {
+            index: j,
+            height: trackScale.bandwidth(),
+            /**
+             * The start position of the track group.
+             */
+            y: trackScale(track.trackId) ?? 0,
+            data: track,
+          };
+        }),
+      };
+    });
+  }, [visibleRows, yBandwidth, yScaleStart]);
+
+  return <>{children(rowGroup)}</>;
 };

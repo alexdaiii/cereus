@@ -26,7 +26,7 @@ export type CereusBlockData = {
   /**
    * Gaps in the block.
    */
-  gaps: CereusBlockGap[];
+  gaps?: CereusBlockGap[];
 };
 
 export type CereusBlockGap = {
@@ -72,10 +72,13 @@ export type CereusHeatmapData = {
 
 export type CereusHeatmapTrack = TrackData<"heatmap", CereusHeatmapData[]>;
 
-export type CereusTrackData =
+/**
+ * The types of tracks that Cereus supports out of the box.
+ */
+export type CereusTracks =
   | CereusSequenceTrack
   | CereusBlockTrack
   | CereusPointTrack
   | CereusHeatmapTrack;
 
-export type CereusRowData = RowData<CereusTrackData>;
+export type CereusRowData = RowData<CereusTracks>;
