@@ -1,4 +1,9 @@
-import {BandScaleConfig, scaleBand} from "@visx/scale";
+import {
+  BandScaleConfig,
+  LinearScaleConfig,
+  scaleBand,
+  scaleLinear,
+} from "@visx/scale";
 import {ReactNode, useMemo} from "react";
 
 import {useRange} from "@/core";
@@ -9,7 +14,10 @@ type CereusScalesProviderProps = {
   /**
    * Configuration for the xScale.
    */
-  xScaleConfig?: Omit<BandScaleConfig<number>, "type" | "domain" | "range">;
+  xScaleConfig?: Omit<
+    Omit<LinearScaleConfig<number>, "type">,
+    "type" | "domain" | "range"
+  >;
   /**
    * y scale padding inner
    * @default 0
@@ -20,17 +28,6 @@ type CereusScalesProviderProps = {
    * @default 0
    */
   yScalePaddingOuter?: number;
-};
-
-/**
- * Generates a range of numbers from min to max. [min, max]
- * @param min The number to start at, including.
- * @param max The number to stop at, inclusive
- */
-const range = function* (min: number, max: number) {
-  for (let i = min; i <= max; i++) {
-    yield i;
-  }
 };
 
 export const CereusScalesProvider = ({
@@ -52,8 +49,8 @@ export const CereusScalesProvider = ({
   // calculate the xScale - use a scaleBand for now
   // SEE: https://observablehq.com/@d3/scale-ticks#responsive for how to do reactive ticks
   const xScale = useMemo(() => {
-    return scaleBand({
-      domain: Array.from(range(domainMin, domainMax)),
+    return scaleLinear({
+      domain: [domainMin, domainMax],
       range: [minX, maxX],
       ...xScaleConfig,
     });

@@ -12,7 +12,7 @@ describe("createUseDomainHook", () => {
   });
 
   it("should return the domain context default values when not in provider", () => {
-    const expected = {
+    const expected: DomainContextType<RowData> = {
       domainMin: -256,
       domainMax: 256,
       data: [
@@ -29,6 +29,13 @@ describe("createUseDomainHook", () => {
           ],
         },
       ],
+      visibleRows: [],
+      visibleRowIds: [],
+      visibleRowsCount: 0,
+      visibleTrackIds: [],
+      visibleTracks: [],
+      visibleTracksCount: 0,
+      visibleTracksCountPerRow: [],
     };
 
     const testContext = createContext<DomainContextType<RowData>>(expected);
@@ -41,7 +48,7 @@ describe("createUseDomainHook", () => {
   });
 
   it("should return the domain context values when in provider", () => {
-    const original = {
+    const original: DomainContextType<RowData> = {
       domainMin: -512,
       domainMax: 512,
       data: [
@@ -58,9 +65,16 @@ describe("createUseDomainHook", () => {
           ],
         },
       ],
+      visibleRows: [],
+      visibleRowIds: [],
+      visibleRowsCount: 0,
+      visibleTrackIds: [],
+      visibleTracks: [],
+      visibleTracksCount: 0,
+      visibleTracksCountPerRow: [],
     };
 
-    const testContext = createContext<DomainContextType<RowData>>(original);
+    const testContext = createContext(original);
 
     const useDomain = createUseDomainHook(testContext);
 
@@ -81,6 +95,32 @@ describe("createUseDomainHook", () => {
           ],
         },
       ],
+      visibleRows: [
+        {
+          rowId: "row-0",
+          title: "Row 0",
+          visible: true,
+          tracks: [
+            {
+              trackId: "track-0",
+              trackType: "track-type-0",
+              data: undefined,
+            },
+          ],
+        },
+      ],
+      visibleRowIds: ["row-0"],
+      visibleRowsCount: 1,
+      visibleTrackIds: ["track-0"],
+      visibleTracks: [
+        {
+          trackId: "track-0",
+          trackType: "track-type-0",
+          data: undefined,
+        },
+      ],
+      visibleTracksCount: 1,
+      visibleTracksCountPerRow: [1],
     };
 
     const {result} = renderHook(() => useDomain(), {

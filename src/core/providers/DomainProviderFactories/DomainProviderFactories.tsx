@@ -3,7 +3,7 @@ import {Context, ReactNode, useMemo} from "react";
 import {DomainContextType} from "@/core/context";
 import {RowData} from "@/core/types";
 
-type DomainProviderProps<T extends RowData> = {
+export type DomainProviderProps<T extends RowData> = {
   children: ReactNode;
   /**
    * The minimum value of the domain.
@@ -73,6 +73,7 @@ const calculateVisibleRows = <T extends RowData>(data: T[]) => {
 
   for (let i = 0; i < data.length; i++) {
     if (!data[i].visible) {
+      visibleTracksCountPerRow.push(0);
       continue;
     }
 
