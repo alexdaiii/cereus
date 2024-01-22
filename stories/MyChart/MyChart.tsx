@@ -310,7 +310,7 @@ const PlotArea = () => {
 
   return (
     <PlotAreaPositioner>
-      <rect width={width} height={height} fill="#16a34a" />
+      <rect width={width} height={height} fill="#f5f5f5" />
       <CereusPlot paddingInnerTrack={0.1}>
         {rowGroup => {
           return rowGroup.map(row => {
@@ -320,10 +320,19 @@ const PlotArea = () => {
                   return (
                     <Bar
                       key={`track-group-${row.index}-${track.index}-${track.data.trackId}`}
-                      width={width}
+                      width={track.width}
                       height={track.height}
                       y={track.y}
                       fill={getColor(track.data)}
+                      onClick={() => {
+                        const clickData = {
+                          trackData: track.data,
+                          rowId: row.rowId,
+                          rowTitle: row.rowTitle,
+                        };
+
+                        alert(JSON.stringify(clickData));
+                      }}
                     />
                   );
                 })}
@@ -347,7 +356,7 @@ const getColor = (track: CereusTracks) => {
       return "#737373";
 
     case "heatmap":
-      return "#a7f3d0";
+      return "#0d9488";
 
     case "point":
       return "#ca8a04";

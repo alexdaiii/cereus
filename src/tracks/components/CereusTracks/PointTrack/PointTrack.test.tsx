@@ -2,15 +2,19 @@ import "@testing-library/jest-dom";
 import {render} from "@testing-library/react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {CereusPlot} from "./CereusPlot";
+import {PointTrack} from "./PointTrack";
 
-describe("CereusPlot", () => {
+describe("PointTrack", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("should render without crashing", () => {
-    render(<CereusPlot />);
+    render(
+      <PointTrack>
+        <></>
+      </PointTrack>,
+    );
 
     expect(true).toBeTruthy();
   });

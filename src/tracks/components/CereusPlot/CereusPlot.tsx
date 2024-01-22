@@ -1,17 +1,34 @@
 import {scaleBand} from "@visx/scale";
 import {ReactNode, useMemo} from "react";
 
+import {usePlotAreaStyle} from "@/core";
 import {CereusTracks, useCereusDomain, useCereusScale} from "@/tracks";
 
 export type CereusRowGroupType = {
   index: number;
   y0: number;
+  rowId: string;
+  rowTitle: string;
   tracks: CereusTrackGroupType[];
 };
 
 export type CereusTrackGroupType = {
   index: number;
+  /**
+   * The height of the track group. It is the bandwidth of the track scale.
+   */
   height: number;
+  /**
+   * The width of the track group. Value is the same as:
+   *
+   * ```ts
+   * const {width} = usePlotAreaStyle();
+   * ```
+   */
+  width: number;
+  /**
+   * The y start position of a track
+   */
   y: number;
   data: CereusTracks;
 };
@@ -35,6 +52,7 @@ export const CereusPlot = ({
 }: CereusPlotProps) => {
   const {visibleRows} = useCereusDomain();
   const {yScaleStart, yBandwidth} = useCereusScale();
+  const {width} = usePlotAreaStyle();
 
   /**
    * Similar to https://github.com/airbnb/visx/blob/master/packages/visx-shape/src/shapes/BarGroupHorizontal.tsx
@@ -54,10 +72,13 @@ export const CereusPlot = ({
          * The start position of the row group.
          */
         y0: yScaleStart(row.rowId) ?? 0,
+        rowId: row.rowId,
+        rowTitle: row.title,
         tracks: row.tracks.map((track, j) => {
           return {
             index: j,
             height: trackScale.bandwidth(),
+            width,
             /**
              * The start position of the track group.
              */
@@ -67,7 +88,7 @@ export const CereusPlot = ({
         }),
       };
     });
-  }, [paddingInnerTrack, visibleRows, yBandwidth, yScaleStart]);
+  }, [paddingInnerTrack, visibleRows, width, yBandwidth, yScaleStart]);
 
-  return <>{children(rowGroup)}</>;
+  return children ? <>{children(rowGroup)}</> : null;
 };
