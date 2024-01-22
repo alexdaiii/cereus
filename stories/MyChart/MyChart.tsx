@@ -211,7 +211,7 @@ const MyPlot = () => {
   const {width, height} = useParentSize();
 
   return (
-    <CereusScalesProvider yScalePaddingInner={1} yScalePaddingOuter={1}>
+    <CereusScalesProvider yScalePaddingInner={0.5} yScalePaddingOuter={0.25}>
       <svg width={width} height={height}>
         <rect width={width} height={height} fill="#fb923c" />
         <MyGraphArea>
@@ -226,14 +226,15 @@ const MyPlot = () => {
               },
             }}
           />
+          <PlotArea />
           <CereusAxisLeft
+            left
             axisProps={{
               tickLabelProps: {
                 className: "text-xl",
               },
             }}
           />
-          <PlotArea />
         </MyGraphArea>
       </svg>
     </CereusScalesProvider>
@@ -310,7 +311,7 @@ const PlotArea = () => {
   return (
     <PlotAreaPositioner>
       <rect width={width} height={height} fill="#16a34a" />
-      <CereusPlot>
+      <CereusPlot paddingInnerTrack={0.1}>
         {rowGroup => {
           return rowGroup.map(row => {
             return (
@@ -343,7 +344,7 @@ const getColor = (track: CereusTracks) => {
       return "#7f1d1d";
 
     case "block":
-      return "#2e1065";
+      return "#737373";
 
     case "heatmap":
       return "#a7f3d0";
@@ -352,6 +353,6 @@ const getColor = (track: CereusTracks) => {
       return "#ca8a04";
 
     default:
-      return "#57534e";
+      return "#1e293b";
   }
 };

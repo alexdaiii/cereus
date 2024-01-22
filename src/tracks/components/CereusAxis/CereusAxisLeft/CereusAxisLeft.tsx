@@ -18,27 +18,22 @@ export const CereusAxisLeft = ({
   axisProps,
 }: CereusAxisLeftProps) => {
   const {yScaleMiddle} = useCereusScale();
-  const {paddingLeft} = useAxisLeftStyle();
+  const {paddingLeft, width} = useAxisLeftStyle();
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <AxisLeftPositioner {...groupProps}>
       {left ? (
         <AxisLeft
-          left={paddingLeft}
+          left={paddingLeft + width}
           scale={yScaleMiddle}
           hideAxisLine
-          // tickTransform={val => {
-          //   const bandwidth = yBandwidth.get(val) ?? 0;
-          //
-          //   return `translate(0, ${yScale(val)} - ${bandwidth / 2})`;
-          // }}
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           {...axisProps}
         />
       ) : (
         <AxisRight
-          left={paddingLeft}
+          left={paddingLeft + width}
           scale={yScaleMiddle}
           hideAxisLine
           /* eslint-disable-next-line react/jsx-props-no-spreading */
