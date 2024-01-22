@@ -17,6 +17,36 @@ export type DomainContextType<T extends RowData> = {
    * Your data
    */
   data: T[];
+  // Computed values
+  /**
+   * Visible rows (computed)
+   */
+  visibleRows: T[];
+  /**
+   * Visible row IDs (computed)
+   */
+  visibleRowIds: string[];
+  /**
+   * The number of visible rows (computed)
+   */
+  visibleRowsCount: number;
+  /**
+   * Visible tracks (computed)
+   */
+  visibleTracks: T["tracks"][number][];
+  /**
+   * Visible track IDs (computed)
+   */
+  visibleTrackIds: string[];
+  /**
+   * The number of visible tracks (computed)
+   */
+  visibleTracksCount: number;
+  /**
+   * The number of visible tracks in each row. The index of the array
+   * corresponds to the index of the row in the `data` array.
+   */
+  visibleTracksCountPerRow: number[];
 };
 
 /**
@@ -52,5 +82,13 @@ export const createDomainContext = <T extends RowData>() => {
     domainMin: 0,
     domainMax: 0,
     data: [],
+    // Computed values
+    visibleRows: [],
+    visibleRowIds: [],
+    visibleRowsCount: 0,
+    visibleTracks: [],
+    visibleTrackIds: [],
+    visibleTracksCount: 0,
+    visibleTracksCountPerRow: [],
   });
 };
