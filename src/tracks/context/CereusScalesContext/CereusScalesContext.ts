@@ -11,7 +11,12 @@ export type CereusScalesContextType = {
    * band scale. The return value of this scale is the start position
    * of the band (just like a band scale).
    */
-  yScale: ReturnType<typeof scaleOrdinal<string, number>>;
+  yScaleStart: ReturnType<typeof scaleOrdinal<string, number>>;
+  /**
+   * Same as the yScaleStart, but returns the middle of the band.
+   * This is useful for positioning the text labels.
+   */
+  yScaleMiddle: ReturnType<typeof scaleOrdinal<string, number>>;
   /**
    * The bandwidth of each y-axis band. This is a map of row IDs to
    * the bandwidth of that row.
@@ -24,7 +29,11 @@ export const CereusScalesContext = createContext<CereusScalesContextType>({
     domain: [0, 0],
     range: [0, 0],
   }),
-  yScale: scaleOrdinal({
+  yScaleStart: scaleOrdinal({
+    domain: [""],
+    range: [0, 0],
+  }),
+  yScaleMiddle: scaleOrdinal({
     domain: [""],
     range: [0, 0],
   }),

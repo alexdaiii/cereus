@@ -54,8 +54,8 @@ export const CereusScalesProvider = ({
   }, [domainMin, domainMax, minX, maxX, xScaleConfig]);
 
   // yScale is proportional to how many visible tracks there are per row
-  const {yScale, yBandwidth} = useMemo(() => {
-    return scaleBandProportional(
+  const {yScaleStart, yBandwidth, yScaleMiddle} = useMemo(() => {
+    const {yScaleStart, yBandwidth} = scaleBandProportional(
       maxY,
       minY,
       visibleRowIds,
@@ -64,6 +64,12 @@ export const CereusScalesProvider = ({
       yScalePaddingInner,
       yScalePaddingOuter,
     );
+    const yScaleMiddle = middleBandScale(yScaleStart, yBandwidth);
+    return {
+      yScaleStart,
+      yBandwidth,
+      yScaleMiddle,
+    };
   }, [
     maxY,
     minY,
@@ -79,8 +85,9 @@ export const CereusScalesProvider = ({
     <CereusScalesContext.Provider
       value={{
         xScale,
-        yScale,
+        yScaleStart,
         yBandwidth,
+        yScaleMiddle,
       }}
     >
       {children}
@@ -133,7 +140,7 @@ const scaleBandProportional = (
   // manually create a "band" scale that is proportional to the number of tracks
   // per row
   return {
-    yScale: scaleOrdinal({
+    yScaleStart: scaleOrdinal({
       domain: visibleRowIds,
       range: range,
     }),
@@ -182,4 +189,22 @@ const createProportionalRange = (
     range,
     bandwidth,
   };
+};
+
+/**
+ * Creates an ordinal scale that returns the position in the middle
+ * of each band.
+ */
+const middleBandScale = (
+  scale: ReturnType<typeof scaleOrdinal<string, number>>,
+  bandwidth: Map<string, number>,
+) => {
+  return scaleOrdinal({
+    domain: scale.domain(),
+    range: scale.domain().map(val => {
+      const bandSize = bandwidth.get(val) ?? 0;
+
+      return scale(val) + bandSize / 2;
+    }),
+  });
 };

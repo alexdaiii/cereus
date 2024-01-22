@@ -1,3 +1,5 @@
+import {scaleBand} from "@visx/scale";
+
 type TestScalingProps = {};
 
 export const TestScaling = ({}: TestScalingProps) => {
@@ -27,6 +29,17 @@ export const TestScaling = ({}: TestScalingProps) => {
 
   const paddingSize = remainingHeight / numPadding;
 
+  const yScale = scaleBand({
+    domain: numTracksPerRow.map((_, i) => `${i}`),
+    range: [0, height],
+  });
+
+  const vals = numTracksPerRow.map((_, i) => {
+    const y = yScale(`${i}`);
+
+    return y;
+  });
+
   return (
     <>
       <div>Num Tracks Per Row: {JSON.stringify(numTracksPerRow)}</div>
@@ -36,6 +49,8 @@ export const TestScaling = ({}: TestScalingProps) => {
       <div>Size: {JSON.stringify(size)}</div>
       <div>Remaining Height: {remainingHeight}</div>
       <div>Padding Size: {paddingSize}</div>
+      <div>Y Scale: {JSON.stringify(yScale.domain())}</div>
+      <div>Y pos: {JSON.stringify(vals)}</div>
     </>
   );
 };

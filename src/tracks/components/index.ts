@@ -1,2 +1,1 @@
-export * from "./CereusAxisTop";
-export * from "./CereusAxisLeft";
+export * from "./CereusAxis";

@@ -1,45 +1,46 @@
 import {AxisLeft, AxisRight} from "@visx/axis";
 
-import {AxisLeftPositioner} from "@/core";
+import {AxisLeftPositioner, useAxisLeftStyle} from "@/core";
 import {useCereusScale} from "@/tracks";
 import {CereusAxisProps} from "@/tracks/components/CereusAxis/types";
 
 type CereusAxisLeftProps = {
   /**
    * Render a left or right @visx/axis.
-   * @default true
+   * @default false
    */
   left?: boolean;
 } & CereusAxisProps;
 
 export const CereusAxisLeft = ({
-  left = true,
+  left = false,
   groupProps,
   axisProps,
-  axisClassName,
-  labelClassName,
-  tickClassName,
 }: CereusAxisLeftProps) => {
-  const {yScale} = useCereusScale();
+  const {yScaleMiddle} = useCereusScale();
+  const {paddingLeft} = useAxisLeftStyle();
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <AxisLeftPositioner {...groupProps}>
       {left ? (
         <AxisLeft
-          scale={yScale}
-          axisClassName={axisClassName}
-          labelClassName={labelClassName}
-          tickClassName={tickClassName}
+          left={paddingLeft}
+          scale={yScaleMiddle}
+          hideAxisLine
+          // tickTransform={val => {
+          //   const bandwidth = yBandwidth.get(val) ?? 0;
+          //
+          //   return `translate(0, ${yScale(val)} - ${bandwidth / 2})`;
+          // }}
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           {...axisProps}
         />
       ) : (
         <AxisRight
-          scale={yScale}
-          axisClassName={axisClassName}
-          labelClassName={labelClassName}
-          tickClassName={tickClassName}
+          left={paddingLeft}
+          scale={yScaleMiddle}
+          hideAxisLine
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           {...axisProps}
         />

@@ -21,6 +21,7 @@ import {
   usePlotAreaStyle,
 } from "../../src";
 import {
+  CereusAxisLeft,
   CereusAxisTop,
   CereusDomainProvider,
   CereusRowData,
@@ -110,16 +111,23 @@ const MyPlot = () => {
         <rect width={width} height={height} fill="#fb923c" />
         <MyGraphArea>
           <TopAxisArea />
-          <CereusAxisTop
-            axisProps={{
-              tickLabelProps: {
-                className: "text-xs",
-              },
-            }}
-          />
           <BottomAxisArea />
           <LeftAxisArea />
           <RightAxisArea />
+          <CereusAxisTop
+            axisProps={{
+              tickLabelProps: {
+                className: "text-xl",
+              },
+            }}
+          />
+          <CereusAxisLeft
+            axisProps={{
+              tickLabelProps: {
+                className: "text-xl",
+              },
+            }}
+          />
           <PlotArea />
         </MyGraphArea>
       </svg>
