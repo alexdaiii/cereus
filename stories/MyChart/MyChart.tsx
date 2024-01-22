@@ -20,7 +20,12 @@ import {
   useParentSize,
   usePlotAreaStyle,
 } from "../../src";
-import {CereusDomainProvider, CereusRowData} from "../../src/tracks";
+import {
+  CereusAxisTop,
+  CereusDomainProvider,
+  CereusRowData,
+  CereusScalesProvider,
+} from "../../src/tracks";
 
 type MyChartProps = {
   margin?: GraphItemMargin;
@@ -64,6 +69,7 @@ export const MyChart = ({
 }: MyChartProps) => {
   return (
     <CereusDomainProvider domainMax={sequence.length} data={data}>
+      <div>Hi</div>
       <div
         style={{
           aspectRatio,
@@ -75,6 +81,7 @@ export const MyChart = ({
             margin={margin}
             topAxis={{
               height: topAxisHeight,
+              paddingTop: 10,
             }}
             rightAxis={{
               width: rightAxisWidth,
@@ -98,16 +105,25 @@ const MyPlot = () => {
   const {width, height} = useParentSize();
 
   return (
-    <svg width={width} height={height}>
-      <rect width={width} height={height} fill="#fb923c" />
-      <MyGraphArea>
-        <TopAxisArea />
-        <BottomAxisArea />
-        <LeftAxisArea />
-        <RightAxisArea />
-        <PlotArea />
-      </MyGraphArea>
-    </svg>
+    <CereusScalesProvider>
+      <svg width={width} height={height}>
+        <rect width={width} height={height} fill="#fb923c" />
+        <MyGraphArea>
+          <TopAxisArea />
+          <CereusAxisTop
+            axisProps={{
+              tickLabelProps: {
+                className: "text-xs",
+              },
+            }}
+          />
+          <BottomAxisArea />
+          <LeftAxisArea />
+          <RightAxisArea />
+          <PlotArea />
+        </MyGraphArea>
+      </svg>
+    </CereusScalesProvider>
   );
 };
 
@@ -134,11 +150,21 @@ const createAxisArea = (
   }) => JSX.Element,
 ) => {
   return function AxisArea() {
-    const {width, height} = hook();
+    const {
+      width,
+      height,
+      paddingTop,
+      paddingBottom,
+      paddingRight,
+      paddingLeft,
+    } = hook();
+
+    const totalWidth = width + paddingLeft + paddingRight;
+    const totalHeight = height + paddingTop + paddingBottom;
 
     return (
       <Positioner>
-        <rect width={width} height={height} fill={color} />
+        <rect width={totalWidth} height={totalHeight} fill={color} />
       </Positioner>
     );
   };

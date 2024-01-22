@@ -39,7 +39,7 @@ describe("createGetVisibleRowsHook", () => {
     ["1 row, not visible", [false], 0, []],
     ["multiple rows", [true, true, false, true, false, true], 4, [5, 3, 1, 0]],
   ])(
-    "Should return num visible rows when there are %s",
+    "Should return only the rows that have visible set to true when %s",
     (_, visible, expected, idx) => {
       const useGetVisibleRows = createGetVisibleRowsHook(context);
 

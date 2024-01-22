@@ -24,7 +24,7 @@ export const createGetVisibleTracksHook = <T extends RowData>(
 /**
  * Factory that returns a hook that returns the visible track IDs.
  */
-export const createGetVisibleTrackIDsHook = <T extends RowData>(
+export const createGetVisibleTrackIdsHook = <T extends RowData>(
   DomainContext: Context<DomainContextType<T>>,
 ) => {
   return () => {
@@ -57,5 +57,23 @@ export const createGetVisibleTrackCountHook = <T extends RowData>(
     }
 
     return numVisibleTracks;
+  };
+};
+
+/**
+ * Factory that returns the number of visible tracks per row.
+ */
+export const createGetVisibleTrackCountPerRowHook = <T extends RowData>(
+  DomainContext: Context<DomainContextType<T>>,
+) => {
+  return () => {
+    const {data} = useContext(DomainContext);
+
+    const numVisibleTracksPerRow = [];
+    for (let i = 0; i < data.length; i++) {
+      numVisibleTracksPerRow.push(+data[i].visible * data[i].tracks.length);
+    }
+
+    return numVisibleTracksPerRow;
   };
 };

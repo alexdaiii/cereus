@@ -1,5 +1,5 @@
 import {Group} from "@visx/group";
-import {ComponentProps, ReactNode} from "react";
+import {ComponentProps} from "react";
 
 import {
   useAxisBottomStyle,
@@ -11,13 +11,9 @@ import {
 } from "@/core";
 import {GroupOffset} from "@/core/context";
 
-type GraphComponentsPositionerProps = {
-  children: ReactNode;
-  /**
-   * Props for the `Group` component. See https://airbnb.io/visx/docs/group
-   */
-  groupProps?: ComponentProps<typeof Group>;
-};
+// type GraphComponentsPositionerProps = {
+//   children: ReactNode;
+// } & ComponentProps<typeof Group>;
 
 /**
  * Creates a group component that has the top and left offsets applied
@@ -29,8 +25,8 @@ export const createGraphComponentsPositioner = <T extends GroupOffset>(
 ) => {
   return function GraphComponent({
     children,
-    groupProps,
-  }: GraphComponentsPositionerProps) {
+    ...groupProps
+  }: ComponentProps<typeof Group>) {
     const {top, left} = hook();
 
     return (

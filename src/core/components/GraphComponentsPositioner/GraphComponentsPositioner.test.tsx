@@ -50,12 +50,7 @@ describe.each([
             paddingBottom: 0,
           }}
         >
-          <Positioner
-            groupProps={{
-              // @ts-expect-error - test prop
-              "data-testid": "test",
-            }}
-          >
+          <Positioner data-testid="test">
             <div></div>
           </Positioner>
         </Context.Provider>

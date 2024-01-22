@@ -3,8 +3,19 @@ import {createContext} from "react";
 import {RowData} from "@/core/types";
 
 export type DomainContextType<T extends RowData> = {
+  /**
+   * The minimum domain value for the x-axis.
+   * @default 0
+   */
   domainMin: number;
+  /**
+   * The maximum domain value for the x-axis. Usually this is the length
+   * of your sequence track (how many amino acids or nucleotides).
+   */
   domainMax: number;
+  /**
+   * Your data
+   */
   data: T[];
 };
 
