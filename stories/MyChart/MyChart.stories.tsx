@@ -35,14 +35,19 @@ const meta: Meta<MyChartPropsAndCustomArgs> = {
         disable: true,
       },
     },
+    aspectRatio: {
+      table: {
+        disable: true,
+      },
+    },
   },
   render: ({
     marginTop,
     marginBottom,
     marginLeft,
     marginRight,
-    aspectRatioTop,
-    aspectRatioBottom,
+    aspectRatioTop = 16,
+    aspectRatioBottom = 9,
     ...args
   }) => {
     return (
@@ -79,13 +84,34 @@ export const CustomizeMargins: Story = {
   },
   argTypes: {
     domainMax: {
-      control: false,
+      table: {
+        disable: true,
+      },
     },
     domainMin: {
-      control: false,
+      table: {
+        disable: true,
+      },
     },
     aspectRatio: {
-      control: false,
+      table: {
+        disable: true,
+      },
+    },
+    aspectRatioTop: {
+      table: {
+        disable: true,
+      },
+    },
+    aspectRatioBottom: {
+      table: {
+        disable: true,
+      },
+    },
+    maxWidth: {
+      table: {
+        disable: true,
+      },
     },
   },
 };
@@ -137,6 +163,16 @@ export const CustomizeDomain: Story = {
       },
     },
     aspectRatio: {
+      table: {
+        disable: true,
+      },
+    },
+    aspectRatioTop: {
+      table: {
+        disable: true,
+      },
+    },
+    aspectRatioBottom: {
       table: {
         disable: true,
       },
