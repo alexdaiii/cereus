@@ -22,6 +22,11 @@ export type CereusScalesContextType = {
    * the bandwidth of that row.
    */
   yBandwidth: Map<string, number>;
+  /**
+   * The padding between each track. This will be passed to the y1 scale
+   * that gets created for each row
+   */
+  y1ScalePaddingInner: number;
 };
 
 export const CereusScalesContext = createContext<CereusScalesContextType>({
@@ -38,4 +43,5 @@ export const CereusScalesContext = createContext<CereusScalesContextType>({
     range: [0, 0],
   }),
   yBandwidth: new Map(),
+  y1ScalePaddingInner: 0,
 });

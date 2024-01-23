@@ -1,6 +1,3 @@
-import {isEqual} from "lodash";
-import {memo} from "react";
-
 import {GraphItemMargin} from "@/core/context";
 import {
   AxisStyleProvider,
@@ -20,13 +17,13 @@ export type GraphWithAxesProviderProps = {
   GraphAreaParentSize;
 
 /**
- * Unmemoized version of GraphWithAxesProvider.
- * However, it uses the memoized version of AxisStyleProvider so it will
- * still only re-render when the object props change values (not references).
+ * Creates the following providers:
+ * - {@link GraphAreaStyleProvider}
+ * - {@link AxisStyleProvider}
+ * - {@link PlotAreaStyleProvider}
  *
- * @see GraphWithAxesProvider
  */
-export const GraphWithAxesProviderNoMemo = ({
+export const GraphWithAxesProvider = ({
   children,
   parentHeight,
   parentWidth,
@@ -64,47 +61,3 @@ export const GraphWithAxesProviderNoMemo = ({
     </GraphAreaStyleProvider>
   );
 };
-
-/**
- * Memoized version of GraphWithAxesProvider.
- * Memoizes based on deep equality of all props (except children).
- *
- * Creates the following providers:
- * - {@link GraphAreaStyleProvider}
- * - {@link AxisStyleProvider}
- * - {@link PlotAreaStyleProvider}
- */
-export const GraphWithAxesProvider = memo(
-  GraphWithAxesProviderNoMemo,
-  (
-    {
-      parentHeight: prevParentHeight,
-      parentWidth: prevParentWidth,
-      margin: prevMargin,
-      topAxis: prevTopAxis,
-      rightAxis: prevRightAxis,
-      bottomAxis: prevBottomAxis,
-      leftAxis: prevLeftAxis,
-    },
-    {
-      parentHeight: nextParentHeight,
-      parentWidth: nextParentWidth,
-      margin: nextMargin,
-      topAxis: nextTopAxis,
-      rightAxis: nextRightAxis,
-      bottomAxis: nextBottomAxis,
-      leftAxis: nextLeftAxis,
-    },
-  ) => {
-    return (
-      prevParentHeight === nextParentHeight &&
-      prevParentWidth === nextParentWidth &&
-      // lodash deep equality since these are objects
-      isEqual(prevMargin, nextMargin) &&
-      isEqual(prevTopAxis, nextTopAxis) &&
-      isEqual(prevRightAxis, nextRightAxis) &&
-      isEqual(prevBottomAxis, nextBottomAxis) &&
-      isEqual(prevLeftAxis, nextLeftAxis)
-    );
-  },
-);

@@ -53,9 +53,10 @@ export const CereusDomainProviderNoState = ({
             case "block":
               return {
                 ...track,
-                data: track.data.filter(
-                  val => val.begin >= domainMin && val.end <= domainMax,
-                ),
+                data: track.data.filter(val => {
+                  // return !(val.begin > domainMax || val.end < domainMin);
+                  return val.begin <= domainMax && val.end >= domainMin;
+                }),
               };
 
             case "point":

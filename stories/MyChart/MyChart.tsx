@@ -1,5 +1,5 @@
 import {Group} from "@visx/group";
-import {Bar} from "@visx/shape";
+import {Bar, Polygon} from "@visx/shape";
 import {ComponentProps, ReactNode} from "react";
 
 import {
@@ -28,8 +28,13 @@ import {
   CereusRowData,
   CereusScalesProvider,
   CereusTracks,
+  useCereusDomain,
+  useCereusScale,
 } from "../../src/tracks";
-import {CereusPlot} from "../../src/tracks/components/CereusPlot";
+import {
+  CereusPlot,
+  CereusTrackGroupType,
+} from "../../src/tracks/components/CereusPlot";
 
 type MyChartProps = {
   margin?: GraphItemMargin;
@@ -43,6 +48,10 @@ type MyChartProps = {
 
   domainMin?: number;
   domainMax?: number;
+
+  y0ScalePaddingInner?: number;
+  y0ScalePaddingOuter?: number;
+  y1ScalePaddingInner?: number;
 };
 
 const sequence =
@@ -85,6 +94,10 @@ const data: CereusRowData[] = [
             begin: 1,
             end: 10,
           },
+          {
+            begin: 11,
+            end: 25,
+          },
         ],
       },
       {
@@ -92,8 +105,8 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-2",
         data: [
           {
-            begin: 1,
-            end: 10,
+            begin: -10,
+            end: 100,
           },
         ],
       },
@@ -102,8 +115,8 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-3",
         data: [
           {
-            begin: 1,
-            end: 10,
+            begin: 50,
+            end: 75,
           },
         ],
       },
@@ -112,8 +125,8 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-4",
         data: [
           {
-            begin: 1,
-            end: 10,
+            begin: 23,
+            end: 45,
           },
         ],
       },
@@ -179,6 +192,9 @@ export const MyChart = ({
   rightAxisWidth,
   domainMin,
   domainMax,
+  y0ScalePaddingInner,
+  y0ScalePaddingOuter,
+  y1ScalePaddingInner,
 }: MyChartProps) => {
   // const [data, _setData] = useState(getData());
 
@@ -215,82 +231,50 @@ export const MyChart = ({
                 width: leftAxisWidth,
               }}
             >
-              <MyPlot />
+              <CereusScalesProvider
+                y0ScalePaddingInner={y0ScalePaddingInner}
+                y0ScalePaddingOuter={y0ScalePaddingOuter}
+                y1ScalePaddingInner={y1ScalePaddingInner}
+              >
+                <MyPlot />
+              </CereusScalesProvider>
             </GraphWithAxesProvider>
           </ParentSizeProvider>
         </div>
-        {/*<div>*/}
-        {/*  <ResetDomainButton domainMax={domainMax} domainMin={domainMin} />*/}
-        {/*</div>*/}
       </div>
     </CereusDomainProviderNoState>
   );
 };
 
-// const ResetDomainButton = ({
-//   domainMin,
-//   domainMax,
-// }: {
-//   domainMin: number;
-//   domainMax: number;
-// }) => {
-//   const {setDomainMin, setDomainMax} = useCereusDomainSetter();
-//
-//   return (
-//     <div className={"flex gap-2"}>
-//       <button
-//         onClick={() => {
-//           setDomainMin(0);
-//           setDomainMax(sequence.length);
-//         }}
-//         className={"border-2 p-2 rounded-2xl"}
-//       >
-//         Reset domain
-//       </button>
-//       <button
-//         onClick={() => {
-//           setDomainMin(domainMin);
-//           setDomainMax(domainMax);
-//         }}
-//         className={"border-2 p-2 rounded-2xl"}
-//       >
-//         Update domain to Storybook State
-//       </button>
-//     </div>
-//   );
-// };
-
 const MyPlot = () => {
   const {width, height} = useParentSize();
 
   return (
-    <CereusScalesProvider yScalePaddingInner={0.5} yScalePaddingOuter={0.25}>
-      <svg width={width} height={height}>
-        <rect width={width} height={height} fill="#fb923c" />
-        <MyGraphArea>
-          <TopAxisArea />
-          <BottomAxisArea />
-          <LeftAxisArea />
-          <RightAxisArea />
-          <CereusAxisTop
-            axisProps={{
-              tickLabelProps: {
-                className: "text-base",
-              },
-            }}
-          />
-          <PlotArea />
-          <CereusAxisLeft
-            left
-            axisProps={{
-              tickLabelProps: {
-                className: "text-base",
-              },
-            }}
-          />
-        </MyGraphArea>
-      </svg>
-    </CereusScalesProvider>
+    <svg width={width} height={height}>
+      <rect width={width} height={height} fill="#fb923c" />
+      <MyGraphArea>
+        <TopAxisArea />
+        <BottomAxisArea />
+        <LeftAxisArea />
+        <RightAxisArea />
+        <CereusAxisTop
+          axisProps={{
+            tickLabelProps: {
+              className: "text-base",
+            },
+          }}
+        />
+        <PlotArea />
+        <CereusAxisLeft
+          left
+          axisProps={{
+            tickLabelProps: {
+              className: "text-base",
+            },
+          }}
+        />
+      </MyGraphArea>
+    </svg>
   );
 };
 
@@ -364,29 +348,34 @@ const PlotArea = () => {
   return (
     <PlotAreaPositioner>
       <rect width={width} height={height} fill="#f5f5f5" />
-      <CereusPlot paddingInnerTrack={0.1}>
+      <CereusPlot>
         {rowGroup => {
           return rowGroup.map(row => {
             return (
               <Group key={`row-group-${row.index}-${row.y0}`} top={row.y0}>
                 {row.tracks.map(track => {
                   return (
-                    <Bar
+                    <Group
                       key={`track-group-${row.index}-${track.index}-${track.data.trackId}`}
-                      width={track.width}
-                      height={track.height}
-                      y={track.y}
-                      fill={getColor(track.data)}
-                      onClick={() => {
-                        const clickData = {
-                          trackData: track.data,
-                          rowId: row.rowId,
-                          rowTitle: row.rowTitle,
-                        };
+                      top={track.y}
+                    >
+                      <Bar
+                        width={track.width}
+                        height={track.height}
+                        fill={getColor(track.data)}
+                        onClick={() => {
+                          const clickData = {
+                            trackData: track.data,
+                            rowId: row.rowId,
+                            rowTitle: row.rowTitle,
+                          };
 
-                        alert(JSON.stringify(clickData));
-                      }}
-                    />
+                          alert(JSON.stringify(clickData));
+                        }}
+                      />
+                      <BarTrack trackData={track} />
+                      <PointTrack trackData={track} />
+                    </Group>
                   );
                 })}
               </Group>
@@ -415,4 +404,70 @@ const getColor = (track: CereusTracks) => {
     default:
       return "#1e293b";
   }
+};
+
+const BarTrack = ({trackData}: {trackData: CereusTrackGroupType}) => {
+  const {domainMin, domainMax} = useCereusDomain();
+  const {xScale} = useCereusScale();
+
+  if (trackData.data.trackType !== "block") {
+    return null;
+  }
+
+  return trackData.data.data.map((val, index) => {
+    const barStart = Math.max(val.begin, domainMin) - domainMin;
+    const barEnd = Math.min(val.end, domainMax) - domainMin;
+
+    const barWidth = xScale(barEnd) - xScale(barStart);
+    const barStartPx = xScale(barStart);
+
+    return (
+      <Bar
+        key={`block-${trackData.data.trackId}-${val.begin}-${val.end}-${index}`}
+        height={trackData.height}
+        width={barWidth}
+        x={barStartPx}
+        // y={trackData.y}
+        className={"hover:fill-amber-200"}
+        onClick={() => {
+          const clickData = {
+            trackData,
+            barStartPx,
+            barWidth,
+          };
+
+          alert(JSON.stringify(clickData));
+        }}
+      />
+    );
+  });
+};
+
+const PointTrack = ({trackData}: {trackData: CereusTrackGroupType}) => {
+  const {xScale} = useCereusScale();
+
+  if (trackData.data.trackType !== "point") {
+    return null;
+  }
+
+  return trackData.data.data.positions.map((val, index) => {
+    const pointX = xScale(val);
+
+    return (
+      <Group
+        top={trackData.height / 2}
+        left={pointX}
+        key={`point-${trackData.data.trackId}-${val}-${index}`}
+      >
+        <Polygon
+          sides={8}
+          className={"hover:fill-emerald-400"}
+          size={trackData.height / 2}
+          onClick={() => {
+            alert(`point: ${val}`);
+          }}
+        />
+      </Group>
+    );
+  });
 };

@@ -18,20 +18,27 @@ type CereusScalesProviderProps = {
    * 1 would mean that the padding is the same size as 1 track.
    * @default 0
    */
-  yScalePaddingInner?: number;
+  y0ScalePaddingInner?: number;
   /**
    * y scale padding outer expressed as a percent of 1 track. So a value of
    * 1 would mean that the padding is the same size as 1 track.
    * @default 0
    */
-  yScalePaddingOuter?: number;
+  y0ScalePaddingOuter?: number;
+  /**
+   * The padding between each track. This will be passed to the y1 scale
+   * that gets created for each row
+   * @default 0
+   */
+  y1ScalePaddingInner?: number;
 };
 
 export const CereusScalesProvider = ({
   children,
   xScaleConfig,
-  yScalePaddingInner = 0,
-  yScalePaddingOuter = 0,
+  y0ScalePaddingInner = 0,
+  y0ScalePaddingOuter = 0,
+  y1ScalePaddingInner = 0,
 }: CereusScalesProviderProps) => {
   const {
     domainMin,
@@ -60,8 +67,8 @@ export const CereusScalesProvider = ({
       visibleRowIds,
       visibleTracksCount,
       visibleTracksCountPerRow,
-      yScalePaddingInner,
-      yScalePaddingOuter,
+      y0ScalePaddingInner,
+      y0ScalePaddingOuter,
     );
     const yScaleMiddle = middleBandScale(yScaleStart, yBandwidth);
     return {
@@ -75,8 +82,8 @@ export const CereusScalesProvider = ({
     visibleRowIds,
     visibleTracksCount,
     visibleTracksCountPerRow,
-    yScalePaddingInner,
-    yScalePaddingOuter,
+    y0ScalePaddingInner,
+    y0ScalePaddingOuter,
   ]);
 
   return (
@@ -86,6 +93,7 @@ export const CereusScalesProvider = ({
         yScaleStart,
         yBandwidth,
         yScaleMiddle,
+        y1ScalePaddingInner,
       }}
     >
       {children}

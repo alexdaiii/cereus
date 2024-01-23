@@ -35,23 +35,15 @@ export type CereusTrackGroupType = {
 
 export type CereusPlotProps = {
   children: (rowGroup: CereusRowGroupType[]) => ReactNode;
-  /**
-   * Padding between each track. Expressed as a percentage of the track height.
-   * @default 0
-   */
-  paddingInnerTrack?: number;
 };
 
 /**
  * Similar to a `<BarGroup>` or `<BarGroupHorizontal>` from @visx/shape.
  * @constructor
  */
-export const CereusPlot = ({
-  children,
-  paddingInnerTrack = 0,
-}: CereusPlotProps) => {
+export const CereusPlot = ({children}: CereusPlotProps) => {
   const {visibleRows} = useCereusDomain();
-  const {yScaleStart, yBandwidth} = useCereusScale();
+  const {yScaleStart, yBandwidth, y1ScalePaddingInner} = useCereusScale();
   const {width} = usePlotAreaStyle();
 
   /**
@@ -63,7 +55,7 @@ export const CereusPlot = ({
       const trackScale = scaleBand({
         domain: row.tracks.map(track => track.trackId),
         range: [0, rowBandwidth],
-        paddingInner: paddingInnerTrack,
+        paddingInner: y1ScalePaddingInner,
       });
 
       return {
@@ -88,7 +80,7 @@ export const CereusPlot = ({
         }),
       };
     });
-  }, [paddingInnerTrack, visibleRows, width, yBandwidth, yScaleStart]);
+  }, [visibleRows, width, y1ScalePaddingInner, yBandwidth, yScaleStart]);
 
   return children ? <>{children(rowGroup)}</> : null;
 };

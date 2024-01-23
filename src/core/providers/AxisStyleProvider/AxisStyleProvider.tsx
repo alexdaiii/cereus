@@ -1,5 +1,4 @@
-import {isEqual} from "lodash";
-import {ReactNode, memo} from "react";
+import {ReactNode} from "react";
 
 import {GraphItemPadding} from "@/core/context";
 import {useGraphAreaStyle} from "@/core/hooks";
@@ -88,9 +87,13 @@ const DEFAULT_VERTICAL_AXIS = {
 } as const;
 
 /**
- * AxisStyleProvider without memoization. You probably want to use {@link AxisStyleProvider} instead.
+ * A high level component that crates all four AxisStyleProviders (Top, Bottom, Left, Right).
+ * Should be used inside a `<GraphAreaStyleProvider/>`. {@link GraphAreaStyleProvider}
+ *
+ * Automatically calculates the *width* of {@link AxisTopStyleProvider} and {@link AxisBottomStyleProvider}
+ * and the *height* of {@link AxisLeftStyleProvider} and {@link AxisRightStyleProvider}.
  */
-export const AxisStyleProviderNoMemo = ({
+export const AxisStyleProvider = ({
   children,
   topAxis,
   rightAxis,
@@ -166,37 +169,3 @@ export const AxisStyleProviderNoMemo = ({
     </AxisTopStyleProvider>
   );
 };
-
-/**
- * A high level component that crates all four AxisStyleProviders (Top, Bottom, Left, Right).
- * Should be used inside a `<GraphAreaStyleProvider/>`. {@link GraphAreaStyleProvider}
- *
- * Automatically calculates the *width* of {@link AxisTopStyleProvider} and {@link AxisBottomStyleProvider}
- * and the *height* of {@link AxisLeftStyleProvider} and {@link AxisRightStyleProvider}.
- *
- * Memoized with `isEqual` from `lodash` (all props except `children` are compared).
- */
-export const AxisStyleProvider = memo(
-  AxisStyleProviderNoMemo,
-  (
-    {
-      leftAxis: oldLeftAxis,
-      rightAxis: oldRightAxis,
-      topAxis: oldTopAxis,
-      bottomAxis: oldBottomAxis,
-    },
-    {
-      leftAxis: newLeftAxis,
-      rightAxis: newRightAxis,
-      topAxis: newTopAxis,
-      bottomAxis: newBottomAxis,
-    },
-  ) => {
-    return (
-      isEqual(oldLeftAxis, newLeftAxis) &&
-      isEqual(oldRightAxis, newRightAxis) &&
-      isEqual(oldTopAxis, newTopAxis) &&
-      isEqual(oldBottomAxis, newBottomAxis)
-    );
-  },
-);
