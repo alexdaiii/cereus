@@ -1,11 +1,11 @@
-import {Meta, StoryObj} from '@storybook/react';
+import {Meta, StoryObj} from "@storybook/react";
 
-import {TrackFactory} from './TrackFactory';
+import {TrackFactory} from "./TrackFactory";
 
 const meta: Meta<typeof TrackFactory> = {
   component: TrackFactory,
-  title: 'TrackFactory',
-  tags: ['autodocs'], // Add your tags here
+  title: "TrackFactory",
+  tags: ["autodocs"], // Add your tags here
   args: {},
   argTypes: {},
 };

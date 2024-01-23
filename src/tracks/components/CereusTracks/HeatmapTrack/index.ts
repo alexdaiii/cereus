@@ -1,1 +1,1 @@
-export * from './HeatmapTrack';
+export * from "./HeatmapTrack";

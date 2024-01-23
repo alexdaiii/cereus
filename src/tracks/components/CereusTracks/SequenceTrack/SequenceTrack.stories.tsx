@@ -1,11 +1,11 @@
-import {Meta, StoryObj} from '@storybook/react';
+import {Meta, StoryObj} from "@storybook/react";
 
-import {SequenceTrack} from './SequenceTrack';
+import {SequenceTrack} from "./SequenceTrack";
 
 const meta: Meta<typeof SequenceTrack> = {
   component: SequenceTrack,
-  title: 'SequenceTrack',
-  tags: ['autodocs'], // Add your tags here
+  title: "SequenceTrack",
+  tags: ["autodocs"], // Add your tags here
   args: {},
   argTypes: {},
 };

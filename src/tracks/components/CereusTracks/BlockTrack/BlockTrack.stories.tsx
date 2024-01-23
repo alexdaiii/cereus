@@ -1,11 +1,11 @@
-import {Meta, StoryObj} from '@storybook/react';
+import {Meta, StoryObj} from "@storybook/react";
 
-import {BlockTrack} from './BlockTrack';
+import {BlockTrack} from "./BlockTrack";
 
 const meta: Meta<typeof BlockTrack> = {
   component: BlockTrack,
-  title: 'BlockTrack',
-  tags: ['autodocs'], // Add your tags here
+  title: "BlockTrack",
+  tags: ["autodocs"], // Add your tags here
   args: {},
   argTypes: {},
 };

@@ -1,11 +1,11 @@
-import {Meta, StoryObj} from '@storybook/react';
+import {Meta, StoryObj} from "@storybook/react";
 
-import {TestScaling} from './TestScaling';
+import {TestScaling} from "./TestScaling";
 
 const meta: Meta<typeof TestScaling> = {
   component: TestScaling,
-  title: 'TestScaling',
-  tags: ['autodocs'], // Add your tags here
+  title: "TestScaling",
+  tags: ["autodocs"], // Add your tags here
   args: {},
   argTypes: {},
 };

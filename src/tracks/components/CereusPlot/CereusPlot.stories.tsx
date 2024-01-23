@@ -1,11 +1,11 @@
-import {Meta, StoryObj} from '@storybook/react';
+import {Meta, StoryObj} from "@storybook/react";
 
-import {CereusPlot} from './CereusPlot';
+import {CereusPlot} from "./CereusPlot";
 
 const meta: Meta<typeof CereusPlot> = {
   component: CereusPlot,
-  title: 'CereusPlot',
-  tags: ['autodocs'], // Add your tags here
+  title: "CereusPlot",
+  tags: ["autodocs"], // Add your tags here
   args: {},
   argTypes: {},
 };

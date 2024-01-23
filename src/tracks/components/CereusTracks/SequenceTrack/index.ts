@@ -1,1 +1,1 @@
-export * from './SequenceTrack';
+export * from "./SequenceTrack";

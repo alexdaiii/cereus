@@ -1,1 +1,1 @@
-export * from './PointTrack';
+export * from "./PointTrack";
