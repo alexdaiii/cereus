@@ -1,6 +1,6 @@
 import {Group} from "@visx/group";
 import {Bar} from "@visx/shape";
-import {ComponentProps, ReactNode, useState} from "react";
+import {ComponentProps, ReactNode} from "react";
 
 import {
   AxisBottomPositioner,
@@ -24,7 +24,7 @@ import {
 import {
   CereusAxisLeft,
   CereusAxisTop,
-  CereusDomainProvider,
+  CereusDomainProviderNoState,
   CereusRowData,
   CereusScalesProvider,
   CereusTracks,
@@ -40,125 +40,134 @@ type MyChartProps = {
   bottomAxisHeight?: number;
   leftAxisWidth?: number;
   rightAxisWidth?: number;
+
+  domainMin?: number;
+  domainMax?: number;
 };
 
 const sequence =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
-const getData = (): CereusRowData[] => {
-  return [
-    {
-      rowId: "row-1",
-      title: "Sequence",
-      visible: true,
-      tracks: [
-        {
-          trackType: "sequence",
-          trackId: "row-1-track-1",
-          data: {
-            begin: 1,
-            sequence,
-          },
+const data: CereusRowData[] = [
+  {
+    rowId: "row-1",
+    title: "Sequence",
+    visible: true,
+    tracks: [
+      {
+        trackType: "sequence",
+        trackId: "row-1-track-1",
+        data: {
+          begin: 1,
+          sequence,
         },
-        {
-          trackType: "sequence",
-          trackId: "row-1-track-2",
-          data: {
-            begin: 1,
-            sequence: "foo bar",
-          },
+      },
+      {
+        trackType: "sequence",
+        trackId: "row-1-track-2",
+        data: {
+          begin: 1,
+          sequence: "foo bar",
         },
-      ],
-    },
-    {
-      rowId: "row-2",
-      title: "block",
-      visible: true,
-      tracks: [
-        {
-          trackType: "block",
-          trackId: "row-2-track-1",
-          data: {
-            begin: 1,
-            end: 10,
-          },
-        },
-        {
-          trackType: "block",
-          trackId: "row-2-track-2",
-          data: {
+      },
+    ],
+  },
+  {
+    rowId: "row-2",
+    title: "block",
+    visible: true,
+    tracks: [
+      {
+        trackType: "block",
+        trackId: "row-2-track-1",
+        data: [
+          {
             begin: 1,
             end: 10,
           },
-        },
-        {
-          trackType: "block",
-          trackId: "row-2-track-3",
-          data: {
+        ],
+      },
+      {
+        trackType: "block",
+        trackId: "row-2-track-2",
+        data: [
+          {
             begin: 1,
             end: 10,
           },
-        },
-        {
-          trackType: "block",
-          trackId: "row-2-track-4",
-          data: {
+        ],
+      },
+      {
+        trackType: "block",
+        trackId: "row-2-track-3",
+        data: [
+          {
             begin: 1,
             end: 10,
           },
-        },
-      ],
-    },
-    {
-      rowId: "row-3",
-      title: "point",
-      visible: true,
-      tracks: [
-        {
-          trackType: "point",
-          trackId: "row-2-track-1",
-          data: {
-            positions: [5, 10, 15, 20],
+        ],
+      },
+      {
+        trackType: "block",
+        trackId: "row-2-track-4",
+        data: [
+          {
+            begin: 1,
+            end: 10,
           },
+        ],
+      },
+    ],
+  },
+  {
+    rowId: "row-3",
+    title: "point",
+    visible: true,
+    tracks: [
+      {
+        trackType: "point",
+        trackId: "row-2-track-1",
+        data: {
+          positions: [5, 10, 15, 20],
         },
-      ],
-    },
-    {
-      rowId: "row-4",
-      title: "heatmap",
-      visible: true,
-      tracks: [
-        {
-          trackType: "heatmap",
-          trackId: "row-2-track-1",
-          data: [
-            {
-              bin: 1,
-              count: 14,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      rowId: "row-5",
-      title: "heatmap",
-      visible: false,
-      tracks: [
-        {
-          trackType: "heatmap",
-          trackId: "row-2-track-1",
-          data: [
-            {
-              bin: 6,
-              count: 15,
-            },
-          ],
-        },
-      ],
-    },
-  ];
-};
+      },
+    ],
+  },
+  {
+    rowId: "row-4",
+    title: "heatmap",
+    visible: true,
+    tracks: [
+      {
+        trackType: "heatmap",
+        trackId: "row-2-track-1",
+        data: [
+          {
+            bin: 1,
+            count: 14,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    rowId: "row-5",
+    title: "heatmap",
+    visible: false,
+    tracks: [
+      {
+        trackType: "heatmap",
+        trackId: "row-2-track-1",
+        data: [
+          {
+            bin: 6,
+            count: 15,
+          },
+        ],
+      },
+    ],
+  },
+];
 
 export const MyChart = ({
   margin,
@@ -168,44 +177,88 @@ export const MyChart = ({
   bottomAxisHeight,
   leftAxisWidth,
   rightAxisWidth,
+  domainMin,
+  domainMax,
 }: MyChartProps) => {
-  // FORCE recreating the data every time or the useMemo stuff will not work
-  // (only for demo purposes - do not do this in production)
-  const [data, _setData] = useState(getData());
+  // const [data, _setData] = useState(getData());
+
+  domainMin = domainMin ?? 0;
+  domainMax = domainMax ?? sequence.length;
 
   return (
-    <CereusDomainProvider domainMax={sequence.length} data={data}>
-      <div>Hi</div>
-      <div
-        style={{
-          aspectRatio,
-          maxWidth,
-        }}
-      >
-        <ParentSizeProvider fallbackHeight={500} fallbackWidth={500}>
-          <GraphWithAxesProvider
-            margin={margin}
-            topAxis={{
-              height: topAxisHeight,
-              paddingTop: 10,
-            }}
-            rightAxis={{
-              width: rightAxisWidth,
-            }}
-            bottomAxis={{
-              height: bottomAxisHeight,
-            }}
-            leftAxis={{
-              width: leftAxisWidth,
-            }}
-          >
-            <MyPlot />
-          </GraphWithAxesProvider>
-        </ParentSizeProvider>
+    <CereusDomainProviderNoState
+      domainMin={domainMin}
+      domainMax={domainMax}
+      data={data}
+    >
+      <div className={"flex-col space-y-4"}>
+        <div
+          style={{
+            aspectRatio,
+            maxWidth,
+          }}
+        >
+          <ParentSizeProvider fallbackHeight={500} fallbackWidth={500}>
+            <GraphWithAxesProvider
+              margin={margin}
+              topAxis={{
+                height: topAxisHeight,
+                paddingTop: 10,
+              }}
+              rightAxis={{
+                width: rightAxisWidth,
+              }}
+              bottomAxis={{
+                height: bottomAxisHeight,
+              }}
+              leftAxis={{
+                width: leftAxisWidth,
+              }}
+            >
+              <MyPlot />
+            </GraphWithAxesProvider>
+          </ParentSizeProvider>
+        </div>
+        {/*<div>*/}
+        {/*  <ResetDomainButton domainMax={domainMax} domainMin={domainMin} />*/}
+        {/*</div>*/}
       </div>
-    </CereusDomainProvider>
+    </CereusDomainProviderNoState>
   );
 };
+
+// const ResetDomainButton = ({
+//   domainMin,
+//   domainMax,
+// }: {
+//   domainMin: number;
+//   domainMax: number;
+// }) => {
+//   const {setDomainMin, setDomainMax} = useCereusDomainSetter();
+//
+//   return (
+//     <div className={"flex gap-2"}>
+//       <button
+//         onClick={() => {
+//           setDomainMin(0);
+//           setDomainMax(sequence.length);
+//         }}
+//         className={"border-2 p-2 rounded-2xl"}
+//       >
+//         Reset domain
+//       </button>
+//       <button
+//         onClick={() => {
+//           setDomainMin(domainMin);
+//           setDomainMax(domainMax);
+//         }}
+//         className={"border-2 p-2 rounded-2xl"}
+//       >
+//         Update domain to Storybook State
+//       </button>
+//     </div>
+//   );
+// };
 
 const MyPlot = () => {
   const {width, height} = useParentSize();
@@ -222,7 +275,7 @@ const MyPlot = () => {
           <CereusAxisTop
             axisProps={{
               tickLabelProps: {
-                className: "text-xl",
+                className: "text-base",
               },
             }}
           />
@@ -231,7 +284,7 @@ const MyPlot = () => {
             left
             axisProps={{
               tickLabelProps: {
-                className: "text-xl",
+                className: "text-base",
               },
             }}
           />
@@ -346,8 +399,6 @@ const PlotArea = () => {
 };
 
 const getColor = (track: CereusTracks) => {
-  console.log(track.trackType);
-
   switch (track.trackType) {
     case "sequence":
       return "#7f1d1d";

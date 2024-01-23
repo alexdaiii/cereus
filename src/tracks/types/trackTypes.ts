@@ -24,27 +24,18 @@ export type CereusBlockData = {
    */
   end: number;
   /**
-   * Gaps in the block.
+   * Connect the previous block to this block. If there is no previous block,
+   * this will be ignored.
    */
-  gaps?: CereusBlockGap[];
+  connectPrevious?: boolean;
+  /**
+   * Connect the next block to this block. If there is no next block,
+   * this will be ignored.
+   */
+  connectNext?: boolean;
 };
 
-export type CereusBlockGap = {
-  /**
-   * The beginning of the gap.
-   */
-  begin: number;
-  /**
-   * The end of the gap.
-   */
-  end: number;
-  /**
-   * Whether to connect the previous block to the next block.
-   */
-  isConnected?: boolean;
-};
-
-export type CereusBlockTrack = TrackData<"block", CereusBlockData>;
+export type CereusBlockTrack = TrackData<"block", CereusBlockData[]>;
 
 export type CereusPointData = {
   /**

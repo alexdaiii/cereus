@@ -14,7 +14,7 @@ export type CereusScalesContextType = {
   yScaleStart: ReturnType<typeof scaleOrdinal<string, number>>;
   /**
    * Same as the yScaleStart, but returns the middle of the band.
-   * This is useful for positioning the text labels.
+   * This is useful for positioning the axis.
    */
   yScaleMiddle: ReturnType<typeof scaleOrdinal<string, number>>;
   /**

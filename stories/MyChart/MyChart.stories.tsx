@@ -8,19 +8,43 @@ type MyChartPropsAndCustomArgs = React.ComponentProps<typeof MyChart> & {
   marginRight: number;
   marginBottom: number;
   marginLeft: number;
+  aspectRatioTop: number;
+  aspectRatioBottom: number;
 };
 
 const meta: Meta<MyChartPropsAndCustomArgs> = {
   component: MyChart,
   title: "MyChart",
   tags: ["autodocs"], // Add your tags here
-  args: {},
+  args: {
+    marginTop: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    topAxisHeight: 50,
+    rightAxisWidth: 25,
+    bottomAxisHeight: 33,
+    leftAxisWidth: 75,
+    maxWidth: 700,
+    aspectRatioTop: 16,
+    aspectRatioBottom: 9,
+  },
   argTypes: {
     margin: {
-      control: null,
+      table: {
+        disable: true,
+      },
     },
   },
-  render: ({marginTop, marginBottom, marginLeft, marginRight, ...args}) => {
+  render: ({
+    marginTop,
+    marginBottom,
+    marginLeft,
+    marginRight,
+    aspectRatioTop,
+    aspectRatioBottom,
+    ...args
+  }) => {
     return (
       <MyChart
         // eslint-disable-next-line react/jsx-props-no-spreading
@@ -31,6 +55,7 @@ const meta: Meta<MyChartPropsAndCustomArgs> = {
           marginBottom,
           marginLeft,
         }}
+        aspectRatio={`${aspectRatioTop}/${aspectRatioBottom}`}
       />
     );
   },
@@ -38,6 +63,8 @@ const meta: Meta<MyChartPropsAndCustomArgs> = {
 export default meta;
 
 type Story = StoryObj<MyChartPropsAndCustomArgs>;
+
+export const AllControls: Story = {};
 
 export const CustomizeMargins: Story = {
   args: {
@@ -48,6 +75,76 @@ export const CustomizeMargins: Story = {
     topAxisHeight: 50,
     rightAxisWidth: 25,
     bottomAxisHeight: 33,
-    leftAxisWidth: 12,
+    leftAxisWidth: 75,
+  },
+  argTypes: {
+    domainMax: {
+      control: false,
+    },
+    domainMin: {
+      control: false,
+    },
+    aspectRatio: {
+      control: false,
+    },
+  },
+};
+
+export const CustomizeDomain: Story = {
+  args: {
+    domainMin: 0,
+    domainMax: 100,
+  },
+  argTypes: {
+    marginTop: {
+      table: {
+        disable: true,
+      },
+    },
+    marginRight: {
+      table: {
+        disable: true,
+      },
+    },
+    marginBottom: {
+      table: {
+        disable: true,
+      },
+    },
+    marginLeft: {
+      table: {
+        disable: true,
+      },
+    },
+    topAxisHeight: {
+      table: {
+        disable: true,
+      },
+    },
+    rightAxisWidth: {
+      table: {
+        disable: true,
+      },
+    },
+    bottomAxisHeight: {
+      table: {
+        disable: true,
+      },
+    },
+    leftAxisWidth: {
+      table: {
+        disable: true,
+      },
+    },
+    aspectRatio: {
+      table: {
+        disable: true,
+      },
+    },
+    maxWidth: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
