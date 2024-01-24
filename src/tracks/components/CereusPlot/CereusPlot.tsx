@@ -5,14 +5,32 @@ import {usePlotAreaStyle} from "@/core";
 import {CereusTracks, useCereusDomain, useCereusScale} from "@/tracks";
 
 export type CereusRowGroupType = {
+  /**
+   * The index of the row in the data array.
+   */
   index: number;
+  /**
+   * The start position (top) of the row `<Group>` element.
+   */
   y0: number;
+  /**
+   * The row id.
+   */
   rowId: string;
+  /**
+   * The row title to be displayed.
+   */
   rowTitle: string;
+  /**
+   * The track group data.
+   */
   tracks: CereusTrackGroupType[];
 };
 
 export type CereusTrackGroupType = {
+  /**
+   * The index of the track group in the row.
+   */
   index: number;
   /**
    * The height of the track group. It is the bandwidth of the track scale.
@@ -30,6 +48,9 @@ export type CereusTrackGroupType = {
    * The y start position of a track
    */
   y: number;
+  /**
+   * The track data.
+   */
   data: CereusTracks;
 };
 
@@ -43,7 +64,7 @@ export type CereusPlotProps = {
  */
 export const CereusPlot = ({children}: CereusPlotProps) => {
   const {visibleRows} = useCereusDomain();
-  const {yScaleStart, yBandwidth, y1ScalePaddingInner} = useCereusScale();
+  const {y0ScaleStart, y0Bandwidth, y1ScalePaddingInner} = useCereusScale();
   const {width} = usePlotAreaStyle();
 
   /**
@@ -51,7 +72,7 @@ export const CereusPlot = ({children}: CereusPlotProps) => {
    */
   const rowGroup = useMemo(() => {
     return visibleRows.map((row, i) => {
-      const rowBandwidth = yBandwidth.get(row.rowId) ?? 0;
+      const rowBandwidth = y0Bandwidth.get(row.rowId) ?? 0;
       const trackScale = scaleBand({
         domain: row.tracks.map(track => track.trackId),
         range: [0, rowBandwidth],
@@ -60,10 +81,7 @@ export const CereusPlot = ({children}: CereusPlotProps) => {
 
       return {
         index: i,
-        /**
-         * The start position of the row group.
-         */
-        y0: yScaleStart(row.rowId) ?? 0,
+        y0: y0ScaleStart(row.rowId) ?? 0,
         rowId: row.rowId,
         rowTitle: row.title,
         tracks: row.tracks.map((track, j) => {
@@ -71,16 +89,13 @@ export const CereusPlot = ({children}: CereusPlotProps) => {
             index: j,
             height: trackScale.bandwidth(),
             width,
-            /**
-             * The start position of the track group.
-             */
             y: trackScale(track.trackId) ?? 0,
             data: track,
           };
         }),
       };
     });
-  }, [visibleRows, width, y1ScalePaddingInner, yBandwidth, yScaleStart]);
+  }, [visibleRows, width, y1ScalePaddingInner, y0Bandwidth, y0ScaleStart]);
 
   return children ? <>{children(rowGroup)}</> : null;
 };

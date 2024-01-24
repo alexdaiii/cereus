@@ -11,17 +11,17 @@ export type CereusScalesContextType = {
    * band scale. The return value of this scale is the start position
    * of the band (just like a band scale).
    */
-  yScaleStart: ReturnType<typeof scaleOrdinal<string, number>>;
+  y0ScaleStart: ReturnType<typeof scaleOrdinal<string, number>>;
   /**
    * Same as the yScaleStart, but returns the middle of the band.
    * This is useful for positioning the axis.
    */
-  yScaleMiddle: ReturnType<typeof scaleOrdinal<string, number>>;
+  y0ScaleMiddle: ReturnType<typeof scaleOrdinal<string, number>>;
   /**
    * The bandwidth of each y-axis band. This is a map of row IDs to
    * the bandwidth of that row.
    */
-  yBandwidth: Map<string, number>;
+  y0Bandwidth: Map<string, number>;
   /**
    * The padding between each track. This will be passed to the y1 scale
    * that gets created for each row
@@ -34,14 +34,14 @@ export const CereusScalesContext = createContext<CereusScalesContextType>({
     domain: [0, 0],
     range: [0, 0],
   }),
-  yScaleStart: scaleOrdinal({
+  y0ScaleStart: scaleOrdinal({
     domain: [""],
     range: [0, 0],
   }),
-  yScaleMiddle: scaleOrdinal({
+  y0ScaleMiddle: scaleOrdinal({
     domain: [""],
     range: [0, 0],
   }),
-  yBandwidth: new Map(),
+  y0Bandwidth: new Map(),
   y1ScalePaddingInner: 0,
 });

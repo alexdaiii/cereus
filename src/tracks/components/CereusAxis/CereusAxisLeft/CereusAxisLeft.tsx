@@ -17,7 +17,7 @@ export const CereusAxisLeft = ({
   groupProps,
   axisProps,
 }: CereusAxisLeftProps) => {
-  const {yScaleMiddle} = useCereusScale();
+  const {y0ScaleMiddle} = useCereusScale();
   const {paddingLeft, width} = useAxisLeftStyle();
 
   return (
@@ -26,7 +26,7 @@ export const CereusAxisLeft = ({
       {left ? (
         <AxisLeft
           left={paddingLeft + width}
-          scale={yScaleMiddle}
+          scale={y0ScaleMiddle}
           hideAxisLine
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           {...axisProps}
@@ -34,7 +34,7 @@ export const CereusAxisLeft = ({
       ) : (
         <AxisRight
           left={paddingLeft + width}
-          scale={yScaleMiddle}
+          scale={y0ScaleMiddle}
           hideAxisLine
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           {...axisProps}

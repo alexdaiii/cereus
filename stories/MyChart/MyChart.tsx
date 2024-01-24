@@ -33,6 +33,7 @@ import {
 } from "../../src/tracks";
 import {
   CereusPlot,
+  CereusRowGroupType,
   CereusTrackGroupType,
 } from "../../src/tracks/components/CereusPlot";
 
@@ -345,46 +346,112 @@ const RightAxisArea = createAxisArea(
 const PlotArea = () => {
   const {width, height} = usePlotAreaStyle();
 
+  // return (
+  //   <PlotAreaPositioner>
+  //     <rect width={width} height={height} fill="#f5f5f5" />
+  //     <CereusPlot>
+  //       {rowGroup => {
+  //         return rowGroup.map(row => {
+  //           return (
+  //             <Group key={`row-group-${row.index}-${row.y0}`} top={row.y0}>
+  //               {row.tracks.map(track => {
+  //                 return (
+  //                   <Group
+  //                     key={`track-group-${row.index}-${track.index}-${track.data.trackId}`}
+  //                     top={track.y}
+  //                   >
+  //                     <Bar
+  //                       width={track.width}
+  //                       height={track.height}
+  //                       fill={getColor(track.data)}
+  //                       onClick={() => {
+  //                         const clickData = {
+  //                           trackData: track.data,
+  //                           rowId: row.rowId,
+  //                           rowTitle: row.rowTitle,
+  //                         };
+  //
+  //                         alert(JSON.stringify(clickData));
+  //                       }}
+  //                     />
+  //                     <BarTrack trackData={track} />
+  //                     <PointTrack trackData={track} />
+  //                   </Group>
+  //                 );
+  //               })}
+  //             </Group>
+  //           );
+  //         });
+  //       }}
+  //     </CereusPlot>
+  //   </PlotAreaPositioner>
+  // );
+
   return (
     <PlotAreaPositioner>
       <rect width={width} height={height} fill="#f5f5f5" />
       <CereusPlot>
-        {rowGroup => {
-          return rowGroup.map(row => {
-            return (
-              <Group key={`row-group-${row.index}-${row.y0}`} top={row.y0}>
-                {row.tracks.map(track => {
-                  return (
-                    <Group
-                      key={`track-group-${row.index}-${track.index}-${track.data.trackId}`}
-                      top={track.y}
-                    >
-                      <Bar
-                        width={track.width}
-                        height={track.height}
-                        fill={getColor(track.data)}
-                        onClick={() => {
-                          const clickData = {
-                            trackData: track.data,
-                            rowId: row.rowId,
-                            rowTitle: row.rowTitle,
-                          };
+        {rowGroup => (
+          <RGroup rowGroup={rowGroup}>
+            {tracks => (
+              <TGroup tracks={tracks}>
+                {track => (
+                  <>
+                    <Bar
+                      width={track.width}
+                      height={track.height}
+                      fill={getColor(track.data)}
+                      onClick={() => {
+                        const clickData = {
+                          trackData: track.data,
+                        };
 
-                          alert(JSON.stringify(clickData));
-                        }}
-                      />
-                      <BarTrack trackData={track} />
-                      <PointTrack trackData={track} />
-                    </Group>
-                  );
-                })}
-              </Group>
-            );
-          });
-        }}
+                        alert(JSON.stringify(clickData));
+                      }}
+                    />
+                    <BarTrack trackData={track} />
+                    <PointTrack trackData={track} />
+                  </>
+                )}
+              </TGroup>
+            )}
+          </RGroup>
+        )}
       </CereusPlot>
     </PlotAreaPositioner>
   );
+};
+
+const RGroup = ({
+  children,
+  rowGroup,
+}: {
+  children: (tracks: CereusTrackGroupType[]) => ReactNode;
+  rowGroup: CereusRowGroupType[];
+}) => {
+  return rowGroup.map(row => {
+    return (
+      <Group key={`row-group-${row.index}-${row.y0}`} top={row.y0}>
+        {children(row.tracks)}
+      </Group>
+    );
+  });
+};
+
+const TGroup = ({
+  children,
+  tracks,
+}: {
+  children: (track: CereusTrackGroupType) => ReactNode;
+  tracks: CereusTrackGroupType[];
+}) => {
+  return tracks.map(track => {
+    return (
+      <Group key={`track-group-${track.index}-${track.y}`} top={track.y}>
+        {children(track)}
+      </Group>
+    );
+  });
 };
 
 const getColor = (track: CereusTracks) => {

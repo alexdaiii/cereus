@@ -90,9 +90,9 @@ export const CereusScalesProvider = ({
     <CereusScalesContext.Provider
       value={{
         xScale,
-        yScaleStart,
-        yBandwidth,
-        yScaleMiddle,
+        y0ScaleStart: yScaleStart,
+        y0Bandwidth: yBandwidth,
+        y0ScaleMiddle: yScaleMiddle,
         y1ScalePaddingInner,
       }}
     >
