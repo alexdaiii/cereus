@@ -83,6 +83,7 @@ describe("DomainProvider", () => {
       visibleTracks: [],
       visibleTracksCount: 0,
       visibleTracksCountPerRow: new Map(),
+      rowIdToTitle: new Map(),
     });
 
     TestProvider = createDomainProvider(context, "TestDomainProvider");
@@ -96,6 +97,7 @@ describe("DomainProvider", () => {
         numVisibleRows: 0,
         numVisibleTracks: 0,
         visibleTracksPerRow: new Map(),
+        rowIdToTitle: new Map(),
       },
     ],
     [
@@ -105,6 +107,7 @@ describe("DomainProvider", () => {
         numVisibleRows: 1,
         numVisibleTracks: 0,
         visibleTracksPerRow: new Map([["row-0", 0]]),
+        rowIdToTitle: new Map([["row-0", "Row 0"]]),
       },
     ],
     [
@@ -114,6 +117,7 @@ describe("DomainProvider", () => {
         numVisibleRows: 0,
         numVisibleTracks: 0,
         visibleTracksPerRow: new Map([["row-0", 0]]),
+        rowIdToTitle: new Map([["row-0", "Row 0"]]),
       },
     ],
     [
@@ -130,6 +134,14 @@ describe("DomainProvider", () => {
           ["row-3", 3],
           ["row-4", 0],
           ["row-5", 5],
+        ]),
+        rowIdToTitle: new Map([
+          ["row-0", "Row 0"],
+          ["row-1", "Row 1"],
+          ["row-2", "Row 2"],
+          ["row-3", "Row 3"],
+          ["row-4", "Row 4"],
+          ["row-5", "Row 5"],
         ]),
       },
     ],
@@ -157,6 +169,7 @@ describe("DomainProvider", () => {
             visibleRowsCount,
             visibleRowIds,
             domainMin,
+            rowIdToTitle,
           },
         },
       } = renderHook(() => useDomain(), {
@@ -187,6 +200,7 @@ describe("DomainProvider", () => {
         expectedVisibleRows.map(row => row.rowId),
       );
       expect(domainMin, "min domain").toEqual(-500);
+      expect(rowIdToTitle, "row id to title").toEqual(expected.rowIdToTitle);
     },
   );
 });

@@ -25,9 +25,8 @@ import {
   CereusAxisLeft,
   CereusAxisTop,
   CereusDomainProviderNoState,
-  CereusPlot,
+  CereusPlotHorizontal,
   CereusRowData,
-  CereusRowDataWithHeight,
   CereusScalesProvider,
   CereusTrackDataWithHeight,
   CereusTracks,
@@ -206,40 +205,38 @@ export const MyChart = ({
       domainMax={domainMax}
       data={data}
     >
-      <div className={"flex-col space-y-4"}>
-        <div
-          style={{
-            aspectRatio,
-            maxWidth,
-          }}
-        >
-          <ParentSizeProvider fallbackHeight={500} fallbackWidth={500}>
-            <GraphWithAxesProvider
-              margin={margin}
-              topAxis={{
-                height: topAxisHeight,
-                paddingTop: 10,
-              }}
-              rightAxis={{
-                width: rightAxisWidth,
-              }}
-              bottomAxis={{
-                height: bottomAxisHeight,
-              }}
-              leftAxis={{
-                width: leftAxisWidth,
-              }}
+      <div
+        style={{
+          aspectRatio,
+          maxWidth,
+        }}
+      >
+        <ParentSizeProvider fallbackHeight={500} fallbackWidth={500}>
+          <GraphWithAxesProvider
+            margin={margin}
+            topAxis={{
+              height: topAxisHeight,
+              paddingTop: 10,
+            }}
+            rightAxis={{
+              width: rightAxisWidth,
+            }}
+            bottomAxis={{
+              height: bottomAxisHeight,
+            }}
+            leftAxis={{
+              width: leftAxisWidth,
+            }}
+          >
+            <CereusScalesProvider
+              y0ScalePaddingInner={y0ScalePaddingInner}
+              y0ScalePaddingOuter={y0ScalePaddingOuter}
+              y1ScalePaddingInner={y1ScalePaddingInner}
             >
-              <CereusScalesProvider
-                y0ScalePaddingInner={y0ScalePaddingInner}
-                y0ScalePaddingOuter={y0ScalePaddingOuter}
-                y1ScalePaddingInner={y1ScalePaddingInner}
-              >
-                <MyPlot />
-              </CereusScalesProvider>
-            </GraphWithAxesProvider>
-          </ParentSizeProvider>
-        </div>
+              <MyPlot />
+            </CereusScalesProvider>
+          </GraphWithAxesProvider>
+        </ParentSizeProvider>
       </div>
     </CereusDomainProviderNoState>
   );
@@ -252,10 +249,7 @@ const MyPlot = () => {
     <svg width={width} height={height}>
       <rect width={width} height={height} fill="#fb923c" />
       <MyGraphArea>
-        <TopAxisArea />
-        <BottomAxisArea />
-        <LeftAxisArea />
-        <RightAxisArea />
+        <AllBackgrounds />
         <CereusAxisTop
           axisProps={{
             tickLabelProps: {
@@ -288,7 +282,7 @@ const MyGraphArea = ({children}: {children?: ReactNode}) => {
   );
 };
 
-const createAxisArea = (
+const createAxisBackground = (
   hook: () => AxisStyleContextType,
   color: string,
   Positioner: ({
@@ -320,95 +314,77 @@ const createAxisArea = (
   };
 };
 
-const TopAxisArea = createAxisArea(
+const TopAxisBackground = createAxisBackground(
   useAxisTopStyle,
   "#8b5cf6",
   AxisTopPositioner,
 );
-const BottomAxisArea = createAxisArea(
+const BottomAxisBackground = createAxisBackground(
   useAxisBottomStyle,
   "#8b5cf6",
   AxisBottomPositioner,
 );
-const LeftAxisArea = createAxisArea(
+const LeftAxisBackground = createAxisBackground(
   useAxisLeftStyle,
   "#8b5cf6",
   AxisLeftPositioner,
 );
-const RightAxisArea = createAxisArea(
+const RightAxisBackground = createAxisBackground(
   useAxisRightStyle,
   "#8b5cf6",
   AxisRightPositioner,
 );
 
-const PlotArea = () => {
+const PlotBackground = () => {
   const {width, height} = usePlotAreaStyle();
 
   return (
     <PlotAreaPositioner>
       <rect width={width} height={height} fill="#f5f5f5" />
-      <CereusPlot>
-        {rowGroup => (
-          <RGroup rowGroup={rowGroup}>
-            {tracks => (
-              <TGroup tracks={tracks}>
-                {track => (
-                  <>
-                    <Bar
-                      width={track.width}
-                      height={track.height}
-                      fill={getColor(track)}
-                      onClick={() => {
-                        const clickData = {
-                          trackData: track.data,
-                        };
-
-                        alert(JSON.stringify(clickData));
-                      }}
-                    />
-                    <BarTrack trackData={track} />
-                    <PointTrack trackData={track} />
-                  </>
-                )}
-              </TGroup>
-            )}
-          </RGroup>
-        )}
-      </CereusPlot>
     </PlotAreaPositioner>
   );
 };
 
-const RGroup = ({
-  children,
-  rowGroup,
-}: {
-  children: (tracks: CereusTrackDataWithHeight[]) => ReactNode;
-  rowGroup: CereusRowDataWithHeight[];
-}) => {
-  return rowGroup.map(row => {
-    return (
-      <Group key={`row-group-${row.index}-${row.y0}`} top={row.y0}>
-        {children(row.tracks)}
-      </Group>
-    );
-  });
+const AllBackgrounds = () => {
+  return (
+    <>
+      <TopAxisBackground />
+      <BottomAxisBackground />
+      <LeftAxisBackground />
+      <RightAxisBackground />
+      <PlotBackground />
+    </>
+  );
 };
 
-const TGroup = ({
-  children,
-  tracks,
-}: {
-  children: (track: CereusTrackDataWithHeight) => ReactNode;
-  tracks: CereusTrackDataWithHeight[];
-}) => {
-  return tracks.map(track => {
-    return (
-      <Group key={`track-group-${track.index}-${track.y}`} top={track.y}>
-        {children(track)}
-      </Group>
-    );
-  });
+const PlotArea = () => {
+  return (
+    <CereusPlotHorizontal>
+      {(track, rowId, title) => {
+        return (
+          <>
+            <Bar
+              width={track.width}
+              height={track.height}
+              fill={getColor(track)}
+              onClick={() => {
+                const clickData = {
+                  trackData: track.data,
+                  trackId: track.trackId,
+                  rowId,
+                  title,
+                };
+
+                alert(JSON.stringify(clickData));
+              }}
+            />
+            <BarTrack trackData={track} />
+            <PointTrack trackData={track} />
+          </>
+        );
+      }}
+    </CereusPlotHorizontal>
+  );
 };
 
 const getColor = (track: CereusTracks) => {

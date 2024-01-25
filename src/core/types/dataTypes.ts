@@ -1,7 +1,7 @@
 /**
  * Information used to identify a row.
  */
-type RowIdentifiers = {
+export type RowIdentifiers = {
   /**
    * Id used to identify the row. Should be unique within the data array.
    */
@@ -71,7 +71,7 @@ export type TrackData<
  * This is height, width, and positioning information for a track to
  * append to the TrackData type.
  */
-type TrackDataHeightInformation = {
+export type TrackDataHeightInformation = {
   /**
    * The index of the track in the array of tracks.
    */

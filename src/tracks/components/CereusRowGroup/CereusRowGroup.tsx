@@ -1,4 +1,4 @@
-import {CereusRowGroupType} from "@/tracks/components/CereusPlot";
+import {CereusRowGroupType} from "src/tracks/components/CereusPlotHorizontal";
 
 type CereusRowGroupProps = CereusRowGroupType[];
 

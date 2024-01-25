@@ -1,7 +1,8 @@
 import {AxisLeft, AxisRight} from "@visx/axis";
+import {useCallback} from "react";
 
 import {AxisLeftPositioner, useAxisLeftStyle} from "@/core";
-import {useCereusScale} from "@/tracks";
+import {useCereusDomain, useCereusScale} from "@/tracks";
 import {CereusAxisProps} from "@/tracks/components/CereusAxis/types";
 
 type CereusAxisLeftProps = {
@@ -17,8 +18,16 @@ export const CereusAxisLeft = ({
   groupProps,
   axisProps,
 }: CereusAxisLeftProps) => {
+  const {rowIdToTitle} = useCereusDomain();
   const {y0ScaleMiddle} = useCereusScale();
   const {paddingLeft, width} = useAxisLeftStyle();
+
+  const tickFormatter = useCallback(
+    (rowId: string) => {
+      return rowIdToTitle.get(rowId) ?? rowId;
+    },
+    [rowIdToTitle],
+  );
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
@@ -28,6 +37,7 @@ export const CereusAxisLeft = ({
           left={paddingLeft + width}
           scale={y0ScaleMiddle}
           hideAxisLine
+          tickFormat={tickFormatter}
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           {...axisProps}
         />
@@ -36,6 +46,7 @@ export const CereusAxisLeft = ({
           left={paddingLeft + width}
           scale={y0ScaleMiddle}
           hideAxisLine
+          tickFormat={tickFormatter}
           /* eslint-disable-next-line react/jsx-props-no-spreading */
           {...axisProps}
         />

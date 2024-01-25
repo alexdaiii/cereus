@@ -26,47 +26,48 @@ export type PlotHorizontalProps<RowDataT extends RowData> = {
     | ReturnType<typeof scaleOrdinal<string, number>>;
 };
 
-export const createPlotHorizontal = <RowDataT extends RowData>() => {
-  return function PlotHorizontal({
-    children,
-    visibleRows,
-    rowBandwidth,
-    y0Scale,
-    y1ScalePaddingInner,
-  }: PlotHorizontalProps<RowDataT>) {
-    const {width} = usePlotAreaStyle();
+/**
+ * Returns an element similar to @visx/shape's `BarGroupHorizontal`.
+ */
+export const PlotHorizontal = <RowDataT extends RowData>({
+  children,
+  visibleRows,
+  rowBandwidth,
+  y0Scale,
+  y1ScalePaddingInner,
+}: PlotHorizontalProps<RowDataT>) => {
+  const {width} = usePlotAreaStyle();
 
-    const rowsWithHeight: RowDataWithHeight<RowDataT>[] = useMemo(() => {
-      return visibleRows.map((row, i) => {
-        const bandwidth = rowBandwidth.get(row.rowId) ?? 0;
+  const rowsWithHeight: RowDataWithHeight<RowDataT>[] = useMemo(() => {
+    return visibleRows.map((row, i) => {
+      const bandwidth = rowBandwidth.get(row.rowId) ?? 0;
 
-        // construct a new BandScale for each row
-        const y1Scale = scaleBand({
-          domain: row.tracks.map(track => track.trackId),
-          range: [0, bandwidth],
-          paddingInner: y1ScalePaddingInner,
-        });
-
-        return {
-          index: i,
-          rowId: row.rowId,
-          title: row.title,
-          y0: y0Scale(row.rowId) ?? 0,
-          tracks: row.tracks.map((track, j) => {
-            return {
-              index: j,
-              width,
-              height: y1Scale.bandwidth(),
-              y: y1Scale(track.trackId) ?? 0,
-              trackId: track.trackId,
-              trackType: track.trackType,
-              data: track.data,
-            };
-          }),
-        };
+      // construct a new BandScale for each row
+      const y1Scale = scaleBand({
+        domain: row.tracks.map(track => track.trackId),
+        range: [0, bandwidth],
+        paddingInner: y1ScalePaddingInner,
       });
-    }, [rowBandwidth, visibleRows, width, y0Scale, y1ScalePaddingInner]);
 
-    return children ? <>{children(rowsWithHeight)}</> : null;
-  };
+      return {
+        index: i,
+        rowId: row.rowId,
+        title: row.title,
+        y0: y0Scale(row.rowId) ?? 0,
+        tracks: row.tracks.map((track, j) => {
+          return {
+            index: j,
+            width,
+            height: y1Scale.bandwidth(),
+            y: y1Scale(track.trackId) ?? 0,
+            trackId: track.trackId,
+            trackType: track.trackType,
+            data: track.data,
+          };
+        }),
+      };
+    });
+  }, [rowBandwidth, visibleRows, width, y0Scale, y1ScalePaddingInner]);
+
+  return <>{children(rowsWithHeight)}</>;
 };

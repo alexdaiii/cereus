@@ -7,21 +7,21 @@ export type DomainContextType<T extends RowData> = {
    * The minimum domain value for the x-axis.
    * @default 0
    */
-  domainMin: number;
+  readonly domainMin: number;
   /**
    * The maximum domain value for the x-axis. Usually this is the length
    * of your sequence track (how many amino acids or nucleotides).
    */
-  domainMax: number;
+  readonly domainMax: number;
   /**
    * Your data
    */
-  data: T[];
+  readonly data: T[];
   // Computed values
   /**
    * Visible rows (computed)
    */
-  visibleRows: T[];
+  readonly visibleRows: T[];
   /**
    * Visible row IDs (computed). The same as
    *
@@ -29,7 +29,7 @@ export type DomainContextType<T extends RowData> = {
    * visibleRows.map(row => row.id)
    * ```
    */
-  visibleRowIds: string[];
+  readonly visibleRowIds: string[];
   /**
    * The number of visible rows (computed). The same as
    *
@@ -37,11 +37,11 @@ export type DomainContextType<T extends RowData> = {
    * visibleRows.length
    * ```
    */
-  visibleRowsCount: number;
+  readonly visibleRowsCount: number;
   /**
    * Visible tracks (computed)
    */
-  visibleTracks: T["tracks"][number][];
+  readonly visibleTracks: T["tracks"][number][];
   /**
    * Visible track IDs (computed). The same as
    *
@@ -49,7 +49,7 @@ export type DomainContextType<T extends RowData> = {
    * visibleTracks.map(track => track.id)
    * ```
    */
-  visibleTrackIds: string[];
+  readonly visibleTrackIds: string[];
   /**
    * The number of visible tracks (computed). The same as
    *
@@ -57,12 +57,16 @@ export type DomainContextType<T extends RowData> = {
    * visibleTracks.length
    * ```
    */
-  visibleTracksCount: number;
+  readonly visibleTracksCount: number;
   /**
    * The number of visible tracks in each row. The index of the array
    * corresponds to the index of the row in the `data` array.
    */
-  visibleTracksCountPerRow: Map<string, number>;
+  readonly visibleTracksCountPerRow: Map<string, number>;
+  /**
+   * Maps the row id to the title of the row.
+   */
+  readonly rowIdToTitle: Map<string, string>;
 };
 
 /**
@@ -106,5 +110,6 @@ export const createDomainContext = <T extends RowData>() => {
     visibleTrackIds: [],
     visibleTracksCount: 0,
     visibleTracksCountPerRow: new Map(),
+    rowIdToTitle: new Map(),
   });
 };

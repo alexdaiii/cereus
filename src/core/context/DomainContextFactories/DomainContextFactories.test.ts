@@ -22,6 +22,7 @@ describe("createDomainContext", () => {
       visibleTrackIds: [],
       visibleRows: [],
       visibleTracks: [],
+      rowIdToTitle: new Map(),
     };
 
     // @ts-expect-error - accessing _currentValue to get current value of ctx

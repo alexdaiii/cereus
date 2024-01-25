@@ -36,6 +36,7 @@ describe("createUseDomainHook", () => {
       visibleTracks: [],
       visibleTracksCount: 0,
       visibleTracksCountPerRow: new Map(),
+      rowIdToTitle: new Map(),
     };
 
     const testContext = createContext<DomainContextType<RowData>>(expected);
@@ -72,6 +73,7 @@ describe("createUseDomainHook", () => {
       visibleTracks: [],
       visibleTracksCount: 0,
       visibleTracksCountPerRow: new Map(),
+      rowIdToTitle: new Map(),
     };
 
     const testContext = createContext(original);
@@ -121,6 +123,7 @@ describe("createUseDomainHook", () => {
       ],
       visibleTracksCount: 1,
       visibleTracksCountPerRow: new Map([["row-0", 1]]),
+      rowIdToTitle: new Map([["row-0", "Row 0"]]),
     };
 
     const {result} = renderHook(() => useDomain(), {

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import {render} from "@testing-library/react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {CereusPlot} from "./CereusPlot";
+import {CereusPlotHorizontal} from "./CereusPlotHorizontal";
 
 describe("CereusPlot", () => {
   afterEach(() => {
@@ -10,7 +10,7 @@ describe("CereusPlot", () => {
   });
 
   it("should render without crashing", () => {
-    render(<CereusPlot />);
+    render(<CereusPlotHorizontal />);
 
     expect(true).toBeTruthy();
   });
