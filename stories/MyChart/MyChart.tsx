@@ -25,17 +25,15 @@ import {
   CereusAxisLeft,
   CereusAxisTop,
   CereusDomainProviderNoState,
+  CereusPlot,
   CereusRowData,
+  CereusRowDataWithHeight,
   CereusScalesProvider,
+  CereusTrackDataWithHeight,
   CereusTracks,
   useCereusDomain,
   useCereusScale,
 } from "../../src/tracks";
-import {
-  CereusPlot,
-  CereusRowGroupType,
-  CereusTrackGroupType,
-} from "../../src/tracks/components/CereusPlot";
 
 type MyChartProps = {
   margin?: GraphItemMargin;
@@ -346,47 +344,6 @@ const RightAxisArea = createAxisArea(
 const PlotArea = () => {
   const {width, height} = usePlotAreaStyle();
 
-  // return (
-  //   <PlotAreaPositioner>
-  //     <rect width={width} height={height} fill="#f5f5f5" />
-  //     <CereusPlot>
-  //       {rowGroup => {
-  //         return rowGroup.map(row => {
-  //           return (
-  //             <Group key={`row-group-${row.index}-${row.y0}`} top={row.y0}>
-  //               {row.tracks.map(track => {
-  //                 return (
-  //                   <Group
-  //                     key={`track-group-${row.index}-${track.index}-${track.data.trackId}`}
-  //                     top={track.y}
-  //                   >
-  //                     <Bar
-  //                       width={track.width}
-  //                       height={track.height}
-  //                       fill={getColor(track.data)}
-  //                       onClick={() => {
-  //                         const clickData = {
-  //                           trackData: track.data,
-  //                           rowId: row.rowId,
-  //                           rowTitle: row.rowTitle,
-  //                         };
-  //
-  //                         alert(JSON.stringify(clickData));
-  //                       }}
-  //                     />
-  //                     <BarTrack trackData={track} />
-  //                     <PointTrack trackData={track} />
-  //                   </Group>
-  //                 );
-  //               })}
-  //             </Group>
-  //           );
-  //         });
-  //       }}
-  //     </CereusPlot>
-  //   </PlotAreaPositioner>
-  // );
-
   return (
     <PlotAreaPositioner>
       <rect width={width} height={height} fill="#f5f5f5" />
@@ -400,7 +357,7 @@ const PlotArea = () => {
                     <Bar
                       width={track.width}
                       height={track.height}
-                      fill={getColor(track.data)}
+                      fill={getColor(track)}
                       onClick={() => {
                         const clickData = {
                           trackData: track.data,
@@ -426,8 +383,8 @@ const RGroup = ({
   children,
   rowGroup,
 }: {
-  children: (tracks: CereusTrackGroupType[]) => ReactNode;
-  rowGroup: CereusRowGroupType[];
+  children: (tracks: CereusTrackDataWithHeight[]) => ReactNode;
+  rowGroup: CereusRowDataWithHeight[];
 }) => {
   return rowGroup.map(row => {
     return (
@@ -442,8 +399,8 @@ const TGroup = ({
   children,
   tracks,
 }: {
-  children: (track: CereusTrackGroupType) => ReactNode;
-  tracks: CereusTrackGroupType[];
+  children: (track: CereusTrackDataWithHeight) => ReactNode;
+  tracks: CereusTrackDataWithHeight[];
 }) => {
   return tracks.map(track => {
     return (
@@ -473,15 +430,15 @@ const getColor = (track: CereusTracks) => {
   }
 };
 
-const BarTrack = ({trackData}: {trackData: CereusTrackGroupType}) => {
+const BarTrack = ({trackData}: {trackData: CereusTrackDataWithHeight}) => {
   const {domainMin, domainMax} = useCereusDomain();
   const {xScale} = useCereusScale();
 
-  if (trackData.data.trackType !== "block") {
+  if (trackData.trackType !== "block") {
     return null;
   }
 
-  return trackData.data.data.map((val, index) => {
+  return trackData.data.map((val, index) => {
     const barStart = Math.max(val.begin, domainMin) - domainMin;
     const barEnd = Math.min(val.end, domainMax) - domainMin;
 
@@ -490,7 +447,7 @@ const BarTrack = ({trackData}: {trackData: CereusTrackGroupType}) => {
 
     return (
       <Bar
-        key={`block-${trackData.data.trackId}-${val.begin}-${val.end}-${index}`}
+        key={`block-${trackData.trackId}-${val.begin}-${val.end}-${index}`}
         height={trackData.height}
         width={barWidth}
         x={barStartPx}
@@ -510,21 +467,21 @@ const BarTrack = ({trackData}: {trackData: CereusTrackGroupType}) => {
   });
 };
 
-const PointTrack = ({trackData}: {trackData: CereusTrackGroupType}) => {
+const PointTrack = ({trackData}: {trackData: CereusTrackDataWithHeight}) => {
   const {xScale} = useCereusScale();
 
-  if (trackData.data.trackType !== "point") {
+  if (trackData.trackType !== "point") {
     return null;
   }
 
-  return trackData.data.data.positions.map((val, index) => {
+  return trackData.data.positions.map((val, index) => {
     const pointX = xScale(val);
 
     return (
       <Group
         top={trackData.height / 2}
         left={pointX}
-        key={`point-${trackData.data.trackId}-${val}-${index}`}
+        key={`point-${trackData.trackId}-${val}-${index}`}
       >
         <Polygon
           sides={8}

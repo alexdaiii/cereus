@@ -1,4 +1,4 @@
-import {RowData, TrackData} from "@/core/types";
+import {RowData, RowDataWithHeight, TrackData} from "@/core/types";
 
 export type CereusSequenceData = {
   /**
@@ -72,4 +72,17 @@ export type CereusTracks =
   | CereusPointTrack
   | CereusHeatmapTrack;
 
+/**
+ * The data shape for a single row in the sequence viewer.
+ */
 export type CereusRowData = RowData<CereusTracks>;
+/**
+ * The data shape returned by CereusPlot for a single row in the sequence viewer.
+ */
+export type CereusRowDataWithHeight = RowDataWithHeight<CereusRowData>;
+/**
+ * The data shape returned by CereusPlot for a single track for a row in the
+ * sequence viewer.
+ */
+export type CereusTrackDataWithHeight =
+  CereusRowDataWithHeight["tracks"][number];

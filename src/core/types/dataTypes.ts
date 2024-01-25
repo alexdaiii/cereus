@@ -1,25 +1,50 @@
 /**
+ * Information used to identify a row.
+ */
+type RowIdentifiers = {
+  /**
+   * Id used to identify the row. Should be unique within the data array.
+   */
+  readonly rowId: string;
+  /**
+   * Row title to display.
+   */
+  readonly title: string;
+};
+
+/**
  * Base data shape for a single row in the sequence viewer.
  */
 export type RowData<TracksT extends TrackData = TrackData> = {
   /**
-   * Id used to identify the row. Should be unique.
-   */
-  rowId: string;
-  /**
-   * Row title. If left blank, will be set to the row id.
-   * @default RowData.id
-   */
-  title: string;
-  /**
    * Is the row shown
    */
-  visible: boolean;
+  readonly visible: boolean;
   /**
    * Data for each track in the row.
    */
-  tracks: TracksT[];
-};
+  readonly tracks: TracksT[];
+} & RowIdentifiers;
+
+/**
+ * This has most of the same properties as `RowData` but with the addition of
+ * the start position on the y axis for a `<Group>` element and the height
+ * of each track.
+ */
+export type RowDataWithHeight<RowDataT extends RowData> = {
+  /**
+   * The index of the row in the data array.
+   */
+  readonly index: number;
+  /**
+   * The start position (top) of the row `<Group>` element.
+   */
+  readonly y0: number;
+  /**
+   * Track data with the height of each track.
+   */
+  readonly tracks: (RowDataT["tracks"][number] & TrackDataHeightInformation)[];
+} & RowIdentifiers;
 
 /**
  * Base data shape for a single track in the sequence viewer.
@@ -29,15 +54,42 @@ export type TrackData<
   TrackDataT = unknown,
 > = {
   /**
-   * Globally unique id for the track.
+   * Id used to identify the track. Should be unique within a row.
    */
-  trackId: string;
+  readonly trackId: string;
   /**
    * Type of track to display.
    */
-  trackType: TrackTypeT;
+  readonly trackType: TrackTypeT;
   /**
    * Data to display in the track.
    */
-  data: TrackDataT;
+  readonly data: TrackDataT;
+};
+
+/**
+ * This is height, width, and positioning information for a track to
+ * append to the TrackData type.
+ */
+type TrackDataHeightInformation = {
+  /**
+   * The index of the track in the array of tracks.
+   */
+  readonly index: number;
+  /**
+   * The height of the track group. It is the bandwidth of the track scale.
+   */
+  readonly height: number;
+  /**
+   * The width of the track group. Value is the same as:
+   *
+   * ```ts
+   * const {width} = usePlotAreaStyle();
+   * ```
+   */
+  readonly width: number;
+  /**
+   * The y start position of a track
+   */
+  readonly y: number;
 };
