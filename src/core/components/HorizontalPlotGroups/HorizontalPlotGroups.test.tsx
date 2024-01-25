@@ -73,12 +73,18 @@ describe("HorizontalPlotGroups", () => {
 
     const firstCall = fn.mock.calls[0];
     expect(firstCall[0]).toEqual(tracks[0]);
+    expect(firstCall[1]).toEqual("row1");
+    expect(firstCall[2]).toEqual("Row 1");
 
     const secondCall = fn.mock.calls[1];
     expect(secondCall[0]).toEqual(tracks[1]);
+    expect(secondCall[1]).toEqual("row2");
+    expect(secondCall[2]).toEqual("Row 2");
 
     const thirdCall = fn.mock.calls[2];
     expect(thirdCall[0]).toEqual(tracks[2]);
+    expect(thirdCall[1]).toEqual("row2");
+    expect(thirdCall[2]).toEqual("Row 2");
   });
 
   it("should render a <g> for each row with a transform equal to the y0 value", () => {

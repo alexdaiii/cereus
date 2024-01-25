@@ -1,1 +1,1 @@
-export * from './HorizontalPlotGroups';
+export * from "./HorizontalPlotGroups";
