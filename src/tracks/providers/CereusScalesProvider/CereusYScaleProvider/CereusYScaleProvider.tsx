@@ -35,7 +35,7 @@ export const CereusYScaleProvider = ({
   y0ScalePaddingOuter = 0,
   y1ScalePaddingInner = 0,
 }: CereusYScaleProviderProps) => {
-  const {visibleTracksCountPerRow, visibleTracksCount, visibleRowIds} =
+  const {visibleTracksCountPerRow, visibleRowIds, visibleTrackIds} =
     useCereusDomain();
   const {maxY, minY} = useRange();
 
@@ -44,7 +44,7 @@ export const CereusYScaleProvider = ({
       maxY,
       minY,
       visibleRowIds,
-      visibleTracksCount,
+      visibleTrackIds.length,
       visibleTracksCountPerRow,
       y0ScalePaddingInner,
       y0ScalePaddingOuter,
@@ -53,7 +53,7 @@ export const CereusYScaleProvider = ({
     maxY,
     minY,
     visibleRowIds,
-    visibleTracksCount,
+    visibleTrackIds.length,
     visibleTracksCountPerRow,
     y0ScalePaddingInner,
     y0ScalePaddingOuter,
@@ -156,13 +156,8 @@ const createProportionalRange = (
   for (let i = 0; i < visibleRowIds.length; ++i) {
     const rowId = visibleRowIds[i];
 
-    const tracksInRow = visibleTracksCountPerRow.get(rowId);
-
-    if (tracksInRow === undefined) {
-      // eslint-disable-next-line no-console
-      console.warn(`Could not find number of tracks for ${rowId}`);
-      continue;
-    }
+    // v8 ignore else
+    const tracksInRow = visibleTracksCountPerRow.get(rowId) ?? 0;
 
     const proportion = tracksInRow / denominator;
     const bandSize = height * proportion;

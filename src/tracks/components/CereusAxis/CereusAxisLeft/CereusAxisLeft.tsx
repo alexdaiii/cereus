@@ -1,6 +1,6 @@
 import {AxisLeft, AxisRight} from "@visx/axis";
 import {scaleOrdinal} from "@visx/scale";
-import {useCallback, useMemo} from "react";
+import {useMemo} from "react";
 
 import {AxisLeftPositioner, useAxisLeftStyle} from "@/core";
 import {useCereusDomain, useCereusScale} from "@/tracks";
@@ -31,14 +31,13 @@ export const CereusAxisLeft = ({
   axisProps,
   rTickPaddingBottom = 0,
 }: CereusAxisLeftProps) => {
-  const {rowIdToTitle} = useCereusDomain();
+  const {data} = useCereusDomain();
 
-  const tickFormatter = useCallback(
-    (rowId: string) => {
-      return rowIdToTitle.get(rowId) ?? rowId;
-    },
-    [rowIdToTitle],
-  );
+  const tickFormatter = useMemo(() => {
+    const rowIdToTitle = new Map(data.map(({rowId, title}) => [rowId, title]));
+
+    return (rowId: string) => rowIdToTitle.get(rowId) ?? rowId;
+  }, [data]);
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading

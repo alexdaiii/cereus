@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import {Group} from "@visx/group";
 import {Bar, Polygon} from "@visx/shape";
 import {ComponentProps, ReactNode} from "react";
@@ -194,8 +195,6 @@ export const MyChart = ({
   y0ScalePaddingOuter,
   y1ScalePaddingInner,
 }: MyChartProps) => {
-  // const [data, _setData] = useState(getData());
-
   domainMin = domainMin ?? 0;
   domainMax = domainMax ?? sequence.length;
 

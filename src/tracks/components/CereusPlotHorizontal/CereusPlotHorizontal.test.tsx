@@ -4,7 +4,7 @@ import {scaleBand} from "@visx/scale";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
 import {PlotAreaStyleContext} from "../../../core";
-import {CereusDomainContext, CereusScalesContext} from "../../context";
+import {CereusDomainContext, CereusYScaleContext} from "../../context";
 import {CereusRowData, CereusTracks} from "../../types";
 import {CereusPlotHorizontal} from "./CereusPlotHorizontal";
 
@@ -63,16 +63,16 @@ const SurroundingCtx = ({children}: {children: React.ReactNode}) => {
         visibleRows: data,
       }}
     >
-      <CereusScalesContext.Provider
+      <CereusYScaleContext.Provider
         value={{
-          // @ts-expect-error - Use band scale because its easier
-          y0ScaleStart: y0Scale,
+          // @ts-expect-error - using scaleband instead of scaleordinal
+          y0Scale,
           y0Bandwidth: rowBandwidth,
           y1ScalePaddingInner: 0,
         }}
       >
         {children}
-      </CereusScalesContext.Provider>
+      </CereusYScaleContext.Provider>
     </CereusDomainContext.Provider>
   );
 };

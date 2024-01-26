@@ -1,1 +1,1 @@
-export * from './CereusXScaleProvider';
+export * from "./CereusXScaleProvider";

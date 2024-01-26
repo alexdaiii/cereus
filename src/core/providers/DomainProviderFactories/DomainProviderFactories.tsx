@@ -36,14 +36,6 @@ export const createDomainProvider = <RowDataT extends RowData>(
       return calculateVisibleRows(data);
     }, [data]);
 
-    const rowIdToTitle = useMemo(() => {
-      const map = new Map<string, string>();
-      for (let i = 0; i < data.length; i++) {
-        map.set(data[i].rowId, data[i].title);
-      }
-      return map;
-    }, [data]);
-
     return (
       <DomainContext.Provider
         value={{
@@ -52,12 +44,9 @@ export const createDomainProvider = <RowDataT extends RowData>(
           domainMin,
           visibleRows,
           visibleRowIds,
-          visibleRowsCount: visibleRows.length,
           visibleTracks,
           visibleTrackIds,
-          visibleTracksCount: visibleTracks.length,
           visibleTracksCountPerRow,
-          rowIdToTitle,
         }}
       >
         {children}
