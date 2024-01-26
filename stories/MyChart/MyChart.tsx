@@ -24,7 +24,7 @@ import {
 import {
   CereusAxisLeft,
   CereusAxisTop,
-  CereusDomainProviderNoState,
+  CereusDomainProvider,
   CereusPlotHorizontal,
   CereusRowData,
   CereusScalesProvider,
@@ -200,7 +200,7 @@ export const MyChart = ({
   domainMax = domainMax ?? sequence.length;
 
   return (
-    <CereusDomainProviderNoState
+    <CereusDomainProvider
       domainMin={domainMin}
       domainMax={domainMax}
       data={data}
@@ -238,7 +238,7 @@ export const MyChart = ({
           </GraphWithAxesProvider>
         </ParentSizeProvider>
       </div>
-    </CereusDomainProviderNoState>
+    </CereusDomainProvider>
   );
 };
 

@@ -34,14 +34,14 @@ export type CereusPlotProps = {
  */
 export const CereusPlotHorizontal = ({children}: CereusPlotProps) => {
   const {visibleRows} = useCereusDomain();
-  const {y0ScaleStart, y0Bandwidth, y1ScalePaddingInner} = useCereusScale();
+  const {y0Scale, y0Bandwidth, y1ScalePaddingInner} = useCereusScale();
   return (
     <PlotAreaPositioner>
       <PlotHorizontal
         visibleRows={visibleRows}
         rowBandwidth={y0Bandwidth}
         y1ScalePaddingInner={y1ScalePaddingInner}
-        y0Scale={y0ScaleStart}
+        y0Scale={y0Scale}
       >
         {rows => (
           <HorizontalPlotGroups rows={rows}>
