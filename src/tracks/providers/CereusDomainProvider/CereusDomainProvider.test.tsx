@@ -3,7 +3,7 @@ import {describe, expect, it} from "vitest";
 
 import {useCereusDomain} from "../../hooks";
 import {CereusRowData} from "../../types";
-import {CereusDomainProvider} from "./CereusDomainProvider";
+import {DomainProvider} from "./CereusDomainProvider";
 
 describe("CereusDomainProvider", () => {
   it("provides the expected context similar to a DomainProvider", () => {
@@ -30,9 +30,9 @@ describe("CereusDomainProvider", () => {
 
       {
         wrapper: ({children}) => (
-          <CereusDomainProvider domainMin={20} domainMax={40} data={data}>
+          <DomainProvider domainMin={20} domainMax={40} data={data}>
             {children}
-          </CereusDomainProvider>
+          </DomainProvider>
         ),
       },
     );

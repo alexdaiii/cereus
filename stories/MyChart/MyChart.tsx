@@ -25,12 +25,12 @@ import {
 import {
   CereusAxisLeft,
   CereusAxisTop,
-  CereusDomainProvider,
   CereusPlotHorizontal,
   CereusRowData,
   CereusScalesProvider,
   CereusTrackDataWithHeight,
   CereusTracks,
+  DomainProvider,
   useCereusDomain,
   useCereusScale,
 } from "../../src/tracks";
@@ -199,11 +199,7 @@ export const MyChart = ({
   domainMax = domainMax ?? sequence.length;
 
   return (
-    <CereusDomainProvider
-      domainMin={domainMin}
-      domainMax={domainMax}
-      data={data}
-    >
+    <DomainProvider domainMin={domainMin} domainMax={domainMax} data={data}>
       <div
         style={{
           aspectRatio,
@@ -237,7 +233,7 @@ export const MyChart = ({
           </GraphWithAxesProvider>
         </ParentSizeProvider>
       </div>
-    </CereusDomainProvider>
+    </DomainProvider>
   );
 };
 

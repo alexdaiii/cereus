@@ -21,6 +21,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage run",
     "doggo": "npm run format && npm run lint:fix && npm run test:coverage",
+    "codeclimate": "bash ./scripts/codeclimate.sh",
     "build:tested": "npm run doggo && npm run build"
   },
   "repository": {

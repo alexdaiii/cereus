@@ -14,7 +14,7 @@ import * as useRangeExports from "@/core/hooks/useRange";
 
 import {useCereusScale} from "../../../hooks";
 import {CereusRowData} from "../../../types";
-import {CereusDomainProvider} from "../../CereusDomainProvider";
+import {DomainProvider} from "../../CereusDomainProvider";
 import {CereusYScaleProvider} from "./CereusYScaleProvider";
 
 const dataMultiTracks: CereusRowData[] = [
@@ -150,9 +150,9 @@ describe("CereusYScaleProvider", () => {
       } = renderHook(() => useCereusScale(), {
         wrapper: ({children}) => {
           return (
-            <CereusDomainProvider domainMin={0} domainMax={0} data={data}>
+            <DomainProvider domainMin={0} domainMax={0} data={data}>
               <CereusYScaleProvider>{children}</CereusYScaleProvider>
-            </CereusDomainProvider>
+            </DomainProvider>
           );
         },
       });
@@ -175,18 +175,14 @@ describe("CereusYScaleProvider", () => {
     } = renderHook(() => useCereusScale(), {
       wrapper: ({children}) => {
         return (
-          <CereusDomainProvider
-            domainMin={0}
-            domainMax={0}
-            data={dataMultiTracks}
-          >
+          <DomainProvider domainMin={0} domainMax={0} data={dataMultiTracks}>
             <CereusYScaleProvider
               y0ScalePaddingInner={paddingInner}
               y0ScalePaddingOuter={paddingOuter}
             >
               {children}
             </CereusYScaleProvider>
-          </CereusDomainProvider>
+          </DomainProvider>
         );
       },
     });
