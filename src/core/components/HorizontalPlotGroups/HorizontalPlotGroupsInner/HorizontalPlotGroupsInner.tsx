@@ -137,8 +137,15 @@ type HorizontalPlotGroupsProps<RowDataT extends RowData<TrackData>> = {
 };
 
 /**
- * Renders all tracks in a HorizontalTrackGroup that is
- * a child of a HorizontalRowGroup.
+ * Renders all tracks in a HorizontalTrackGroup as
+ * a child of a HorizontalRowGroup. Calls the children function
+ * for each track in the rows and passed the track and row data to the children.
+ * Used to "flatten" the rows and tracks data so that the child function
+ * component has all the track and row data it needs to render the track.
+ *
+ * Usually takes in the rows passed into the children function from
+ * PlotHorizontal.
+ *
  * Does not place any elements inside the provider created by
  * createHorizontalTrackGroupProvider.
  */

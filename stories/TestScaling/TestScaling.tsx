@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import {scaleBand} from "@visx/scale";
 
 type TestScalingProps = {};

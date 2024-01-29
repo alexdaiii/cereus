@@ -3,9 +3,11 @@ import {render} from "@testing-library/react";
 import {scaleBand} from "@visx/scale";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {PlotAreaStyleContext} from "../../../core";
-import {CereusDomainContext, CereusYScaleContext} from "../../context";
-import {CereusRowData, CereusTracks} from "../../types";
+import {HorizontalTrackGroupContextType, PlotAreaStyleContext} from "@/core";
+import {CereusDomainContext, CereusYScaleContext} from "@/tracks";
+import {CereusRowData, CereusTracks} from "@/tracks";
+import {useCereusTrackGroup} from "@/tracks/hooks/useCereusTrackGroup";
+
 import {CereusPlotHorizontal} from "./CereusPlotHorizontal";
 
 const tracks: CereusTracks[] = [
@@ -93,13 +95,21 @@ describe("CereusPlotHorizontal", () => {
     vi.restoreAllMocks();
   });
 
-  it("should call the children function for how many tracks there are", () => {
+  it("should render as many children for how many tracks there are", () => {
     const fn = vi.fn();
+
+    const TestTrack = () => {
+      fn();
+
+      return null;
+    };
 
     render(
       <svg>
         <SurroundingCtx>
-          <CereusPlotHorizontal>{fn}</CereusPlotHorizontal>
+          <CereusPlotHorizontal>
+            <TestTrack />
+          </CereusPlotHorizontal>
         </SurroundingCtx>
       </svg>,
     );
@@ -107,56 +117,63 @@ describe("CereusPlotHorizontal", () => {
     expect(fn).toHaveBeenCalledTimes(3);
   });
 
-  it("should pass children tracks[] with the correct values", () => {
-    const fn = vi.fn();
+  it("should pass children inside a CereusTrackGroupProvider", () => {
+    const results: HorizontalTrackGroupContextType<CereusRowData>[] = [];
+
+    const TestTrack = () => {
+      const result = useCereusTrackGroup();
+      results.push(result);
+      return null;
+    };
 
     render(
       <svg>
         <SurroundingCtx>
-          <CereusPlotHorizontal>{fn}</CereusPlotHorizontal>
+          <CereusPlotHorizontal>
+            <TestTrack />
+          </CereusPlotHorizontal>
         </SurroundingCtx>
       </svg>,
     );
 
-    // get what the first call to fn() was
-    const firstCall = fn.mock.calls[0];
-    expect(firstCall).toEqual([
-      {
-        index: 0,
-        width: 0,
-        height: y0Scale.bandwidth(),
-        y: 0,
-        ...tracks[0],
-      },
-      "row1",
-      "Row 1",
-    ]);
+    expect(results).toHaveLength(3);
+    expect(results[0].track).toEqual({
+      ...tracks[0],
+      // first row, first track
+      index: 0,
+      // full height of the row
+      height: y0Scale.bandwidth(),
+      // no width (not provided in ctx)
+      width: 0,
+      // no offset
+      y: 0,
+    });
+    expect(results[1].track).toEqual({
+      ...tracks[1],
+      index: 0,
+      height: y0Scale.bandwidth() / 2,
+      width: 0,
+      y: 0,
+    });
+    expect(results[2].track).toEqual({
+      ...tracks[2],
+      index: 1,
+      height: y0Scale.bandwidth() / 2,
+      width: 0,
+      y: y0Scale.bandwidth() / 2,
+    });
 
-    const secondCall = fn.mock.calls[1];
-    expect(secondCall).toEqual([
-      {
-        index: 0,
-        width: 0,
-        height: y0Scale.bandwidth() / 2,
-        y: 0,
-        ...tracks[1],
-      },
-      "row2",
-      "Row 2",
-    ]);
+    expect(results[0].title).toEqual(data[0].title);
+    expect(results[1].title).toEqual(data[1].title);
+    expect(results[2].title).toEqual(data[1].title);
 
-    const thirdCall = fn.mock.calls[2];
-    expect(thirdCall).toEqual([
-      {
-        index: 1,
-        width: 0,
-        height: y0Scale.bandwidth() / 2,
-        y: y0Scale.bandwidth() / 2,
-        ...tracks[2],
-      },
-      "row2",
-      "Row 2",
-    ]);
+    expect(results[0].rowId).toEqual(data[0].rowId);
+    expect(results[1].rowId).toEqual(data[1].rowId);
+    expect(results[2].rowId).toEqual(data[1].rowId);
+
+    expect(results[0].rowIndex).toEqual(0);
+    expect(results[1].rowIndex).toEqual(1);
+    expect(results[2].rowIndex).toEqual(1);
   });
 
   it("should place the all the rows and tracks inside a <g> element positioned where the plot area is located", () => {
@@ -175,7 +192,7 @@ describe("CereusPlotHorizontal", () => {
               top: top,
             }}
           >
-            <CereusPlotHorizontal>{fn}</CereusPlotHorizontal>
+            <CereusPlotHorizontal>{fn()}</CereusPlotHorizontal>
           </PlotAreaStyleContext.Provider>
         </SurroundingCtx>
       </svg>,

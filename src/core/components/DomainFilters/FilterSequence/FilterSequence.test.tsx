@@ -10,11 +10,7 @@ describe("FilterSequence", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <FilterSequence>
-        <></>
-      </FilterSequence>,
-    );
+    render(<FilterSequence></FilterSequence>);
 
     expect(true).toBeTruthy();
   });

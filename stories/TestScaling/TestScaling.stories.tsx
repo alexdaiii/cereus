@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import {Meta, StoryObj} from "@storybook/react";
 
 import {TestScaling} from "./TestScaling";

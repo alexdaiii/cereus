@@ -14,21 +14,13 @@ export const CereusPlotHorizontalInner = createHorizontalPlotGroup(
 );
 
 /**
- * Wraps the `PlotHorizontal` component - with the default scales and visible rows
- * from the `CereusDomainProvider` and `CereusScaleProvider` - and the
- * HorizontalPlotGroups component.
+ * Wraps the `PlotHorizontal` component and a `CereusPlotHorizontalInner` component
  *
- * Positioned in the graph with PlotAreaPositioner.
+ * Place a component to handle rendering a track as a child. This component
+ * will be rendered as many times as there are visible tracks. Use the
+ * `useCereusTrackGroup` hook to access the track data inside your component.
  *
- * @example
- *
- * ```tsx
- * <CereusPlotHorizontal>
- *   {track => <MyTrackComponent track={track} />}
- * </CereusPlotHorizontal>
- * ```
- *
- * @param children - A function that takes a track and returns a ReactNode.
+ * @param children - A function that renders the tracks
  */
 export const CereusPlotHorizontal = ({children}: CereusPlotProps) => {
   const {visibleRows} = useCereusDomain();

@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import {render} from "@testing-library/react";
-import * as exports from "src/core/hooks/useGraphItemStyle";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
 import {
@@ -13,6 +12,7 @@ import {
   PlotAreaStyleContextType,
 } from "@/core/context";
 import {usePlotAreaStyle} from "@/core/hooks";
+import * as exports from "@/core/hooks/useGraphItemStyle";
 import {PlotAreaStyleProvider} from "@/core/providers";
 
 import {

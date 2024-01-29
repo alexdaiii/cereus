@@ -10,11 +10,7 @@ describe("FilterBar", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <FilterBar>
-        <></>
-      </FilterBar>,
-    );
+    render(<FilterBar></FilterBar>);
 
     expect(true).toBeTruthy();
   });

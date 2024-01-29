@@ -10,11 +10,7 @@ describe("FilterPoint", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <FilterPoint>
-        <></>
-      </FilterPoint>,
-    );
+    render(<FilterPoint></FilterPoint>);
 
     expect(true).toBeTruthy();
   });
