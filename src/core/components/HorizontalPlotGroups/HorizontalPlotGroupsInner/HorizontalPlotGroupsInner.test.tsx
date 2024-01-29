@@ -2,10 +2,8 @@ import "@testing-library/jest-dom";
 import {render} from "@testing-library/react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {HorizontalPlotGroups, RowData, TrackData} from "@/core";
+import {HorizontalPlotGroupsInner, RowData, TrackData} from "@/core";
 import {RowDataWithHeight} from "@/core/types";
-
-// import {HorizontalPlotGroups} from "./HorizontalPlotGroups";
 
 const tracks = [
   {
@@ -54,7 +52,7 @@ const rowsWithHeight: RowDataWithHeight<RowData<TrackData>>[] = [
   },
 ];
 
-describe("HorizontalPlotGroups", () => {
+describe("HorizontalPlotGroupsInner", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -64,7 +62,10 @@ describe("HorizontalPlotGroups", () => {
 
     render(
       <svg>
-        <HorizontalPlotGroups rows={rowsWithHeight}>{fn}</HorizontalPlotGroups>,
+        <HorizontalPlotGroupsInner rows={rowsWithHeight}>
+          {fn}
+        </HorizontalPlotGroupsInner>
+        ,
       </svg>,
     );
 
@@ -91,7 +92,10 @@ describe("HorizontalPlotGroups", () => {
 
     const {container} = render(
       <svg>
-        <HorizontalPlotGroups rows={rowsWithHeight}>{fn}</HorizontalPlotGroups>,
+        <HorizontalPlotGroupsInner rows={rowsWithHeight}>
+          {fn}
+        </HorizontalPlotGroupsInner>
+        ,
       </svg>,
     );
 
@@ -113,7 +117,10 @@ describe("HorizontalPlotGroups", () => {
 
     const {container} = render(
       <svg>
-        <HorizontalPlotGroups rows={rowsWithHeight}>{fn}</HorizontalPlotGroups>,
+        <HorizontalPlotGroupsInner rows={rowsWithHeight}>
+          {fn}
+        </HorizontalPlotGroupsInner>
+        ,
       </svg>,
     );
 

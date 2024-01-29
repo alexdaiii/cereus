@@ -25,15 +25,16 @@ import {
 import {
   CereusAxisLeft,
   CereusAxisTop,
+  CereusDomainProvider,
   CereusPlotHorizontal,
   CereusRowData,
   CereusScalesProvider,
   CereusTrackDataWithHeight,
   CereusTracks,
-  DomainProvider,
   useCereusDomain,
   useCereusScale,
 } from "../../src/tracks";
+import {useCereusTrackGroup} from "../../src/tracks/hooks/useCereusTrackGroup";
 
 type MyChartProps = {
   margin?: GraphItemMargin;
@@ -86,7 +87,7 @@ const data: CereusRowData[] = [
     visible: true,
     tracks: [
       {
-        trackType: "block",
+        trackType: "bar",
         trackId: "row-2-track-1",
         data: [
           {
@@ -100,7 +101,7 @@ const data: CereusRowData[] = [
         ],
       },
       {
-        trackType: "block",
+        trackType: "bar",
         trackId: "row-2-track-2",
         data: [
           {
@@ -110,7 +111,7 @@ const data: CereusRowData[] = [
         ],
       },
       {
-        trackType: "block",
+        trackType: "bar",
         trackId: "row-2-track-3",
         data: [
           {
@@ -120,7 +121,7 @@ const data: CereusRowData[] = [
         ],
       },
       {
-        trackType: "block",
+        trackType: "bar",
         trackId: "row-2-track-4",
         data: [
           {
@@ -139,9 +140,38 @@ const data: CereusRowData[] = [
       {
         trackType: "point",
         trackId: "row-2-track-1",
-        data: {
-          positions: [5, 10, 15, 20],
-        },
+        data: [
+          {
+            position: 5,
+          },
+          {
+            position: 15,
+          },
+          {
+            position: 25,
+          },
+          {
+            position: 35,
+          },
+          {
+            position: 45,
+          },
+          {
+            position: 55,
+          },
+          {
+            position: 65,
+          },
+          {
+            position: 75,
+          },
+          {
+            position: 85,
+          },
+          {
+            position: 95,
+          },
+        ],
       },
     ],
   },
@@ -155,8 +185,8 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-1",
         data: [
           {
-            bin: 1,
-            count: 14,
+            position: 1,
+            quantity: 14,
           },
         ],
       },
@@ -172,8 +202,8 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-1",
         data: [
           {
-            bin: 6,
-            count: 15,
+            position: 6,
+            quantity: 500,
           },
         ],
       },
@@ -199,7 +229,11 @@ export const MyChart = ({
   domainMax = domainMax ?? sequence.length;
 
   return (
-    <DomainProvider domainMin={domainMin} domainMax={domainMax} data={data}>
+    <CereusDomainProvider
+      domainMin={domainMin}
+      domainMax={domainMax}
+      data={data}
+    >
       <div
         style={{
           aspectRatio,
@@ -233,7 +267,7 @@ export const MyChart = ({
           </GraphWithAxesProvider>
         </ParentSizeProvider>
       </div>
-    </DomainProvider>
+    </CereusDomainProvider>
   );
 };
 
@@ -355,30 +389,35 @@ const AllBackgrounds = () => {
 const PlotArea = () => {
   return (
     <CereusPlotHorizontal>
-      {(track, rowId, title) => {
-        return (
-          <>
-            <Bar
-              width={track.width}
-              height={track.height}
-              fill={getColor(track)}
-              onClick={() => {
-                const clickData = {
-                  trackData: track.data,
-                  trackId: track.trackId,
-                  rowId,
-                  title,
-                };
-
-                alert(JSON.stringify(clickData));
-              }}
-            />
-            <BarTrack trackData={track} />
-            <PointTrack trackData={track} />
-          </>
-        );
-      }}
+      <Track />
     </CereusPlotHorizontal>
+  );
+};
+
+const Track = () => {
+  const {track, rowId, title, rowIndex} = useCereusTrackGroup();
+
+  return (
+    <>
+      <Bar
+        width={track.width}
+        height={track.height}
+        fill={getColor(track)}
+        onClick={() => {
+          const clickData = {
+            trackData: track.data,
+            trackId: track.trackId,
+            rowId,
+            title,
+            rowIndex,
+          };
+
+          alert(JSON.stringify(clickData));
+        }}
+      />
+      <BarTrack trackData={track} />
+      <PointTrack trackData={track} />
+    </>
   );
 };
 
@@ -387,7 +426,7 @@ const getColor = (track: CereusTracks) => {
     case "sequence":
       return "#7f1d1d";
 
-    case "block":
+    case "bar":
       return "#737373";
 
     case "heatmap":
@@ -405,7 +444,7 @@ const BarTrack = ({trackData}: {trackData: CereusTrackDataWithHeight}) => {
   const {domainMin, domainMax} = useCereusDomain();
   const {xScale} = useCereusScale();
 
-  if (trackData.trackType !== "block") {
+  if (trackData.trackType !== "bar") {
     return null;
   }
 
@@ -445,21 +484,21 @@ const PointTrack = ({trackData}: {trackData: CereusTrackDataWithHeight}) => {
     return null;
   }
 
-  return trackData.data.positions.map((val, index) => {
-    const pointX = xScale(val);
+  return trackData.data.map((val, index) => {
+    const pointX = xScale(val.position);
 
     return (
       <Group
         top={trackData.height / 2}
         left={pointX}
-        key={`point-${trackData.trackId}-${val}-${index}`}
+        key={`point-${trackData.trackId}-${val.position}-${index}`}
       >
         <Polygon
           sides={8}
           className={"hover:fill-emerald-400"}
           size={trackData.height / 2}
           onClick={() => {
-            alert(`point: ${val}`);
+            alert(`point: ${JSON.stringify(val)}`);
           }}
         />
       </Group>

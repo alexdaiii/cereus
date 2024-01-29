@@ -82,9 +82,10 @@ export type PointTrack<
 
 /**
  * The default types of tracks RowData will default to if no type is specified.
+ * Use undefined to indicate that a track type is not supported.
  */
 export type DefaultTracks<
-  SequenceTrackT extends SequenceTrack = SequenceTrack,
-  BarTrackT extends BarTrack<string> = BarTrack,
-  PointTrackT extends PointTrack<string> = PointTrack,
+  SequenceTrackT extends SequenceTrack | undefined = SequenceTrack,
+  BarTrackT extends BarTrack<string> | undefined = BarTrack,
+  PointTrackT extends PointTrack<string> | undefined = PointTrack,
 > = SequenceTrackT | BarTrackT | PointTrackT;

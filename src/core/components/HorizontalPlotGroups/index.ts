@@ -1,1 +1,2 @@
-export * from "./HorizontalPlotGroups";
+export * from "./HorizontalPlotGroupsInner";
+export * from "./HorizontalPlotGroupFactory";

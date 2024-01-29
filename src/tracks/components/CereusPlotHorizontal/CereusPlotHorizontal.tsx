@@ -1,19 +1,17 @@
 import {ReactNode} from "react";
 
-import {HorizontalPlotGroups, PlotAreaPositioner, PlotHorizontal} from "@/core";
-import {
-  CereusTrackDataWithHeight,
-  useCereusDomain,
-  useCereusScale,
-} from "@/tracks";
+import {PlotAreaPositioner, PlotHorizontal} from "@/core";
+import {createHorizontalPlotGroup} from "@/core/components/HorizontalPlotGroups/HorizontalPlotGroupFactory";
+import {useCereusDomain, useCereusScale} from "@/tracks";
+import {CereusTrackGroupContext} from "@/tracks/context/CereusTrackGroupContext/CereusTrackGroupContext";
 
 export type CereusPlotProps = {
-  children: (
-    track: CereusTrackDataWithHeight,
-    rowId: string,
-    title: string,
-  ) => ReactNode;
+  children: ReactNode;
 };
+
+export const CereusPlotHorizontalInner = createHorizontalPlotGroup(
+  CereusTrackGroupContext,
+);
 
 /**
  * Wraps the `PlotHorizontal` component - with the default scales and visible rows
@@ -44,9 +42,9 @@ export const CereusPlotHorizontal = ({children}: CereusPlotProps) => {
         y0Scale={y0Scale}
       >
         {rows => (
-          <HorizontalPlotGroups rows={rows}>
-            {(track, rowId, title) => children(track, rowId, title)}
-          </HorizontalPlotGroups>
+          <CereusPlotHorizontalInner rows={rows}>
+            {children}
+          </CereusPlotHorizontalInner>
         )}
       </PlotHorizontal>
     </PlotAreaPositioner>
