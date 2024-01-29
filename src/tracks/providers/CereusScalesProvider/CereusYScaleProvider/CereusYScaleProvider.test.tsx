@@ -11,10 +11,10 @@ import {
 } from "vitest";
 
 import * as useRangeExports from "@/core/hooks/useRange";
+import {useCereusScale} from "@/tracks/hooks";
+import {CereusRowData} from "@/tracks/types";
 
-import {useCereusScale} from "../../../hooks";
-import {CereusRowData} from "../../../types";
-import {DomainProvider} from "../../CereusDomainProvider";
+import {CereusDomainProvider} from "../../CereusDomainProvider";
 import {CereusYScaleProvider} from "./CereusYScaleProvider";
 
 const dataMultiTracks: CereusRowData[] = [
@@ -25,7 +25,7 @@ const dataMultiTracks: CereusRowData[] = [
     tracks: [
       {
         trackId: "track1",
-        trackType: "block",
+        trackType: "bar",
         data: [],
       },
       {
@@ -46,13 +46,11 @@ const dataMultiTracks: CereusRowData[] = [
       {
         trackId: "track3",
         trackType: "point",
-        data: {
-          positions: [],
-        },
+        data: [],
       },
       {
         trackId: "track4",
-        trackType: "heatmap",
+        trackType: "point",
         data: [],
       },
     ],
@@ -64,7 +62,7 @@ const dataMultiTracks: CereusRowData[] = [
     tracks: [
       {
         trackId: "track5",
-        trackType: "heatmap",
+        trackType: "point",
         data: [],
       },
       {
@@ -77,7 +75,7 @@ const dataMultiTracks: CereusRowData[] = [
       },
       {
         trackId: "track7",
-        trackType: "block",
+        trackType: "bar",
         data: [],
       },
     ],
@@ -150,9 +148,9 @@ describe("CereusYScaleProvider", () => {
       } = renderHook(() => useCereusScale(), {
         wrapper: ({children}) => {
           return (
-            <DomainProvider domainMin={0} domainMax={0} data={data}>
+            <CereusDomainProvider domainMin={0} domainMax={0} data={data}>
               <CereusYScaleProvider>{children}</CereusYScaleProvider>
-            </DomainProvider>
+            </CereusDomainProvider>
           );
         },
       });
@@ -175,14 +173,18 @@ describe("CereusYScaleProvider", () => {
     } = renderHook(() => useCereusScale(), {
       wrapper: ({children}) => {
         return (
-          <DomainProvider domainMin={0} domainMax={0} data={dataMultiTracks}>
+          <CereusDomainProvider
+            domainMin={0}
+            domainMax={0}
+            data={dataMultiTracks}
+          >
             <CereusYScaleProvider
               y0ScalePaddingInner={paddingInner}
               y0ScalePaddingOuter={paddingOuter}
             >
               {children}
             </CereusYScaleProvider>
-          </DomainProvider>
+          </CereusDomainProvider>
         );
       },
     });

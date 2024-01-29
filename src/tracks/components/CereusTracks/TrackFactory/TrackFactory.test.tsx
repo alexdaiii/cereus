@@ -10,11 +10,7 @@ describe("TrackFactory", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <TrackFactory>
-        <></>
-      </TrackFactory>,
-    );
+    render(<TrackFactory></TrackFactory>);
 
     expect(true).toBeTruthy();
   });

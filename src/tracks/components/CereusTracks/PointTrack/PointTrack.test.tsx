@@ -10,11 +10,7 @@ describe("PointTrack", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <PointTrack>
-        <></>
-      </PointTrack>,
-    );
+    render(<PointTrack></PointTrack>);
 
     expect(true).toBeTruthy();
   });

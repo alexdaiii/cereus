@@ -10,11 +10,7 @@ describe("HeatmapTrack", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <HeatmapTrack>
-        <></>
-      </HeatmapTrack>,
-    );
+    render(<HeatmapTrack></HeatmapTrack>);
 
     expect(true).toBeTruthy();
   });

@@ -10,11 +10,7 @@ describe("SequenceTrack", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <SequenceTrack>
-        <></>
-      </SequenceTrack>,
-    );
+    render(<SequenceTrack></SequenceTrack>);
 
     expect(true).toBeTruthy();
   });

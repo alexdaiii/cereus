@@ -1,9 +1,9 @@
 import {Context, ReactNode, useMemo} from "react";
 
 import {DomainContextType} from "@/core/context";
-import {RowData} from "@/core/types";
+import {AnyRowData} from "@/core/types";
 
-export type DomainProviderProps<T extends RowData> = {
+export type DomainProviderProps<T extends AnyRowData> = {
   children: ReactNode;
   /**
    * The minimum value of the domain.
@@ -15,7 +15,7 @@ export type DomainProviderProps<T extends RowData> = {
 /**
  * Creates a typed DomainProvider component.
  */
-export const createDomainProvider = <RowDataT extends RowData>(
+export const createDomainProvider = <RowDataT extends AnyRowData>(
   DomainContext: Context<DomainContextType<RowDataT>>,
   displayName: string,
 ) => {
@@ -61,7 +61,7 @@ export const createDomainProvider = <RowDataT extends RowData>(
  * Calculates the visible rows and tracks from the data.
  * @param data
  */
-const calculateVisibleRows = <T extends RowData>(data: T[]) => {
+const calculateVisibleRows = <T extends AnyRowData>(data: T[]) => {
   const visibleRows: T[] = [];
   const visibleRowIds: string[] = [];
 

@@ -10,11 +10,7 @@ describe("BlockTrack", () => {
   });
 
   it("should render without crashing", () => {
-    render(
-      <BlockTrack>
-        <></>
-      </BlockTrack>,
-    );
+    render(<BlockTrack></BlockTrack>);
 
     expect(true).toBeTruthy();
   });

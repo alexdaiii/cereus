@@ -2,9 +2,13 @@ import {renderHook} from "@testing-library/react";
 import {createContext} from "react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {DomainContextType} from "../../context";
-import {RowData} from "../../types";
-import {createUseDomainHook} from "./useDomainFactory";
+import {
+  AnyRowData,
+  DomainContextType,
+  RowData,
+  TrackData,
+  createUseDomainHook,
+} from "@/core";
 
 describe("createUseDomainHook", () => {
   afterEach(() => {
@@ -12,7 +16,7 @@ describe("createUseDomainHook", () => {
   });
 
   it("should return the domain context default values when not in provider", () => {
-    const expected: DomainContextType<RowData> = {
+    const expected: DomainContextType<RowData<TrackData>> = {
       domainMin: -256,
       domainMax: 256,
       data: [
@@ -36,7 +40,7 @@ describe("createUseDomainHook", () => {
       visibleTracksCountPerRow: new Map(),
     };
 
-    const testContext = createContext<DomainContextType<RowData>>(expected);
+    const testContext = createContext<DomainContextType<AnyRowData>>(expected);
 
     const useDomain = createUseDomainHook(testContext);
 
@@ -46,7 +50,7 @@ describe("createUseDomainHook", () => {
   });
 
   it("should return the domain context values when in provider", () => {
-    const original: DomainContextType<RowData> = {
+    const original: DomainContextType<AnyRowData> = {
       domainMin: -512,
       domainMax: 512,
       data: [
@@ -74,7 +78,7 @@ describe("createUseDomainHook", () => {
 
     const useDomain = createUseDomainHook(testContext);
 
-    const expected: DomainContextType<RowData> = {
+    const expected: DomainContextType<AnyRowData> = {
       domainMin: -256,
       domainMax: 256,
       data: [

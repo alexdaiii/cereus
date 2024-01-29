@@ -2,9 +2,8 @@ import "@testing-library/jest-dom";
 import {render} from "@testing-library/react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {RowData, RowDataWithHeight} from "@/core/types";
-
-import {HorizontalPlotGroups} from "./HorizontalPlotGroups";
+import {HorizontalPlotGroups, RowData, TrackData} from "@/core";
+import {RowDataWithHeight} from "@/core/types";
 
 // import {HorizontalPlotGroups} from "./HorizontalPlotGroups";
 
@@ -38,7 +37,7 @@ const tracks = [
   },
 ];
 
-const rowsWithHeight: RowDataWithHeight<RowData>[] = [
+const rowsWithHeight: RowDataWithHeight<RowData<TrackData>>[] = [
   {
     rowId: "row1",
     title: "Row 1",

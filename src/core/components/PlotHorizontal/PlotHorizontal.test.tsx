@@ -3,12 +3,10 @@ import {render} from "@testing-library/react";
 import {scaleBand} from "@visx/scale";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {RowData, RowDataWithHeight} from "@/core/types";
+import {PlotAreaStyleContext, PlotHorizontal} from "@/core";
+import {RowData, RowDataWithHeight, TrackData} from "@/core/types";
 
-import {PlotAreaStyleContext} from "../../context";
-import {PlotHorizontal} from "./PlotHorizontal";
-
-const data: RowData[] = [
+const data: RowData<TrackData>[] = [
   {
     rowId: "row1",
     title: "Row 1",
@@ -92,7 +90,7 @@ describe("PlotHorizontal", () => {
       </PlotAreaStyleContext.Provider>,
     );
 
-    const expectedArg: RowDataWithHeight<RowData>[] = [
+    const expectedArg: RowDataWithHeight<RowData<TrackData>>[] = [
       {
         rowId: "row1",
         title: "Row 1",

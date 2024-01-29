@@ -1,9 +1,9 @@
 import {scaleBand, scaleOrdinal} from "@visx/scale";
 import {ReactNode, useMemo} from "react";
 
-import {RowData, RowDataWithHeight, usePlotAreaStyle} from "@/core";
+import {RowData, RowDataWithHeight, TrackData, usePlotAreaStyle} from "@/core";
 
-export type PlotHorizontalProps<RowDataT extends RowData> = {
+export type PlotHorizontalProps<RowDataT extends RowData<TrackData>> = {
   children: (rows: RowDataWithHeight<RowDataT>[]) => ReactNode;
   /**
    * The visible rows to be rendered.
@@ -29,7 +29,7 @@ export type PlotHorizontalProps<RowDataT extends RowData> = {
 /**
  * Returns an element similar to @visx/shape's `BarGroupHorizontal`.
  */
-export const PlotHorizontal = <RowDataT extends RowData>({
+export const PlotHorizontal = <RowDataT extends RowData<TrackData>>({
   children,
   visibleRows,
   rowBandwidth,

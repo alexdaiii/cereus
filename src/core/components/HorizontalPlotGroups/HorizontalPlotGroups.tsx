@@ -1,9 +1,9 @@
 import {Group} from "@visx/group";
 import {ReactNode} from "react";
 
-import {RowData, RowDataWithHeight} from "@/core";
+import {RowData, RowDataWithHeight, TrackData} from "@/core";
 
-type HorizontalRowGroupProps<RowDataT extends RowData> = {
+type HorizontalRowGroupProps<RowDataT extends RowData<TrackData>> = {
   children: (
     /**
      * The tracks for this row.
@@ -21,7 +21,7 @@ type HorizontalRowGroupProps<RowDataT extends RowData> = {
   rows: RowDataWithHeight<RowDataT>[];
 };
 
-export const HorizontalRowGroup = <RowDataT extends RowData>({
+export const HorizontalRowGroup = <RowDataT extends RowData<TrackData>>({
   children,
   rows,
 }: HorizontalRowGroupProps<RowDataT>) => {
@@ -38,7 +38,7 @@ export const HorizontalRowGroup = <RowDataT extends RowData>({
   });
 };
 
-type HorizontalTrackGroupProps<RowDataT extends RowData> = {
+type HorizontalTrackGroupProps<RowDataT extends RowData<TrackData>> = {
   children: (
     /**
      * The track for this group.
@@ -64,7 +64,7 @@ type HorizontalTrackGroupProps<RowDataT extends RowData> = {
   title: string;
 };
 
-export const HorizontalTrackGroup = <RowDataT extends RowData>({
+export const HorizontalTrackGroup = <RowDataT extends RowData<TrackData>>({
   children,
   tracks,
   rowId,
@@ -83,7 +83,7 @@ export const HorizontalTrackGroup = <RowDataT extends RowData>({
   });
 };
 
-type HorizontalPlotGroupsProps<RowDataT extends RowData> = {
+type HorizontalPlotGroupsProps<RowDataT extends RowData<TrackData>> = {
   children: (
     /**
      * The track for this group.
@@ -104,7 +104,7 @@ type HorizontalPlotGroupsProps<RowDataT extends RowData> = {
   rows: RowDataWithHeight<RowDataT>[];
 };
 
-export const HorizontalPlotGroups = <RowDataT extends RowData>({
+export const HorizontalPlotGroups = <RowDataT extends RowData<TrackData>>({
   children,
   rows,
 }: HorizontalPlotGroupsProps<RowDataT>) => {

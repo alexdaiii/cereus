@@ -1,81 +1,61 @@
-import {RowData, RowDataWithHeight, TrackData} from "@/core/types";
-
-export type CereusSequenceData = {
-  /**
-   * Where in the domain to begin plotting the sequence.
-   */
-  begin: number;
-  /**
-   * The sequence to plot. If begin + sequence.length > domainMax
-   * (from a DomainProvider), the sequence will be cut off.
-   */
-  sequence: string;
-};
-
-export type CereusSequenceTrack = TrackData<"sequence", CereusSequenceData>;
-
-export type CereusBlockData = {
-  /**
-   * The beginning of the block.
-   */
-  begin: number;
-  /**
-   * The end of the block.
-   */
-  end: number;
-  /**
-   * Connect the previous block to this block. If there is no previous block,
-   * this will be ignored.
-   */
-  connectPrevious?: boolean;
-  /**
-   * Connect the next block to this block. If there is no next block,
-   * this will be ignored.
-   */
-  connectNext?: boolean;
-};
-
-export type CereusBlockTrack = TrackData<"block", CereusBlockData[]>;
-
-export type CereusPointData = {
-  /**
-   * The positions of the points.
-   */
-  positions: number[];
-};
-
-export type CereusPointTrack = TrackData<"point", CereusPointData>;
+import {
+  BarData,
+  BarTrack,
+  DefaultTracks,
+  PointData,
+  PointTrack,
+  RowData,
+  RowDataWithHeight,
+  SequenceData,
+  SequenceTrack,
+} from "@/core/types";
 
 /**
- * A heatmap data point. Cereus will automatically format the data to be in the
- * the format that @visx/heatmap expects.
+ * Declares that a track has discrete data. Adds the minOverlapDistance
+ * property to the track data.
  */
-export type CereusHeatmapData = {
+export type DiscreteData<T> = T & {
   /**
-   * The x position
+   * The minimum distance between two discrete points in px before
+   * they are considered to be overlapping.
+   * @default 0
    */
-  bin: number;
-  /**
-   * The count of the bin
-   */
-  count: number;
+  readonly minOverlapDistance?: number;
 };
 
-export type CereusHeatmapTrack = TrackData<"heatmap", CereusHeatmapData[]>;
+export type CereusSequenceTracks = SequenceTrack<DiscreteData<SequenceData>>;
+
+export type CereusBarData = BarData;
+export type CereusTrackData = BarData;
+
+export type CereusBarTracks =
+  | BarTrack<"bar", DiscreteData<CereusBarData>>
+  | BarTrack<"bond", DiscreteData<CereusTrackData>>;
+
+export type PointWithQuantity = PointData & {
+  readonly quantity: number;
+};
+
+export type CereusPointTracks =
+  | PointTrack<"point", DiscreteData<PointData>>
+  | PointTrack<"heatmap", DiscreteData<PointWithQuantity>>
+  | PointTrack<"line", PointWithQuantity>
+  | PointTrack<"area", PointWithQuantity>;
 
 /**
  * The types of tracks that Cereus supports out of the box.
  */
-export type CereusTracks =
-  | CereusSequenceTrack
-  | CereusBlockTrack
-  | CereusPointTrack
-  | CereusHeatmapTrack;
+export type CereusTracks = DefaultTracks<
+  CereusSequenceTracks,
+  CereusBarTracks,
+  CereusPointTracks
+>;
 
 /**
  * The data shape for a single row in the sequence viewer.
  */
 export type CereusRowData = RowData<CereusTracks>;
+
 /**
  * The data shape returned by CereusPlot for a single row in the sequence viewer.
  */

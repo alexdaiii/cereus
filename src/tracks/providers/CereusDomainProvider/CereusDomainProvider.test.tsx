@@ -1,9 +1,10 @@
 import {renderHook} from "@testing-library/react";
 import {describe, expect, it} from "vitest";
 
-import {useCereusDomain} from "../../hooks";
-import {CereusRowData} from "../../types";
-import {DomainProvider} from "./CereusDomainProvider";
+import {useCereusDomain} from "@/tracks/hooks";
+import {CereusRowData} from "@/tracks/types";
+
+import {CereusDomainProvider} from "./CereusDomainProvider";
 
 describe("CereusDomainProvider", () => {
   it("provides the expected context similar to a DomainProvider", () => {
@@ -30,9 +31,9 @@ describe("CereusDomainProvider", () => {
 
       {
         wrapper: ({children}) => (
-          <DomainProvider domainMin={20} domainMax={40} data={data}>
+          <CereusDomainProvider domainMin={20} domainMax={40} data={data}>
             {children}
-          </DomainProvider>
+          </CereusDomainProvider>
         ),
       },
     );

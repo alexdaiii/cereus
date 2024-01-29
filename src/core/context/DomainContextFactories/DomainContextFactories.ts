@@ -1,8 +1,8 @@
 import {createContext} from "react";
 
-import {RowData} from "@/core/types";
+import {AnyRowData} from "@/core/types";
 
-export type DomainContextType<T extends RowData> = {
+export type DomainContextType<T extends AnyRowData> = {
   /**
    * The minimum domain value for the x-axis.
    * @default 0
@@ -76,7 +76,7 @@ export type DomainContextType<T extends RowData> = {
  *
  * ```
  */
-export const createDomainContext = <T extends RowData>() => {
+export const createDomainContext = <T extends AnyRowData>() => {
   return createContext<DomainContextType<T>>({
     domainMin: 0,
     domainMax: 0,

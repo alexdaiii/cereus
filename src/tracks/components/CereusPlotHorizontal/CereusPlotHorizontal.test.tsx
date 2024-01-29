@@ -19,9 +19,20 @@ const tracks: CereusTracks[] = [
   },
   {
     trackId: "track2",
-    data: {
-      positions: [1, 2, 3, 4],
-    },
+    data: [
+      {
+        position: 0,
+      },
+      {
+        position: 1,
+      },
+      {
+        position: 2,
+      },
+      {
+        position: 3,
+      },
+    ],
     trackType: "point",
   },
   {
@@ -32,7 +43,7 @@ const tracks: CereusTracks[] = [
         end: 1,
       },
     ],
-    trackType: "block",
+    trackType: "bar",
   },
 ];
 

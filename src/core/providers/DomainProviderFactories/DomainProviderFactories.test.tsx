@@ -3,13 +3,14 @@ import {renderHook} from "@testing-library/react";
 import {Context, FC, createContext} from "react";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
-import {DomainContextType} from "../../context";
-import {createUseDomainHook} from "../../hooks";
-import {RowData, TrackData} from "../../types";
 import {
+  AnyRowData,
+  DomainContextType,
   DomainProviderProps,
+  TrackData,
   createDomainProvider,
-} from "./DomainProviderFactories";
+  createUseDomainHook,
+} from "@/core";
 
 const sortByTrackId = (a: TrackData, b: TrackData) => {
   if (a.trackId > b.trackId) {
@@ -21,7 +22,7 @@ const sortByTrackId = (a: TrackData, b: TrackData) => {
   return 0;
 };
 
-const sortByRowId = (a: RowData, b: RowData) => {
+const sortByRowId = (a: AnyRowData, b: AnyRowData) => {
   if (a.rowId < b.rowId) {
     return -1;
   } else if (a.rowId > b.rowId) {
@@ -32,9 +33,9 @@ const sortByRowId = (a: RowData, b: RowData) => {
 };
 
 const createData = (visible: boolean[]) => {
-  const data: RowData[] = [];
+  const data: AnyRowData[] = [];
   const visibleTracks: TrackData[] = [];
-  const visibleRows: RowData[] = [];
+  const visibleRows: AnyRowData[] = [];
 
   for (let i = 0; i < visible.length; i++) {
     const tracks = Array.from({length: i}, (_, trackIdx) => {
@@ -68,11 +69,11 @@ describe("DomainProvider", () => {
     vi.restoreAllMocks();
   });
 
-  let context: Context<DomainContextType<RowData>>;
-  let TestProvider: FC<DomainProviderProps<RowData>>;
+  let context: Context<DomainContextType<AnyRowData>>;
+  let TestProvider: FC<DomainProviderProps<AnyRowData>>;
 
   beforeEach(() => {
-    context = createContext<DomainContextType<RowData>>({
+    context = createContext<DomainContextType<AnyRowData>>({
       domainMin: 0,
       domainMax: 0,
       data: [],
