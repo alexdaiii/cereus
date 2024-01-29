@@ -1,5 +1,9 @@
-type FilterSequenceProps = {};
+import {ReactNode} from "react";
 
-export const FilterSequence = ({}: FilterSequenceProps) => {
-  return <div>FilterSequence</div>;
+type FilterSequenceProps = {
+  children?: ReactNode;
+};
+
+export const FilterSequence = ({children}: FilterSequenceProps) => {
+  return <>{children}</>;
 };
