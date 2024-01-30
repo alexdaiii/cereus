@@ -149,7 +149,7 @@ type HorizontalPlotGroupsProps<RowDataT extends RowData<TrackData>> = {
  * Does not place any elements inside the provider created by
  * createHorizontalTrackGroupProvider.
  */
-export const HorizontalPlotGroupsInner = <RowDataT extends RowData<TrackData>>({
+export const HorizontalPlotGroup = <RowDataT extends RowData<TrackData>>({
   children,
   rows,
 }: HorizontalPlotGroupsProps<RowDataT>) => {

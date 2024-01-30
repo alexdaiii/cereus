@@ -1,44 +1,37 @@
 import {ReactNode} from "react";
 
-import {PlotAreaPositioner, PlotHorizontal} from "@/core";
-import {createHorizontalPlotGroup} from "@/core/components/HorizontalPlotGroups/HorizontalPlotGroupFactory";
-import {useCereusDomain, useCereusScale} from "@/tracks";
-import {CereusTrackGroupContext} from "@/tracks/context/CereusTrackGroupContext/CereusTrackGroupContext";
+import {TrackProviderHandler} from "@/tracks";
+import {CereusPlotHorizontalInner} from "@/tracks/components/CereusPlotHorizontal/CereusPlotHorizontalInner";
 
-export type CereusPlotProps = {
+type CereusPlotHorizontalProps = {
   children: ReactNode;
 };
 
-export const CereusPlotHorizontalInner = createHorizontalPlotGroup(
-  CereusTrackGroupContext,
-);
-
 /**
- * Wraps the `PlotHorizontal` component and a `CereusPlotHorizontalInner` component
+ * Wraps the `CereusPlotHorizontalInner`
  *
- * Place a component to handle rendering a track as a child. This component
- * will be rendered as many times as there are visible tracks. Use the
- * `useCereusTrackGroup` hook to access the track data inside your component.
+ * Place a component to handle rendering a track as a child. This child component
+ * will be rendered as many times as there are visible tracks.
  *
- * @param children - A function that renders the tracks
+ * Each child is wrapped in a Provider that provides the track data to the child
+ * based on the track type. For example a CereusSequenceTrack will be wrapped in a
+ * CereusSequenceTrackContext.Provider. Use the `useCereusSequenceTrack` hook to access
+ * the track data inside your component. (Note if your component is not a sequence
+ * track, it will return no data).
  */
-export const CereusPlotHorizontal = ({children}: CereusPlotProps) => {
-  const {visibleRows} = useCereusDomain();
-  const {y0Scale, y0Bandwidth, y1ScalePaddingInner} = useCereusScale();
+export const CereusPlotHorizontal = ({children}: CereusPlotHorizontalProps) => {
   return (
-    <PlotAreaPositioner>
-      <PlotHorizontal
-        visibleRows={visibleRows}
-        rowBandwidth={y0Bandwidth}
-        y1ScalePaddingInner={y1ScalePaddingInner}
-        y0Scale={y0Scale}
-      >
-        {rows => (
-          <CereusPlotHorizontalInner rows={rows}>
-            {children}
-          </CereusPlotHorizontalInner>
-        )}
-      </PlotHorizontal>
-    </PlotAreaPositioner>
+    <CereusPlotHorizontalInner>
+      {(track, rowIndex, rowId, title) => (
+        <TrackProviderHandler
+          track={track}
+          rowIndex={rowIndex}
+          rowId={rowId}
+          title={title}
+        >
+          {children}
+        </TrackProviderHandler>
+      )}
+    </CereusPlotHorizontalInner>
   );
 };

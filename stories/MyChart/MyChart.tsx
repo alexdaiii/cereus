@@ -34,7 +34,7 @@ import {
   useCereusDomain,
   useCereusScale,
 } from "../../src/tracks";
-import {useCereusTrackGroup} from "../../src/tracks/hooks/useCereusTrackGroup";
+import {useCereusTrackGroup} from "../../src/tracks/hooks/useCereusTracks";
 
 type MyChartProps = {
   margin?: GraphItemMargin;

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import {render} from "@testing-library/react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
-import {HorizontalPlotGroupsInner, RowData, TrackData} from "@/core";
+import {HorizontalPlotGroup, RowData, TrackData} from "@/core";
 import {RowDataWithHeight} from "@/core/types";
 
 const tracks = [
@@ -52,7 +52,7 @@ const rowsWithHeight: RowDataWithHeight<RowData<TrackData>>[] = [
   },
 ];
 
-describe("HorizontalPlotGroupsInner", () => {
+describe("HorizontalPlotGroup", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -62,10 +62,7 @@ describe("HorizontalPlotGroupsInner", () => {
 
     render(
       <svg>
-        <HorizontalPlotGroupsInner rows={rowsWithHeight}>
-          {fn}
-        </HorizontalPlotGroupsInner>
-        ,
+        <HorizontalPlotGroup rows={rowsWithHeight}>{fn}</HorizontalPlotGroup>,
       </svg>,
     );
 
@@ -101,10 +98,7 @@ describe("HorizontalPlotGroupsInner", () => {
 
     const {container} = render(
       <svg>
-        <HorizontalPlotGroupsInner rows={rowsWithHeight}>
-          {fn}
-        </HorizontalPlotGroupsInner>
-        ,
+        <HorizontalPlotGroup rows={rowsWithHeight}>{fn}</HorizontalPlotGroup>,
       </svg>,
     );
 
@@ -126,10 +120,7 @@ describe("HorizontalPlotGroupsInner", () => {
 
     const {container} = render(
       <svg>
-        <HorizontalPlotGroupsInner rows={rowsWithHeight}>
-          {fn}
-        </HorizontalPlotGroupsInner>
-        ,
+        <HorizontalPlotGroup rows={rowsWithHeight}>{fn}</HorizontalPlotGroup>,
       </svg>,
     );
 

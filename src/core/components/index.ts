@@ -1,4 +1,4 @@
 export * from "./GraphComponentsPositioner";
 export * from "./PlotHorizontal";
-export * from "./HorizontalPlotGroups";
+export * from "./HorizontalPlotGroup";
 export * from "./DomainFilters";
