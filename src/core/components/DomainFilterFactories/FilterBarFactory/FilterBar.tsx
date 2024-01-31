@@ -1,60 +1,36 @@
-import {ReactNode, useContext, useMemo} from "react";
+import {cloneDeep} from "lodash";
 
-import {
-  AnyRowData,
-  BarTrack,
-  DomainContextType,
-  HorizontalTrackGroupContextType,
-  TrackDataWithHeight,
-  createTrackProvider,
-} from "@/core";
-
-type FilterBarProps = {
-  children: ReactNode;
-};
+import {BarTrack, TrackDataWithHeight} from "@/core";
+import {createFilterComponentFactory} from "@/core/components/DomainFilterFactories/FilterDataFactory";
 
 /**
- * Creates a new track (data) that is filtered to be withing the min and max
- * domain. Places the new filtered data inside the provided provider.
+ * Takes in a track, domainMin, and domainMax and returns a new track that
+ * contains data shaped similar to {@link BarTrack} that is filtered to be
+ * within the domain.
  */
-export const createFilterBar = <T extends BarTrack<string>>(
-  NewProvider: ReturnType<typeof createTrackProvider<T>>,
-  useTrackHook: () => ReturnType<
-    typeof useContext<HorizontalTrackGroupContextType<T>>
-  >,
-  useDomainHook: () => DomainContextType<AnyRowData>,
+export const filterBarData = <BarTrackT extends BarTrack<string>>(
+  track: TrackDataWithHeight<BarTrackT>,
+  domainMin: number,
+  domainMax: number,
 ) => {
-  return function FilterBar({children}: FilterBarProps) {
-    const {rowId, title, rowIndex, track} = useTrackHook();
-    const {domainMin, domainMax} = useDomainHook();
+  const newTrackData: BarTrackT["data"] = [];
 
-    const newTrack = useMemo(
-      () => filterBarData(track, domainMin, domainMax),
-      [domainMax, domainMin, track],
-    );
+  for (let i = 0; i < track.data.length; i++) {
+    const data = track.data[i];
+    if (data.end >= domainMin && data.begin <= domainMax) {
+      newTrackData.push(cloneDeep(data));
+    }
+  }
 
-    return (
-      <NewProvider
-        track={newTrack}
-        rowIndex={rowIndex}
-        rowId={rowId}
-        title={title}
-      >
-        {children}
-      </NewProvider>
-    );
+  return {
+    ...track,
+    data: newTrackData,
   };
 };
 
 /**
- * Takes in a track, domainMin, and domainMax and returns a new track that is
- * filtered to be within the domain.
+ * Creates a component that takes in a new track that is shaped similar to
+ * {@link BarTrack} and returns a new track that is filtered to be within the
+ * min and max domain. Places the new filtered data inside the provided provider.
  */
-export const filterBarData = <T extends BarTrack<string>>(
-  track: TrackDataWithHeight<T>,
-  domainMin: number,
-  domainMax: number,
-) => {
-  console.log("filterBarData", track, domainMin, domainMax);
-  return track;
-};
+export const createFilterBar = createFilterComponentFactory(filterBarData);

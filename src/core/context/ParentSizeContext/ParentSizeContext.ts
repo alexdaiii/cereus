@@ -1,8 +1,8 @@
 import {createContext} from "react";
 
 export type ParentSizeContextType = {
-  width: number;
-  height: number;
+  readonly width: number;
+  readonly height: number;
 };
 
 export const ParentSizeContext = createContext<ParentSizeContextType>({

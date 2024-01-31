@@ -28,7 +28,10 @@ export type DiscreteData<T> = T & {
 /**
  * Sequence track - display a string of characters.
  */
-export type CereusSequenceTrack = SequenceTrack<DiscreteData<SequenceData>>;
+export type CereusSequenceTrack = SequenceTrack<
+  "sequence",
+  DiscreteData<SequenceData>
+>;
 
 // -------------------
 // Bar tracks

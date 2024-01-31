@@ -1,4 +1,4 @@
-import {createTrackProvider} from "@/core";
+import {createTrackWithHeightProvider} from "@/core";
 import {
   CereusAreaTrackContext,
   CereusBarTrackContext,
@@ -7,32 +7,40 @@ import {
   CereusLineTrackContext,
   CereusPointTrackContext,
   CereusSequenceTrackContext,
+  CereusTrackTypeContext,
 } from "@/tracks";
 
-export const CereusSequenceTrackProvider = createTrackProvider(
+export const CereusSequenceTrackProvider = createTrackWithHeightProvider(
   CereusSequenceTrackContext,
+  CereusTrackTypeContext,
 );
 
-export const CereusBarTrackProvider = createTrackProvider(
+export const CereusBarTrackProvider = createTrackWithHeightProvider(
   CereusBarTrackContext,
+  CereusTrackTypeContext,
 );
 
-export const CereusBondTrackProvider = createTrackProvider(
+export const CereusBondTrackProvider = createTrackWithHeightProvider(
   CereusBondTrackContext,
+  CereusTrackTypeContext,
 );
 
-export const CereusPointTrackProvider = createTrackProvider(
+export const CereusPointTrackProvider = createTrackWithHeightProvider(
   CereusPointTrackContext,
+  CereusTrackTypeContext,
 );
 
-export const CereusHeatmapTrackProvider = createTrackProvider(
+export const CereusHeatmapTrackProvider = createTrackWithHeightProvider(
   CereusHeatmapTrackContext,
+  CereusTrackTypeContext,
 );
 
-export const CereusLineTrackProvider = createTrackProvider(
+export const CereusLineTrackProvider = createTrackWithHeightProvider(
   CereusLineTrackContext,
+  CereusTrackTypeContext,
 );
 
-export const CereusAreaTrackProvider = createTrackProvider(
+export const CereusAreaTrackProvider = createTrackWithHeightProvider(
   CereusAreaTrackContext,
+  CereusTrackTypeContext,
 );

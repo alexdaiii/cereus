@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 
-import {CereusTrackTypeProvider, TrackProviderHandler} from "@/tracks";
+import {TrackProviderHandler} from "@/tracks";
 import {CereusPlotHorizontalInner} from "@/tracks/components/CereusPlotHorizontal/CereusPlotHorizontalInner";
 
 type CereusPlotHorizontalProps = {
@@ -29,20 +29,27 @@ type CereusPlotHorizontalProps = {
  *   <CereusDomainProvider {...args}>
  *     ... other components ...
  *     <CereusPlotHorizontal>
- *       <>
- *         <MySequenceComponent />
- *         <MyHeatmapComponent />
- *         ... etc ...
- *       </>
+ *       <MyTrackComponent/>
  *     </CereusPlotHorizontal>
  *     ... other components ...
  *   </CereusDomainProvider>
  * );
  *
+ * const MyTrackComponent = () => {
+ *   const trackType = useCereusTrackType();
+ *
+ *   switch (trackType) {
+ *     case "sequence":
+ *       return <MySequenceComponent />;
+ *     case "heatmap":
+ *       return <MyHeatmapComponent />;
+ *     default:
+ *       return null;
+ *   }
+ * };
+ *
  * const MySequenceComponent = () => {
  *   const sequenceTrackData = useCereusSequenceTrack();
- *
- *   if (!(sequenceTrackData.track.trackType === "sequence")) return null;
  *
  *   // should use Text (or just regular SVG <text>) for text inside a svg
  *   return <Text>{JSON.stringify(sequenceTrackData, null, 2)}</Text>;
@@ -50,8 +57,6 @@ type CereusPlotHorizontalProps = {
  *
  * const MyHeatmapComponent = () => {
  *   const heatmapTrackData = useCereusHeatmapTrack();
- *
- *   if (!(heatmapTrackData.track.trackType === "heatmap")) return null;
  *
  *   return <Text>{JSON.stringify(heatmapTrackData, null, 2)}</Text>;
  * };
@@ -68,9 +73,7 @@ export const CereusPlotHorizontal = ({children}: CereusPlotHorizontalProps) => {
           rowId={rowId}
           title={title}
         >
-          <CereusTrackTypeProvider trackType={track.trackType}>
-            {children}
-          </CereusTrackTypeProvider>
+          {children}
         </TrackProviderHandler>
       )}
     </CereusPlotHorizontalInner>

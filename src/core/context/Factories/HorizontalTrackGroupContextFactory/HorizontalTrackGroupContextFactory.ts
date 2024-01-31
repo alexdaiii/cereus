@@ -2,11 +2,14 @@ import {createContext} from "react";
 
 import {RowIdentifiers, TrackData, TrackDataWithHeight} from "@/core";
 
-export type HorizontalTrackGroupContextType<T extends TrackData> = {
+/**
+ * Row information and track with height data
+ */
+export type HorizontalTrackGroupContextType<TrackDataT extends TrackData> = {
   /**
    * This value is set to true if the provider has been initialized.
    */
-  initialized: boolean;
+  readonly initialized: boolean;
   /**
    * The index of the row from the data array.
    */
@@ -14,17 +17,17 @@ export type HorizontalTrackGroupContextType<T extends TrackData> = {
   /**
    * The track data
    */
-  track: TrackDataWithHeight<T>;
+  readonly track: TrackDataWithHeight<TrackDataT>;
 } & RowIdentifiers;
 
 /**
  * Create a context to surround each track rendered by a HorizontalPlotGroupsInner component
  * so that child components don't need row and track data to be directly passed to them.
  */
-export const createHorizontalTrackGroupContext = <T extends TrackData>(
-  defaultTrackData: T,
+export const createHorizontalTrackGroupContext = <TrackDataT extends TrackData>(
+  defaultTrackData: TrackDataT,
 ) => {
-  return createContext<HorizontalTrackGroupContextType<T>>({
+  return createContext<HorizontalTrackGroupContextType<TrackDataT>>({
     initialized: false,
     rowIndex: 0,
     rowId: "",

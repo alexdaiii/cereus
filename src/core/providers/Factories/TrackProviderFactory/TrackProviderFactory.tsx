@@ -1,16 +1,18 @@
 import {Context, ReactNode} from "react";
 
 import {
+  AnyRowData,
   HorizontalTrackGroupContextType,
   TrackData,
   TrackDataHeightInformation,
+  TrackTypeContextType,
 } from "@/core";
 
-type TrackProviderProps<T extends TrackData> = {
+type TrackProviderProps<SpecificTrackTypeT extends TrackData> = {
   /**
    * The track to place in the plot.
    */
-  track: T & TrackDataHeightInformation;
+  track: SpecificTrackTypeT & TrackDataHeightInformation;
   /**
    * The index of the row this track belongs to.
    */
@@ -28,9 +30,17 @@ type TrackProviderProps<T extends TrackData> = {
 
 /**
  * Creates a new (typed) track provider. Sets the initialized flag to true.
+ * Restricts this track provider to only accept tracks of the same type.
+ * (if using TypeScript)
  */
-export const createTrackProvider = <T extends TrackData>(
-  TrackContext: Context<HorizontalTrackGroupContextType<T>>,
+export const createTrackWithHeightProvider = <
+  SpecificTrackTypeT extends TrackData,
+  RowTypeT extends AnyRowData,
+>(
+  TrackWithHeightContext: Context<
+    HorizontalTrackGroupContextType<SpecificTrackTypeT>
+  >,
+  TrackTypeContext: Context<TrackTypeContextType<RowTypeT>>,
 ) => {
   return function TrackProvider({
     children,
@@ -38,9 +48,9 @@ export const createTrackProvider = <T extends TrackData>(
     rowIndex,
     rowId,
     title,
-  }: TrackProviderProps<T>) {
+  }: TrackProviderProps<SpecificTrackTypeT>) {
     return (
-      <TrackContext.Provider
+      <TrackWithHeightContext.Provider
         value={{
           initialized: true,
           title,
@@ -49,8 +59,10 @@ export const createTrackProvider = <T extends TrackData>(
           rowIndex,
         }}
       >
-        {children}
-      </TrackContext.Provider>
+        <TrackTypeContext.Provider value={track.trackType}>
+          {children}
+        </TrackTypeContext.Provider>
+      </TrackWithHeightContext.Provider>
     );
   };
 };

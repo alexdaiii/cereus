@@ -11,17 +11,15 @@ import {
 } from "@/core";
 import {GroupOffset} from "@/core/context";
 
-// type GraphComponentsPositionerProps = {
-//   children: ReactNode;
-// } & ComponentProps<typeof Group>;
-
 /**
  * Creates a group component that has the top and left offsets applied
  * based on the hook provided.
  * @param hook
  */
-export const createGraphComponentsPositioner = <T extends GroupOffset>(
-  hook: () => T,
+export const createGraphComponentsPositioner = <
+  TopAndLeftOffsetT extends GroupOffset,
+>(
+  hook: () => TopAndLeftOffsetT,
 ) => {
   return function GraphComponent({
     children,

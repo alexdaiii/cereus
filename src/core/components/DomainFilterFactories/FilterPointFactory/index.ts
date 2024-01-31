@@ -1,1 +1,1 @@
-export * from './FilterPoint';
+export * from "./FilterPoint";

@@ -2,7 +2,7 @@ import {createContext} from "react";
 
 import {AnyRowData} from "@/core/types";
 
-export type DomainContextType<T extends AnyRowData> = {
+export type DomainContextType<RowDataT extends AnyRowData> = {
   /**
    * The minimum domain value for the x-axis.
    * @default 0
@@ -16,11 +16,11 @@ export type DomainContextType<T extends AnyRowData> = {
   /**
    * Your data
    */
-  readonly data: T[];
+  readonly data: RowDataT[];
   /**
    * Visible rows (computed)
    */
-  readonly visibleRows: T[];
+  readonly visibleRows: RowDataT[];
   /**
    * Visible row IDs (computed). The same as
    *
@@ -32,7 +32,7 @@ export type DomainContextType<T extends AnyRowData> = {
   /**
    * Visible tracks (computed)
    */
-  readonly visibleTracks: T["tracks"][number][];
+  readonly visibleTracks: RowDataT["tracks"][number][];
   /**
    * Visible track IDs (computed). The same as
    *
@@ -76,8 +76,8 @@ export type DomainContextType<T extends AnyRowData> = {
  *
  * ```
  */
-export const createDomainContext = <T extends AnyRowData>() => {
-  return createContext<DomainContextType<T>>({
+export const createDomainContext = <RowDataT extends AnyRowData>() => {
+  return createContext<DomainContextType<RowDataT>>({
     domainMin: 0,
     domainMax: 0,
     data: [],

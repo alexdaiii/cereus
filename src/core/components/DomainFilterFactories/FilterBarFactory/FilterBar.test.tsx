@@ -9,7 +9,11 @@ describe("FilterBar", () => {
   });
 
   it("should render without crashing", () => {
-    const FilterBar = createFilterBar();
+    const fn1 = vi.fn();
+    const fn2 = vi.fn();
+    const fn3 = vi.fn();
+
+    const FilterBar = createFilterBar(fn1, fn2, fn3);
 
     // render(<FilterBar></FilterBar>);
 

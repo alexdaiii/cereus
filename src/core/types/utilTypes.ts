@@ -27,7 +27,3 @@ export type Flatten<T> = T extends object
 export type Enumify<T extends object> = T[keyof T];
 
 export type Constructor<T extends object> = new (...args: never[]) => T;
-
-export type ReadonlyProperties<T> = {
-  readonly [P in keyof T]: T[P];
-};

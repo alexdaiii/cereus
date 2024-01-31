@@ -41,8 +41,10 @@ export type SequenceData = {
   readonly sequence: string;
 };
 
-export type SequenceTrack<SeqDataT extends SequenceData = SequenceData> =
-  TrackData<"sequence", SeqDataT>;
+export type SequenceTrack<
+  TrackName extends string = "sequence",
+  SeqDataT extends SequenceData = SequenceData,
+> = TrackData<TrackName, SeqDataT>;
 
 /**
  * Generic data shape for a track that has a begin and end.
@@ -85,7 +87,7 @@ export type PointTrack<
  * Use undefined to indicate that a track type is not supported.
  */
 export type DefaultTracks<
-  SequenceTrackT extends SequenceTrack | undefined = SequenceTrack,
+  SequenceTrackT extends SequenceTrack<string> | undefined = SequenceTrack,
   BarTrackT extends BarTrack<string> | undefined = BarTrack,
   PointTrackT extends PointTrack<string> | undefined = PointTrack,
 > = SequenceTrackT | BarTrackT | PointTrackT;
