@@ -137,17 +137,42 @@ type HorizontalPlotGroupsProps<RowDataT extends RowData<TrackData>> = {
 };
 
 /**
- * Renders all tracks in a HorizontalTrackGroup as
- * a child of a HorizontalRowGroup. Calls the children function
- * for each track in the rows and passed the track and row data to the children.
- * Used to "flatten" the rows and tracks data so that the child function
- * component has all the track and row data it needs to render the track.
+ * Usually takes in the `rows` passed into the children function from
+ * {@link PlotHorizontal}.
  *
- * Usually takes in the rows passed into the children function from
- * PlotHorizontal.
+ * Given an array of rows with the shape of {@link RowDataWithHeight},
+ * flattens the array of tracks inside the rows and calls the children function
+ * for each track in the rows.
  *
- * Does not place any elements inside the provider created by
- * createHorizontalTrackGroupProvider.
+ * Places each row inside a `@visx/group` element
+ * and places each track inside a `@visx/group` element. These group elements are
+ * already positioned at the y0 of the row and the y of the track respectively.
+ *
+ * This means that the children function will be called for each track in the rows.
+ * Also, the children function does not need to call `rows.map` or `tracks.map` to unpack
+ * the array. Also, since the child component is wrapped in a group component
+ * with the y position already set, the child component does not need to worry about
+ * positioning along the y-axis.
+ *
+ * Example usage:
+ *
+ * ```ts
+ * // props are the props required for PlotHorizontal
+ * <PlotHorizontal {...props}>
+ *   {rows => (
+ *     <HorizontalPlotGroup rows={rows}>
+ *       {(track, rowIndex, rowId, title) => (
+ *         <MyCustomTrackComponent
+ *           track={track}
+ *           rowIndex={rowIndex}
+ *           rowId={rowId}
+ *           title={title}
+ *         />
+ *       )}
+ *     </HorizontalPlotGroup>
+ *   )}
+ * </PlotHorizontal>;
+ * ```
  */
 export const HorizontalPlotGroup = <RowDataT extends RowData<TrackData>>({
   children,

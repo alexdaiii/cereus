@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 
-import {TrackProviderHandler} from "@/tracks";
+import {CereusTrackTypeProvider, TrackProviderHandler} from "@/tracks";
 import {CereusPlotHorizontalInner} from "@/tracks/components/CereusPlotHorizontal/CereusPlotHorizontalInner";
 
 type CereusPlotHorizontalProps = {
@@ -8,16 +8,55 @@ type CereusPlotHorizontalProps = {
 };
 
 /**
- * Wraps the `CereusPlotHorizontalInner`
+ * Main component for rendering the tracks. Positions the elements inside
+ * the plotting area of the graph.
  *
- * Place a component to handle rendering a track as a child. This child component
- * will be rendered as many times as there are visible tracks.
+ * Uses the data provided by a parent
+ * {@link CereusDomainProvider} to render all the visible tracks in the rows.
+ * {@link CereusRowData} for more information on the data structure of the rows
+ * and tracks.
  *
- * Each child is wrapped in a Provider that provides the track data to the child
- * based on the track type. For example a CereusSequenceTrack will be wrapped in a
- * CereusSequenceTrackContext.Provider. Use the `useCereusSequenceTrack` hook to access
- * the track data inside your component. (Note if your component is not a sequence
- * track, it will return no data).
+ * Children passed into this component will be rendered as many times as there
+ * are visible tracks. Children will also be wrapped inside a provider that
+ * is specific to the track being rendered.
+ *
+ * Example:
+ *
+ * ```ts
+ * import {Text} from "@visx/text";
+ *
+ * const MyPlot = () => (
+ *   <CereusDomainProvider {...args}>
+ *     ... other components ...
+ *     <CereusPlotHorizontal>
+ *       <>
+ *         <MySequenceComponent />
+ *         <MyHeatmapComponent />
+ *         ... etc ...
+ *       </>
+ *     </CereusPlotHorizontal>
+ *     ... other components ...
+ *   </CereusDomainProvider>
+ * );
+ *
+ * const MySequenceComponent = () => {
+ *   const sequenceTrackData = useCereusSequenceTrack();
+ *
+ *   if (!(sequenceTrackData.track.trackType === "sequence")) return null;
+ *
+ *   // should use Text (or just regular SVG <text>) for text inside a svg
+ *   return <Text>{JSON.stringify(sequenceTrackData, null, 2)}</Text>;
+ * };
+ *
+ * const MyHeatmapComponent = () => {
+ *   const heatmapTrackData = useCereusHeatmapTrack();
+ *
+ *   if (!(heatmapTrackData.track.trackType === "heatmap")) return null;
+ *
+ *   return <Text>{JSON.stringify(heatmapTrackData, null, 2)}</Text>;
+ * };
+ *
+ * ```
  */
 export const CereusPlotHorizontal = ({children}: CereusPlotHorizontalProps) => {
   return (
@@ -29,7 +68,9 @@ export const CereusPlotHorizontal = ({children}: CereusPlotHorizontalProps) => {
           rowId={rowId}
           title={title}
         >
-          {children}
+          <CereusTrackTypeProvider trackType={track.trackType}>
+            {children}
+          </CereusTrackTypeProvider>
         </TrackProviderHandler>
       )}
     </CereusPlotHorizontalInner>

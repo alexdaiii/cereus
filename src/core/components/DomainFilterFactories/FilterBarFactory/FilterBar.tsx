@@ -1,14 +1,13 @@
-import {ReactNode, useContext} from "react";
+import {ReactNode, useContext, useMemo} from "react";
 
 import {
+  AnyRowData,
   BarTrack,
   DomainContextType,
   HorizontalTrackGroupContextType,
-  RowData,
+  TrackDataWithHeight,
   createTrackProvider,
 } from "@/core";
-import {useCereusBarTrack, useCereusDomain} from "@/tracks";
-import {CereusBarTrackProvider} from "@/tracks/providers/CereusTrackProviders/CereusTrackProviders";
 
 type FilterBarProps = {
   children: ReactNode;
@@ -16,22 +15,27 @@ type FilterBarProps = {
 
 /**
  * Creates a new track (data) that is filtered to be withing the min and max
- * domain
+ * domain. Places the new filtered data inside the provided provider.
  */
 export const createFilterBar = <T extends BarTrack<string>>(
   NewProvider: ReturnType<typeof createTrackProvider<T>>,
   useTrackHook: () => ReturnType<
     typeof useContext<HorizontalTrackGroupContextType<T>>
   >,
-  useDomainHook: () => DomainContextType<RowData<T>>,
+  useDomainHook: () => DomainContextType<AnyRowData>,
 ) => {
   return function FilterBar({children}: FilterBarProps) {
     const {rowId, title, rowIndex, track} = useTrackHook();
     const {domainMin, domainMax} = useDomainHook();
 
+    const newTrack = useMemo(
+      () => filterBarData(track, domainMin, domainMax),
+      [domainMax, domainMin, track],
+    );
+
     return (
       <NewProvider
-        track={track}
+        track={newTrack}
         rowIndex={rowIndex}
         rowId={rowId}
         title={title}
@@ -42,8 +46,15 @@ export const createFilterBar = <T extends BarTrack<string>>(
   };
 };
 
-const CereusFilterBar = createFilterBar(
-  CereusBarTrackProvider,
-  useCereusBarTrack,
-  useCereusDomain,
-);
+/**
+ * Takes in a track, domainMin, and domainMax and returns a new track that is
+ * filtered to be within the domain.
+ */
+export const filterBarData = <T extends BarTrack<string>>(
+  track: TrackDataWithHeight<T>,
+  domainMin: number,
+  domainMax: number,
+) => {
+  console.log("filterBarData", track, domainMin, domainMax);
+  return track;
+};

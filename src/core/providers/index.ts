@@ -1,6 +1,9 @@
 export * from "./GraphComponentStyleProvider";
 export * from "./AxisStyleProvider";
-export * from "./DomainProviderFactories";
 export * from "./GraphWithAxesProvider";
 export * from "./ParentSizeProvider";
-export * from "./TrackProviderFactory";
+/**
+ * These are functions that create providers, given a context.
+ * Used for Typescript to get a type-safe provider.
+ */
+export * from "./Factories";

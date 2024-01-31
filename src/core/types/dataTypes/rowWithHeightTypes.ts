@@ -49,3 +49,6 @@ export type TrackDataHeightInformation = {
    */
   readonly y: number;
 };
+
+export type TrackDataWithHeight<TrackT extends TrackData> = TrackT &
+  TrackDataHeightInformation;

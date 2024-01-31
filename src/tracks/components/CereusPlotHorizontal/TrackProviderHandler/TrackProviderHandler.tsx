@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 
-import {CereusTrackDataWithHeight} from "@/tracks";
+import {AnyCereusTrackDataWithHeight} from "@/tracks";
 import {
   CereusAreaTrackProvider,
   CereusBarTrackProvider,
@@ -16,7 +16,7 @@ export type TrackProviderHandlerProps = {
   /**
    * The track to place in the plot.
    */
-  track: CereusTrackDataWithHeight;
+  track: AnyCereusTrackDataWithHeight;
   /**
    * The index of the row this track belongs to.
    */

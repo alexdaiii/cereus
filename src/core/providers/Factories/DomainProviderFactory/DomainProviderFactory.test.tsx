@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import {renderHook} from "@testing-library/react";
-import {Context, FC, createContext} from "react";
+import {Context, FC, createContext, useContext} from "react";
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
 import {
@@ -9,7 +9,6 @@ import {
   DomainProviderProps,
   TrackData,
   createDomainProvider,
-  createUseDomainHook,
 } from "@/core";
 
 const sortByTrackId = (a: TrackData, b: TrackData) => {
@@ -141,7 +140,7 @@ describe("DomainProvider", () => {
         visibleRows: expectedVisibleRows,
       } = createData(visible);
 
-      const useDomain = createUseDomainHook(context);
+      const useDomain = () => useContext(context);
 
       const {
         result: {

@@ -1,4 +1,6 @@
 export * from "./GraphComponentStyleContext";
-export * from "./DomainContextFactories";
 export * from "./ParentSizeContext";
-export * from "./HorizontalTrackGroupContextFactory";
+/**
+ * These are functions that create type safe contexts
+ */
+export * from "./Factories";

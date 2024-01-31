@@ -23,13 +23,13 @@ import {
   usePlotAreaStyle,
 } from "../../src";
 import {
+  AnyCereusTrackDataWithHeight,
   CereusAxisLeft,
   CereusAxisTop,
   CereusDomainProvider,
   CereusPlotHorizontal,
   CereusRowData,
   CereusScalesProvider,
-  CereusTrackDataWithHeight,
   CereusTracks,
   useCereusDomain,
   useCereusScale,
@@ -440,7 +440,7 @@ const getColor = (track: CereusTracks) => {
   }
 };
 
-const BarTrack = ({trackData}: {trackData: CereusTrackDataWithHeight}) => {
+const BarTrack = ({trackData}: {trackData: AnyCereusTrackDataWithHeight}) => {
   const {domainMin, domainMax} = useCereusDomain();
   const {xScale} = useCereusScale();
 
@@ -477,7 +477,7 @@ const BarTrack = ({trackData}: {trackData: CereusTrackDataWithHeight}) => {
   });
 };
 
-const PointTrack = ({trackData}: {trackData: CereusTrackDataWithHeight}) => {
+const PointTrack = ({trackData}: {trackData: AnyCereusTrackDataWithHeight}) => {
   const {xScale} = useCereusScale();
 
   if (trackData.trackType !== "point") {

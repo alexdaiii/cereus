@@ -1,6 +1,6 @@
 import {createContext} from "react";
 
-import {RowIdentifiers, TrackData, TrackDataHeightInformation} from "@/core";
+import {RowIdentifiers, TrackData, TrackDataWithHeight} from "@/core";
 
 export type HorizontalTrackGroupContextType<T extends TrackData> = {
   /**
@@ -14,7 +14,7 @@ export type HorizontalTrackGroupContextType<T extends TrackData> = {
   /**
    * The track data
    */
-  track: T & TrackDataHeightInformation;
+  track: TrackDataWithHeight<T>;
 } & RowIdentifiers;
 
 /**

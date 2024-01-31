@@ -3,13 +3,13 @@ import {ReactNode} from "react";
 import {HorizontalPlotGroup, PlotAreaPositioner, PlotHorizontal} from "@/core";
 import {useCereusDomain, useCereusScale} from "@/tracks";
 import {
+  AnyCereusTrackDataWithHeight,
   CereusRowData,
-  CereusTrackDataWithHeight,
 } from "@/tracks/types/data/rowTypes";
 
 export type CereusPlotHorizontalInnerProps = {
   children: (
-    track: CereusTrackDataWithHeight,
+    track: AnyCereusTrackDataWithHeight,
     rowIndex: number,
     rowId: string,
     title: string,
@@ -17,13 +17,10 @@ export type CereusPlotHorizontalInnerProps = {
 };
 
 /**
- * Wraps the `PlotHorizontal` component and a `CereusPlotHorizontalInner` component
+ * Wraps the `PlotHorizontal` component and a `HorizontalPlotGroup` component
  *
  * Place a component to handle rendering a track as a child. This component
- * will be rendered as many times as there are visible tracks. Use the
- * `useCereusTrackGroup` hook to access the track data inside your component.
- *
- * @param children - A function that renders the tracks
+ * will be rendered as many times as there are visible tracks.
  */
 export const CereusPlotHorizontalInner = ({
   children,

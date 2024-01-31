@@ -14,4 +14,5 @@ export type CereusRowDataWithHeight = RowDataWithHeight<CereusRowData>;
  * The data shape returned by CereusPlot for a single track for a row in the
  * sequence viewer.
  */
-export type CereusTrackDataWithHeight = InferTrackType<CereusRowDataWithHeight>;
+export type AnyCereusTrackDataWithHeight =
+  InferTrackType<CereusRowDataWithHeight>;

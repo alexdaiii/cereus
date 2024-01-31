@@ -26,6 +26,9 @@ type TrackProviderProps<T extends TrackData> = {
   children: ReactNode;
 };
 
+/**
+ * Creates a new (typed) track provider. Sets the initialized flag to true.
+ */
 export const createTrackProvider = <T extends TrackData>(
   TrackContext: Context<HorizontalTrackGroupContextType<T>>,
 ) => {
