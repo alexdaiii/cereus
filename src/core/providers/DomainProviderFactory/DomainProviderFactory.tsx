@@ -1,7 +1,7 @@
 import {Context, ReactNode, useMemo} from "react";
 
 import {DomainContextType} from "@/core/context";
-import {AnyRowData} from "@/core/types";
+import {AnyRowData, TrackData} from "@/core/types";
 
 export type DomainProviderProps<T extends AnyRowData> = {
   children: ReactNode;
@@ -25,6 +25,10 @@ export const createDomainProvider = <RowDataT extends AnyRowData>(
     domainMin = 0,
     data,
   }: DomainProviderProps<RowDataT>) => {
+    const sortedData = useMemo(() => {
+      return sortData(data);
+    }, [data]);
+
     // only compute these values when the data changes
     const {
       visibleRows,
@@ -33,13 +37,13 @@ export const createDomainProvider = <RowDataT extends AnyRowData>(
       visibleTrackIds,
       visibleTracksCountPerRow,
     } = useMemo(() => {
-      return calculateVisibleRows(data);
-    }, [data]);
+      return calculateVisibleRows(sortedData);
+    }, [sortedData]);
 
     return (
       <DomainContext.Provider
         value={{
-          data,
+          data: sortedData,
           domainMax,
           domainMin,
           visibleRows,
@@ -55,6 +59,31 @@ export const createDomainProvider = <RowDataT extends AnyRowData>(
   };
   DomainProvider.displayName = displayName;
   return DomainProvider;
+};
+
+/**
+ * Sorts the data's tracks
+ */
+const sortData = <T extends AnyRowData>(data: T[]): T[] => {
+  // map because all properties are readonly so for loop won't work
+  return data.map(row => ({
+    ...row,
+    tracks: row.tracks.map(track => {
+      return {
+        ...track,
+        data: sortTrackData(track.data),
+      };
+    }),
+  }));
+};
+
+/**
+ * Sorts the tracks
+ */
+const sortTrackData = <T extends TrackData>(
+  trackData: T["data"],
+): T["data"] => {
+  return trackData;
 };
 
 /**

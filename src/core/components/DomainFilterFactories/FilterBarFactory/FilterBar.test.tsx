@@ -17,6 +17,6 @@ describe("FilterBar", () => {
 
     // render(<FilterBar></FilterBar>);
 
-    expect(FilterBar).toBeTruthy();
+    expect(false).toBeTruthy();
   });
 });

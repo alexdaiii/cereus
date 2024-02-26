@@ -33,8 +33,7 @@ import {
   CereusTracks,
   useCereusDomain,
   useCereusScale,
-} from "../../src/tracks";
-import {useCereusTrackGroup} from "../../src/tracks/hooks/useCereusTracks";
+} from "../../src";
 
 type MyChartProps = {
   margin?: GraphItemMargin;
@@ -395,8 +394,6 @@ const PlotArea = () => {
 };
 
 const Track = () => {
-  const {track, rowId, title, rowIndex} = useCereusTrackGroup();
-
   return (
     <>
       <Bar

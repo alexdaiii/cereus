@@ -7,6 +7,6 @@ describe("FilterPoint", () => {
   });
 
   it("should render without crashing", () => {
-    expect(true).toBeTruthy();
+    expect(false).toBeTruthy();
   });
 });

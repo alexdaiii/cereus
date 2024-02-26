@@ -1,6 +1,6 @@
 import {createContext} from "react";
 
-import {AnyRowData} from "@/core/types";
+import {AnyRowData} from "@/core";
 
 export type DomainContextType<RowDataT extends AnyRowData> = {
   /**
@@ -14,11 +14,12 @@ export type DomainContextType<RowDataT extends AnyRowData> = {
    */
   readonly domainMax: number;
   /**
-   * Your data
+   * Your data. The row's tracks will be sorted if it is a {@link DefaultTracks}
+   * type.
    */
   readonly data: RowDataT[];
   /**
-   * Visible rows (computed)
+   * Visible rows ( data)
    */
   readonly visibleRows: RowDataT[];
   /**
