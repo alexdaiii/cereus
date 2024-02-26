@@ -13,7 +13,7 @@ describe("FilterBar", () => {
     const fn2 = vi.fn();
     const fn3 = vi.fn();
 
-    const FilterBar = createFilterBar(fn1, fn2, fn3);
+    createFilterBar(fn1, fn2, fn3);
 
     // render(<FilterBar></FilterBar>);
 

@@ -18,19 +18,20 @@ import {
   useAxisLeftStyle,
   useAxisRightStyle,
   useAxisTopStyle,
+  useCereusBarTrack,
+  useCereusPointTrack,
+  useCereusTrackType,
   useGraphAreaStyle,
   useParentSize,
   usePlotAreaStyle,
 } from "../../src";
 import {
-  AnyCereusTrackDataWithHeight,
   CereusAxisLeft,
   CereusAxisTop,
   CereusDomainProvider,
   CereusPlotHorizontal,
   CereusRowData,
   CereusScalesProvider,
-  CereusTracks,
   useCereusDomain,
   useCereusScale,
 } from "../../src";
@@ -394,58 +395,25 @@ const PlotArea = () => {
 };
 
 const Track = () => {
-  return (
-    <>
-      <Bar
-        width={track.width}
-        height={track.height}
-        fill={getColor(track)}
-        onClick={() => {
-          const clickData = {
-            trackData: track.data,
-            trackId: track.trackId,
-            rowId,
-            title,
-            rowIndex,
-          };
+  const trackType = useCereusTrackType();
 
-          alert(JSON.stringify(clickData));
-        }}
-      />
-      <BarTrack trackData={track} />
-      <PointTrack trackData={track} />
-    </>
-  );
-};
-
-const getColor = (track: CereusTracks) => {
-  switch (track.trackType) {
-    case "sequence":
-      return "#7f1d1d";
-
+  switch (trackType) {
     case "bar":
-      return "#737373";
-
-    case "heatmap":
-      return "#0d9488";
-
+      return <BarTrack />;
     case "point":
-      return "#ca8a04";
-
+      return <PointTrack />;
     default:
-      return "#1e293b";
+      return null;
   }
 };
 
-const BarTrack = ({trackData}: {trackData: AnyCereusTrackDataWithHeight}) => {
+const BarTrack = () => {
+  const {track, rowIndex, rowId, title} = useCereusBarTrack();
+
   const {domainMin, domainMax} = useCereusDomain();
   const {xScale} = useCereusScale();
 
-  if (trackData.trackType !== "bar") {
-    return null;
-  }
-
-  return trackData.data.map((val, index) => {
+  return track.data.map((val, index) => {
     const barStart = Math.max(val.begin, domainMin) - domainMin;
     const barEnd = Math.min(val.end, domainMax) - domainMin;
 
@@ -454,17 +422,20 @@ const BarTrack = ({trackData}: {trackData: AnyCereusTrackDataWithHeight}) => {
 
     return (
       <Bar
-        key={`block-${trackData.trackId}-${val.begin}-${val.end}-${index}`}
-        height={trackData.height}
+        key={`block-${track.trackId}-${val.begin}-${val.end}-${index}`}
+        height={track.height}
         width={barWidth}
         x={barStartPx}
         // y={trackData.y}
         className={"hover:fill-amber-200"}
         onClick={() => {
           const clickData = {
-            trackData,
+            track,
             barStartPx,
             barWidth,
+            rowIndex,
+            rowId,
+            title,
           };
 
           alert(JSON.stringify(clickData));
@@ -474,26 +445,24 @@ const BarTrack = ({trackData}: {trackData: AnyCereusTrackDataWithHeight}) => {
   });
 };
 
-const PointTrack = ({trackData}: {trackData: AnyCereusTrackDataWithHeight}) => {
+const PointTrack = () => {
+  const {track} = useCereusPointTrack();
+
   const {xScale} = useCereusScale();
 
-  if (trackData.trackType !== "point") {
-    return null;
-  }
-
-  return trackData.data.map((val, index) => {
+  return track.data.map((val, index) => {
     const pointX = xScale(val.position);
 
     return (
       <Group
-        top={trackData.height / 2}
+        top={track.height / 2}
         left={pointX}
-        key={`point-${trackData.trackId}-${val.position}-${index}`}
+        key={`point-${track.trackId}-${val.position}-${index}`}
       >
         <Polygon
           sides={8}
           className={"hover:fill-emerald-400"}
-          size={trackData.height / 2}
+          size={track.height / 2}
           onClick={() => {
             alert(`point: ${JSON.stringify(val)}`);
           }}

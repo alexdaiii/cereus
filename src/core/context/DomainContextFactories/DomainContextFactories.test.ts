@@ -1,6 +1,6 @@
 import {describe, expect, it} from "vitest";
 
-import {RowData} from "@/core";
+import {AnyRowData} from "@/core";
 import {DomainContextType, createDomainContext} from "@/core/context";
 
 describe("createDomainContext", () => {
@@ -11,7 +11,7 @@ describe("createDomainContext", () => {
     expect(context).toHaveProperty("Provider");
     expect(context).toHaveProperty("Consumer");
 
-    const expected: DomainContextType<RowData> = {
+    const expected: DomainContextType<AnyRowData> = {
       domainMin: 0,
       domainMax: 0,
       data: [],

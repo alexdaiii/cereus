@@ -1,7 +1,8 @@
 import {cloneDeep} from "lodash";
 
 import {BarTrack, TrackDataWithHeight} from "@/core";
-import {createFilterComponentFactory} from "@/core/components/DomainFilterFactories/FilterDataFactory";
+
+import {createFilteredHookFactory} from "../BaseFactory";
 
 /**
  * Takes in a track, domainMin, and domainMax and returns a new track that
@@ -13,13 +14,12 @@ export const filterBarData = <BarTrackT extends BarTrack<string>>(
   domainMin: number,
   domainMax: number,
 ) => {
+  const indices = track.intervalTree?.search(domainMin, domainMax) || [];
+
   const newTrackData: BarTrackT["data"] = [];
 
-  for (let i = 0; i < track.data.length; i++) {
-    const data = track.data[i];
-    if (data.end >= domainMin && data.begin <= domainMax) {
-      newTrackData.push(cloneDeep(data));
-    }
+  for (let i = 0; i < indices.length; i++) {
+    newTrackData.push(cloneDeep(track.data[indices[i]]));
   }
 
   return {
@@ -33,4 +33,4 @@ export const filterBarData = <BarTrackT extends BarTrack<string>>(
  * {@link BarTrack} and returns a new track that is filtered to be within the
  * min and max domain. Places the new filtered data inside the provided provider.
  */
-export const createFilterBar = createFilterComponentFactory(filterBarData);
+export const createFilterBar = createFilteredHookFactory(filterBarData);

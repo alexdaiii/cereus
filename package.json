@@ -105,6 +105,7 @@
     "@visx/text": "^3.3.0",
     "@visx/tooltip": "^3.3.0",
     "d3-scale-chromatic": "^3.0.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "node-interval-tree": "^2.1.2"
   }
 }

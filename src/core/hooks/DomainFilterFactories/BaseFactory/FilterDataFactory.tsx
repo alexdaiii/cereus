@@ -6,7 +6,6 @@ import {
   HorizontalTrackGroupContextType,
   TrackData,
   TrackDataWithHeight,
-  createTrackWithHeightProvider,
 } from "@/core";
 
 type FilterComponentProps = {
@@ -20,7 +19,7 @@ type FilterComponentProps = {
  * @param filterData - Takes in a track, domainMin, and domainMax and returns a new track that is
  *   filtered to be within the domain.
  */
-export const createFilterComponentFactory = <
+export const createFilteredHookFactory = <
   TrackDataT extends TrackData,
   RowTypeT extends AnyRowData,
 >(
@@ -31,19 +30,21 @@ export const createFilterComponentFactory = <
   ) => TrackDataWithHeight<TrackDataT>,
 ) => {
   /**
-   * The function that creates a new React component
+   * The function that creates a new React hook. The hook returns the
+   * filtered data by default.
    */
   return (
-    NewTrackWithHeightProvider: ReturnType<
-      typeof createTrackWithHeightProvider<TrackDataT, RowTypeT>
-    >,
-    useTrackHook: () => ReturnType<
+    useDomainHook: () => DomainContextType<RowTypeT>,
+    useTrackHookOriginal: () => ReturnType<
       typeof useContext<HorizontalTrackGroupContextType<TrackDataT>>
     >,
-    useDomainHook: () => DomainContextType<RowTypeT>,
   ) => {
-    return function FilterComponent({children}: FilterComponentProps) {
-      const {rowId, title, rowIndex, track} = useTrackHook();
+    return function useFilteredTrack(
+      filter: boolean = true,
+    ): ReturnType<
+      typeof useContext<HorizontalTrackGroupContextType<TrackDataT>>
+    > {
+      const {track, ...rest} = useTrackHookOriginal();
       const {domainMin, domainMax} = useDomainHook();
 
       const newTrack = useMemo(
@@ -51,16 +52,10 @@ export const createFilterComponentFactory = <
         [domainMax, domainMin, track],
       );
 
-      return (
-        <NewTrackWithHeightProvider
-          track={newTrack}
-          rowIndex={rowIndex}
-          rowId={rowId}
-          title={title}
-        >
-          {children}
-        </NewTrackWithHeightProvider>
-      );
+      return {
+        ...rest,
+        track: filter ? newTrack : track,
+      };
     };
   };
 };

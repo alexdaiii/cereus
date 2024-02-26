@@ -1,3 +1,5 @@
+import IntervalTree from "node-interval-tree";
+
 /**
  * Base data shape for a single track in the sequence viewer.
  */
@@ -42,7 +44,7 @@ export type SequenceData = {
 };
 
 export type SequenceTrack<
-  TrackName extends string = "sequence",
+  TrackName extends string,
   SeqDataT extends SequenceData = SequenceData,
 > = TrackData<TrackName, SeqDataT>;
 
@@ -52,19 +54,26 @@ export type SequenceTrack<
  */
 export type BarData = {
   /**
-   * The beginning of the bar.
+   * The beginning of the bar. Should be less than end (not checked during
+   * runtime).
    */
   readonly begin: number;
   /**
-   * The end of the bar.
+   * The end of the bar. Should be greater or equal to begin (not checked during
+   * runtime).
    */
   readonly end: number;
 };
 
 export type BarTrack<
-  TrackName extends string = "bar",
+  TrackName extends string,
   BarDataT extends BarData = BarData,
-> = TrackData<TrackName, BarDataT[]>;
+> = TrackData<TrackName, BarDataT[]> & {
+  /**
+   * An interval search tree (binary tree) for the bar data
+   */
+  intervalTree?: IntervalTree<number>;
+};
 
 /**
  * Generic data shape for a track that has a position.
@@ -78,7 +87,7 @@ export type PointData = {
 };
 
 export type PointTrack<
-  TrackName extends string = "point",
+  TrackName extends string,
   PointDataT extends PointData = PointData,
 > = TrackData<TrackName, PointDataT[]>;
 
@@ -87,7 +96,9 @@ export type PointTrack<
  * Use undefined to indicate that a track type is not supported.
  */
 export type DefaultTracks<
-  SequenceTrackT extends SequenceTrack<string> | undefined = SequenceTrack,
-  BarTrackT extends BarTrack<string> | undefined = BarTrack,
-  PointTrackT extends PointTrack<string> | undefined = PointTrack,
+  SequenceTrackT extends
+    | SequenceTrack<string>
+    | undefined = SequenceTrack<string>,
+  BarTrackT extends BarTrack<string> | undefined = BarTrack<string>,
+  PointTrackT extends PointTrack<string> | undefined = PointTrack<string>,
 > = SequenceTrackT | BarTrackT | PointTrackT;

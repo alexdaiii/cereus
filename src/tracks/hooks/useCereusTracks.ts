@@ -1,5 +1,6 @@
 import {useContext} from "react";
 
+import {createFilterSequence} from "@/core/hooks/DomainFilterFactories";
 import {
   CereusAreaTrackContext,
   CereusBarTrackContext,
@@ -8,18 +9,27 @@ import {
   CereusLineTrackContext,
   CereusPointTrackContext,
   CereusSequenceTrackContext,
+  useCereusDomain,
 } from "@/tracks";
+
+const _useCereusSequenceTrackOriginal = () =>
+  useContext(CereusSequenceTrackContext);
 
 /**
  * Returns the sequence track data if the track is a sequence track.
  * Otherwise it will return default values.
  */
-export const useCereusSequenceTrack = () =>
-  useContext(CereusSequenceTrackContext);
+export const useCereusSequenceTrack = createFilterSequence(
+  useCereusDomain,
+  _useCereusSequenceTrackOriginal,
+);
 
 // -------------------
 // Bar tracks
 // -------------------
+
+const _useCereusBarTrackOriginal = () => useContext(CereusBarTrackContext);
+const _useCereusBondTrackOriginal = () => useContext(CereusBondTrackContext);
 
 /**
  * Returns the bar track data if the track is a bar track.
@@ -36,6 +46,12 @@ export const useCereusBondTrack = () => useContext(CereusBondTrackContext);
 // -------------------
 // Point tracks
 // -------------------
+
+const _useCereusPointTrackOriginal = () => useContext(CereusPointTrackContext);
+const _useCereusHeatmapTrackOriginal = () =>
+  useContext(CereusHeatmapTrackContext);
+const _useCereusLineTrackOriginal = () => useContext(CereusLineTrackContext);
+const _useCereusAreaTrackOriginal = () => useContext(CereusAreaTrackContext);
 
 /**
  * Returns the point track data if the track is a point track.

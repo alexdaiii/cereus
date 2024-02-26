@@ -1,7 +1,8 @@
 import {cloneDeep} from "lodash";
 
 import {SequenceTrack, TrackDataWithHeight} from "@/core";
-import {createFilterComponentFactory} from "@/core/components/DomainFilterFactories/FilterDataFactory";
+
+import {createFilteredHookFactory} from "../BaseFactory";
 
 /**
  * Takes in a track, domainMin, and domainMax and returns a new track that is
@@ -35,4 +36,4 @@ export const filterSequenceData = <
  * min and max domain. Places the new filtered data inside the provided provider.
  */
 export const createFilterSequence =
-  createFilterComponentFactory(filterSequenceData);
+  createFilteredHookFactory(filterSequenceData);

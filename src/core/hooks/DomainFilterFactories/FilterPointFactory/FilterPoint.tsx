@@ -1,7 +1,8 @@
 import {cloneDeep} from "lodash";
 
 import {PointTrack, TrackDataWithHeight} from "@/core";
-import {createFilterComponentFactory} from "@/core/components/DomainFilterFactories/FilterDataFactory";
+
+import {createFilteredHookFactory} from "../BaseFactory";
 
 /**
  * Takes in a track, domainMin, and domainMax and returns a new track that is
@@ -32,4 +33,4 @@ export const filterPointData = <PointTrackT extends PointTrack<string>>(
  * {@link PointTrack} and returns a new track that is filtered to be within the
  * min and max domain. Places the new filtered data inside the provided provider.
  */
-export const createFilterPoint = createFilterComponentFactory(filterPointData);
+export const createFilterPoint = createFilteredHookFactory(filterPointData);

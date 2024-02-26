@@ -1,4 +1,4 @@
-import {DefaultTracks, TrackData} from "./trackTypes";
+import {TrackData} from "./trackTypes";
 
 /**
  * Information used to identify a row.
@@ -17,7 +17,7 @@ export type RowIdentifiers = {
 /**
  * Base data shape for a single row in the sequence viewer.
  */
-export type RowData<TracksT extends TrackData = DefaultTracks> = {
+export type RowData<TracksT extends TrackData> = {
   /**
    * Is the row shown
    */
