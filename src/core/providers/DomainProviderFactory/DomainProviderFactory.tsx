@@ -1,7 +1,8 @@
-import {Context, ReactNode, useMemo} from "react";
+import {Context, ReactNode} from "react";
 
+import {useSortData} from "@/core";
 import {DomainContextType} from "@/core/context";
-import {AnyRowData} from "@/core/types";
+import {AnyRowData, DefaultTracks, RowData} from "@/core/types";
 
 export type DomainProviderProps<T extends AnyRowData> = {
   children: ReactNode;
@@ -13,86 +14,55 @@ export type DomainProviderProps<T extends AnyRowData> = {
 } & Pick<DomainContextType<T>, "domainMax" | "data">;
 
 /**
- * Creates a typed DomainProvider component.
+ * Creates an UNSORTED typed DomainProvider component.
  */
-export const createDomainProvider = <RowDataT extends AnyRowData>(
+export const createUnsortedDomainProvider = <RowDataT extends AnyRowData>(
   DomainContext: Context<DomainContextType<RowDataT>>,
-  displayName: string,
 ) => {
-  const DomainProvider = ({
+  return function UnsortedDomainProvider({
     children,
     domainMax,
     domainMin = 0,
     data,
-  }: DomainProviderProps<RowDataT>) => {
-    // only compute these values when the data changes
-    const {
-      visibleRows,
-      visibleRowIds,
-      visibleTracks,
-      visibleTrackIds,
-      visibleTracksCountPerRow,
-    } = useMemo(() => {
-      return calculateVisibleRows(data);
-    }, [data]);
-
+  }: DomainProviderProps<RowDataT>) {
     return (
       <DomainContext.Provider
         value={{
           data,
           domainMax,
           domainMin,
-          visibleRows,
-          visibleRowIds,
-          visibleTracks,
-          visibleTrackIds,
-          visibleTracksCountPerRow,
         }}
       >
         {children}
       </DomainContext.Provider>
     );
   };
-  DomainProvider.displayName = displayName;
-  return DomainProvider;
 };
 
 /**
- * Calculates the visible rows and tracks from the data.
- * @param data
+ * Creates a typed and sorted DomainProvider component.
  */
-const calculateVisibleRows = <T extends AnyRowData>(data: T[]) => {
-  const visibleRows: T[] = [];
-  const visibleRowIds: string[] = [];
+export const createDomainProvider = <TrackDataT extends DefaultTracks>(
+  DomainContext: Context<DomainContextType<RowData<TrackDataT>>>,
+) => {
+  const UnsortedDomainProvider = createUnsortedDomainProvider(DomainContext);
 
-  const visibleTracks: T["tracks"][number][] = [];
-  const visibleTrackIds: string[] = [];
-  const visibleTracksCountPerRow = new Map<string, number>();
+  return function DomainProvider({
+    children,
+    domainMax,
+    domainMin = 0,
+    data,
+  }: DomainProviderProps<RowData<TrackDataT>>) {
+    const sortedData = useSortData(data);
 
-  for (let i = 0; i < data.length; i++) {
-    visibleTracksCountPerRow.set(
-      data[i].rowId,
-      +data[i].visible * data[i].tracks.length,
+    return (
+      <UnsortedDomainProvider
+        domainMax={domainMax}
+        domainMin={domainMin}
+        data={sortedData}
+      >
+        {children}
+      </UnsortedDomainProvider>
     );
-
-    if (!data[i].visible) {
-      continue;
-    }
-
-    visibleRows.push(data[i]);
-    visibleRowIds.push(data[i].rowId);
-
-    for (let j = 0; j < data[i].tracks.length; j++) {
-      visibleTracks.push(data[i].tracks[j]);
-      visibleTrackIds.push(data[i].tracks[j].trackId);
-    }
-  }
-
-  return {
-    visibleRows,
-    visibleRowIds,
-    visibleTracks,
-    visibleTrackIds,
-    visibleTracksCountPerRow,
   };
 };

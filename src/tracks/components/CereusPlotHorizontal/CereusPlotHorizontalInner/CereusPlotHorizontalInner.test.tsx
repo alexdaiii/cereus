@@ -74,9 +74,10 @@ const rowBandwidth = new Map(
 const SurroundingCtx = ({children}: {children: React.ReactNode}) => {
   return (
     <CereusDomainContext.Provider
-      // @ts-expect-error - We don't need to provide all the values.
       value={{
-        visibleRows: data,
+        data,
+        domainMin: -1000,
+        domainMax: 1000,
       }}
     >
       <CereusYScaleContext.Provider

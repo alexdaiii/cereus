@@ -15,11 +15,6 @@ describe("createDomainContext", () => {
       domainMin: 0,
       domainMax: 0,
       data: [],
-      visibleRowIds: [],
-      visibleTracksCountPerRow: new Map(),
-      visibleTrackIds: [],
-      visibleRows: [],
-      visibleTracks: [],
     };
 
     // @ts-expect-error - accessing _currentValue to get current value of ctx

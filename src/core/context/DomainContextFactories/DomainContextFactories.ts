@@ -18,35 +18,6 @@ export type DomainContextType<RowDataT extends AnyRowData> = {
    * type.
    */
   readonly data: RowDataT[];
-  /**
-   * Visible rows ( data)
-   */
-  readonly visibleRows: RowDataT[];
-  /**
-   * Visible row IDs (computed). The same as
-   *
-   * ```
-   * visibleRows.map(row => row.id)
-   * ```
-   */
-  readonly visibleRowIds: string[];
-  /**
-   * Visible tracks (computed)
-   */
-  readonly visibleTracks: RowDataT["tracks"][number][];
-  /**
-   * Visible track IDs (computed). The same as
-   *
-   * ```
-   * visibleTracks.map(track => track.id)
-   * ```
-   */
-  readonly visibleTrackIds: string[];
-  /**
-   * The number of visible tracks in each row. The index of the array
-   * corresponds to the index of the row in the `data` array.
-   */
-  readonly visibleTracksCountPerRow: Map<string, number>;
 };
 
 /**
@@ -82,10 +53,5 @@ export const createDomainContext = <RowDataT extends AnyRowData>() => {
     domainMin: 0,
     domainMax: 0,
     data: [],
-    visibleRows: [],
-    visibleRowIds: [],
-    visibleTracks: [],
-    visibleTrackIds: [],
-    visibleTracksCountPerRow: new Map(),
   });
 };

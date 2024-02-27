@@ -2,6 +2,7 @@ import {scaleOrdinal} from "@visx/scale";
 import {ReactNode, useMemo} from "react";
 
 import {useRange} from "@/core";
+import {useVisibleRows} from "@/core/hooks/useVisibleRows/useVisibleRows";
 import {CereusYScaleContext, useCereusDomain} from "@/tracks";
 
 type CereusYScaleProviderProps = {
@@ -35,8 +36,9 @@ export const CereusYScaleProvider = ({
   y0ScalePaddingOuter = 0,
   y1ScalePaddingInner = 0,
 }: CereusYScaleProviderProps) => {
+  const {data} = useCereusDomain();
   const {visibleTracksCountPerRow, visibleRowIds, visibleTrackIds} =
-    useCereusDomain();
+    useVisibleRows(data);
   const {maxY, minY} = useRange();
 
   const {y0Scale, y0Bandwidth} = useMemo(() => {

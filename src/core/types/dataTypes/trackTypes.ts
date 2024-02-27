@@ -41,6 +41,10 @@ export type SequenceData = {
    * (from a DomainProvider), the sequence will be cut off.
    */
   readonly sequence: string;
+  /**
+   * The sequence array to ploy. Null values means that there is nothing to plot
+   */
+  readonly sequenceArray?: (string | null)[];
 };
 
 export type SequenceTrack<
@@ -70,7 +74,9 @@ export type BarTrack<
   BarDataT extends BarData = BarData,
 > = TrackData<TrackName, BarDataT[]> & {
   /**
-   * An interval search tree (binary tree) for the bar data
+   * An interval search tree (binary tree) for the bar data. Should be left
+   * blank when initializing the data. The tree will be created when using
+   * the DomainProvider.
    */
   intervalTree?: IntervalTree<number>;
 };
@@ -93,7 +99,7 @@ export type PointTrack<
 
 /**
  * The default types of tracks RowData will default to if no type is specified.
- * Use undefined to indicate that a track type is not supported.
+ * Use never to indicate that a track type is not supported.
  */
 export type DefaultTracks<
   SequenceTrackT extends

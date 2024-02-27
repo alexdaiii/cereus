@@ -61,7 +61,7 @@ describe.each([
     };
   });
 
-  it("should place children in correct provider for %s", () => {
+  it(`should place children in correct provider for ${trackType}`, () => {
     const data: AnyRowData = {
       rowId: "row1",
       visible: true,

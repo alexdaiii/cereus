@@ -1,6 +1,6 @@
 import {useContext} from "react";
 
-import {createFilterSequence} from "@/core/hooks/DomainFilterFactories";
+import {createUseFilteredFactory, filterSequenceData} from "@/core";
 import {
   CereusAreaTrackContext,
   CereusBarTrackContext,
@@ -12,6 +12,11 @@ import {
   useCereusDomain,
 } from "@/tracks";
 
+/**
+ * Oddly in vitest it will fail unless it is called like this
+ */
+const _useCereusDomain = () => useCereusDomain();
+
 const _useCereusSequenceTrackOriginal = () =>
   useContext(CereusSequenceTrackContext);
 
@@ -19,9 +24,10 @@ const _useCereusSequenceTrackOriginal = () =>
  * Returns the sequence track data if the track is a sequence track.
  * Otherwise it will return default values.
  */
-export const useCereusSequenceTrack = createFilterSequence(
-  useCereusDomain,
+export const useCereusSequenceTrack = createUseFilteredFactory(
+  _useCereusDomain,
   _useCereusSequenceTrackOriginal,
+  filterSequenceData,
 );
 
 // -------------------

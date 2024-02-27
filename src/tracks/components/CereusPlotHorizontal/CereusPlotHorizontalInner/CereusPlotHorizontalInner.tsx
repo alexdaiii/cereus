@@ -1,6 +1,7 @@
 import {ReactNode} from "react";
 
 import {HorizontalPlotGroup, PlotAreaPositioner, PlotHorizontal} from "@/core";
+import {useVisibleRows} from "@/core/hooks/useVisibleRows/useVisibleRows";
 import {useCereusDomain, useCereusScale} from "@/tracks";
 import {
   AnyCereusTrackDataWithHeight,
@@ -25,7 +26,9 @@ export type CereusPlotHorizontalInnerProps = {
 export const CereusPlotHorizontalInner = ({
   children,
 }: CereusPlotHorizontalInnerProps) => {
-  const {visibleRows} = useCereusDomain();
+  const {data} = useCereusDomain();
+  const {visibleRows} = useVisibleRows(data);
+
   const {y0Scale, y0Bandwidth, y1ScalePaddingInner} = useCereusScale();
   return (
     <PlotAreaPositioner>
