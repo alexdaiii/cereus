@@ -420,6 +420,16 @@ const BarTrack = () => {
     const barWidth = xScale(barEnd) - xScale(barStart);
     const barStartPx = xScale(barStart);
 
+    const {intervalTree, ...trackNoTree} = track;
+
+    // inorder traversal of the bst
+    const intervalTreeNodes: unknown[] = [];
+    if (intervalTree) {
+      for (const node of intervalTree.inOrder()) {
+        intervalTreeNodes.push(node);
+      }
+    }
+
     return (
       <Bar
         key={`block-${track.trackId}-${val.start}-${val.end}-${index}`}
@@ -430,7 +440,8 @@ const BarTrack = () => {
         className={"hover:fill-amber-200"}
         onClick={() => {
           const clickData = {
-            track,
+            ...trackNoTree,
+            intervalTreeNodes,
             barStartPx,
             barWidth,
             rowIndex,
@@ -438,7 +449,7 @@ const BarTrack = () => {
             title,
           };
 
-          alert(JSON.stringify(clickData));
+          alert(JSON.stringify(clickData, null, 2));
         }}
       />
     );
@@ -464,7 +475,7 @@ const PointTrack = () => {
           className={"hover:fill-emerald-400"}
           size={track.height / 2}
           onClick={() => {
-            alert(`point: ${JSON.stringify(val)}`);
+            alert(`point: ${JSON.stringify(val, null, 2)}`);
           }}
         />
       </Group>
