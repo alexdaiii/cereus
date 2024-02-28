@@ -1,5 +1,3 @@
-import {cloneDeep} from "lodash";
-
 import {SequenceTrack, TrackDataWithHeight} from "@/core";
 
 /**
@@ -31,7 +29,7 @@ export const filterSequenceData = <
   return {
     ...track,
     data: {
-      ...cloneDeep(track.data),
+      ...track.data,
       sequenceArray,
     },
   };

@@ -6,37 +6,41 @@ import {afterEach, describe, expect, it, vi} from "vitest";
 import {PlotAreaStyleContext, PlotHorizontal} from "@/core";
 import {RowData, RowDataWithHeight, TrackData} from "@/core/types";
 
-const data: RowData<TrackData>[] = [
-  {
-    rowId: "row1",
-    title: "Row 1",
-    visible: true,
-    tracks: [
-      {
-        trackId: "track1",
-        data: "San Francisco",
-        trackType: "City",
-      },
-    ],
-  },
-  {
-    rowId: "row2",
-    title: "Row 2",
-    visible: true,
-    tracks: [
-      {
-        trackId: "track2",
-        data: "100 years",
-        trackType: "date",
-      },
-      {
-        trackId: "track3",
-        data: "200 years",
-        trackType: "date",
-      },
-    ],
-  },
-];
+const getData = (): RowData<TrackData & Record<string, unknown>>[] => {
+  return [
+    {
+      rowId: "row1",
+      title: "Row 1",
+      visible: true,
+      tracks: [
+        {
+          trackId: "track1",
+          data: "San Francisco",
+          trackType: "City",
+        },
+      ],
+    },
+    {
+      rowId: "row2",
+      title: "Row 2",
+      visible: true,
+      tracks: [
+        {
+          trackId: "track2",
+          data: "100 years",
+          trackType: "date",
+          otherStuff: "stuff",
+        },
+        {
+          trackId: "track3",
+          data: "200 years",
+          trackType: "date",
+          otherThing2: "thing",
+        },
+      ],
+    },
+  ];
+};
 
 const y0Scale = scaleBand({domain: ["row1", "row2"], range: [0, 100]});
 const rowBandwidth = new Map(
@@ -53,7 +57,7 @@ describe("PlotHorizontal", () => {
 
     render(
       <PlotHorizontal
-        visibleRows={data}
+        visibleRows={getData()}
         rowBandwidth={rowBandwidth}
         y0Scale={y0Scale}
         y1ScalePaddingInner={0}
@@ -80,7 +84,7 @@ describe("PlotHorizontal", () => {
         }}
       >
         <PlotHorizontal
-          visibleRows={data}
+          visibleRows={getData()}
           rowBandwidth={rowBandwidth}
           y0Scale={y0Scale}
           y1ScalePaddingInner={0}
@@ -90,6 +94,7 @@ describe("PlotHorizontal", () => {
       </PlotAreaStyleContext.Provider>,
     );
 
+    const [row1, row2] = getData();
     const expectedArg: RowDataWithHeight<RowData<TrackData>>[] = [
       {
         rowId: "row1",
@@ -102,9 +107,7 @@ describe("PlotHorizontal", () => {
             width: expWidth,
             height: y0Scale.bandwidth(),
             y: 0,
-            trackId: "track1",
-            trackType: "City",
-            data: "San Francisco",
+            ...row1.tracks[0],
           },
         ],
       },
@@ -119,9 +122,7 @@ describe("PlotHorizontal", () => {
             width: expWidth,
             height: y0Scale.bandwidth() / 2,
             y: 0,
-            trackId: "track2",
-            trackType: "date",
-            data: "100 years",
+            ...row2.tracks[0],
           },
           {
             index: 1,
@@ -129,9 +130,7 @@ describe("PlotHorizontal", () => {
             height: y0Scale.bandwidth() / 2,
             // since there are 2 tracks, it will split the height in half
             y: 25,
-            trackId: "track3",
-            trackType: "date",
-            data: "200 years",
+            ...row2.tracks[1],
           },
         ],
       },

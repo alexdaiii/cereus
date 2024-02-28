@@ -98,3 +98,5 @@ export type CereusTracks = DefaultTracks<
   CereusBarTrack | CereusBondTrack,
   CereusPointTrack | CereusHeatmapTrack | CereusLineTrack | CereusAreaTrack
 >;
+
+export type CereusTrackTypes = CereusTracks["trackType"];

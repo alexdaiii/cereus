@@ -1,188 +1,197 @@
 import {render} from "@testing-library/react";
-import {ReactNode} from "react";
-import {beforeEach, describe, expect, it} from "vitest";
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 
+import {HorizontalTrackGroupContextType, TrackData} from "@/core";
 import {
-  AnyRowData,
-  HorizontalTrackGroupContextType,
-  PlotAreaStyleContext,
-  TrackData,
-} from "@/core";
-import {
-  CereusDomainProvider,
+  CereusAreaTrack,
+  CereusAreaTrackContext,
+  CereusBarTrack,
+  CereusBarTrackContext,
+  CereusBondTrack,
+  CereusBondTrackContext,
+  CereusHeatmapTrack,
+  CereusHeatmapTrackContext,
+  CereusLineTrack,
+  CereusLineTrackContext,
   CereusPlotHorizontal,
-  useCereusAreaTrack,
-  useCereusBarTrack,
-  useCereusBondTrack,
-  useCereusHeatmapTrack,
-  useCereusLineTrack,
-  useCereusPointTrack,
-  useCereusSequenceTrack,
-  useCereusTrackType,
+  CereusPointTrack,
+  CereusPointTrackContext,
+  CereusSequenceTrack,
+  CereusSequenceTrackContext,
+  CereusTrackTypes,
+  CereusTracks,
 } from "@/tracks";
 
-describe.each([
-  ["sequence", useCereusSequenceTrack],
-  ["bar", useCereusBarTrack],
-  ["bond", useCereusBondTrack],
-  ["heatmap", useCereusHeatmapTrack],
-  ["point", useCereusPointTrack],
-  ["area", useCereusAreaTrack],
-  ["line", useCereusLineTrack],
-])("CereusPlotHorizontal", (trackType, hook) => {
-  let TestChild: () => ReactNode;
-  let actualTrackData: HorizontalTrackGroupContextType<TrackData>[];
-  let actualTrackType: (string | undefined)[];
-  let goodTrack: TrackData;
-  let randomTrack: TrackData;
-
-  beforeEach(() => {
-    actualTrackData = [];
-    actualTrackType = [];
-
-    goodTrack = {
-      trackId: "track1",
-      trackType,
-      data: "set data",
-    };
-
-    randomTrack = {
-      trackId: "track2",
-      trackType: "RANDOM_TYPE",
-      data: "will be overwritten by default context value",
-    };
-
-    TestChild = function TestChild() {
-      const innerTrackData = hook();
-      actualTrackData.push(innerTrackData);
-      const innerTrackType = useCereusTrackType();
-      actualTrackType.push(innerTrackType);
-      return null;
-    };
-  });
-
-  it(`should place children in correct provider for ${trackType}`, () => {
-    const data: AnyRowData = {
-      rowId: "row1",
-      visible: true,
-      title: "Row 1",
-      tracks: [goodTrack],
-    };
-
-    render(
-      <CereusDomainProvider
-        // @ts-expect-error - data only has the necessary fields
-        data={[data]}
-        domainMax={0}
-      >
-        <svg>
-          <PlotAreaStyleContext.Provider
-            // @ts-expect-error - only include the fields that are necessary
-            value={{width: 500}}
-          >
-            <CereusPlotHorizontal>
-              <TestChild />
-            </CereusPlotHorizontal>
-          </PlotAreaStyleContext.Provider>
-        </svg>
-      </CereusDomainProvider>,
-    );
-
-    expect(actualTrackData.length).toBe(1);
-
-    const expectedTrackData: HorizontalTrackGroupContextType<TrackData> = {
-      rowId: data.rowId,
-      rowIndex: 0,
-      title: data.title,
-      initialized: true,
-      track: {
-        index: 0,
-        height: 0,
-        width: 500,
-        y: 0,
-        ...goodTrack,
+const getTrackData = (trackType: string) => {
+  const otherTrackData: (TrackData & Record<string, unknown>)[] = [
+    {
+      trackType: "random",
+      trackId: "r1-t1",
+      data: {
+        foo: "bar",
       },
-    };
+    },
+  ];
 
-    expect(actualTrackData[0]).toEqual(expectedTrackData);
-    expect(actualTrackType[0]).toBe(trackType);
-  });
+  switch (trackType as CereusTrackTypes) {
+    case "sequence":
+      return {
+        goodTrackData: [
+          {
+            trackType: "sequence",
+            trackId: "r1-t1",
+            data: {
+              sequence: "ATCG",
+              begin: 0,
+            },
+          },
+        ] as CereusSequenceTrack[],
+        otherTrackData,
+      };
 
-  it("should handle unknown track types", () => {
-    const data: AnyRowData = {
-      rowId: "row1",
-      visible: true,
-      title: "Row 1",
-      tracks: [randomTrack],
-    };
+    case "bar":
+    case "bond":
+      return {
+        goodTrackData: [
+          {
+            trackId: "r1-t1",
+            trackType: trackType,
+            data: [
+              {
+                start: 0,
+                end: 10,
+              },
+            ],
+          },
+        ] as CereusBarTrack[] | CereusBondTrack[],
+        otherTrackData,
+      };
 
-    render(
-      <CereusDomainProvider
-        // @ts-expect-error - data only has the necessary fields
-        data={[data]}
-      >
+    case "area":
+    case "heatmap":
+    case "line":
+    case "point":
+      return {
+        goodTrackData: [
+          {
+            trackId: "r1-t1",
+            trackType: trackType,
+            data: [
+              {
+                position: 0,
+                quantity: 10,
+              },
+            ],
+          },
+        ] as
+          | CereusAreaTrack[]
+          | CereusHeatmapTrack[]
+          | CereusLineTrack[]
+          | CereusPointTrack[],
+        otherTrackData,
+      };
+
+    default:
+      return {
+        goodTrackData: [],
+        otherTrackData,
+      };
+  }
+};
+
+describe.each([
+  ["sequence", CereusSequenceTrackContext],
+  ["bar", CereusBarTrackContext],
+  ["bond", CereusBondTrackContext],
+  ["heatmap", CereusHeatmapTrackContext],
+  ["point", CereusPointTrackContext],
+  ["area", CereusAreaTrackContext],
+  ["line", CereusLineTrackContext],
+])(
+  "CereusPlotHorizontal",
+  (
+    trackType,
+    Context:
+      | typeof CereusSequenceTrackContext
+      | typeof CereusBarTrackContext
+      | typeof CereusBondTrackContext
+      | typeof CereusHeatmapTrackContext
+      | typeof CereusPointTrackContext
+      | typeof CereusAreaTrackContext
+      | typeof CereusLineTrackContext,
+  ) => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    beforeEach(async () => {
+      const exports = await import("@/tracks/hooks/useCereusDomain").then(
+        exports => {
+          return exports;
+        },
+      );
+
+      const {goodTrackData, otherTrackData} = getTrackData(trackType);
+
+      const mockGetDomain = vi.fn(
+        (): ReturnType<(typeof exports)["useCereusDomain"]> => {
+          return {
+            domainMin: 0,
+            domainMax: 100,
+            data: [
+              {
+                rowId: "row-1",
+                title: "row-1",
+                visible: true,
+                tracks: goodTrackData,
+              },
+              {
+                rowId: "row-2",
+                title: "row-2",
+                visible: true,
+                // @ts-expect-error - some random data
+                tracks: otherTrackData,
+              },
+            ],
+          };
+        },
+      );
+
+      vi.spyOn(exports, "useCereusDomain").mockImplementation(mockGetDomain);
+    });
+
+    it(`should place children in correct provider for ${trackType}`, () => {
+      let innerData: HorizontalTrackGroupContextType<CereusTracks> | undefined;
+
+      render(
         <svg>
-          <PlotAreaStyleContext.Provider
-            // @ts-expect-error - only include the fields that are necessary
-            value={{width: 500}}
-          >
-            <CereusPlotHorizontal>
-              <TestChild />
-            </CereusPlotHorizontal>
-          </PlotAreaStyleContext.Provider>
-        </svg>
-      </CereusDomainProvider>,
-    );
+          <CereusPlotHorizontal>
+            <Context.Consumer>
+              {data => {
+                innerData = data;
+                return null;
+              }}
+            </Context.Consumer>
+          </CereusPlotHorizontal>
+        </svg>,
+      );
 
-    expect(actualTrackData.length).toBe(1);
-    expect(actualTrackType.length).toBe(1);
-  });
+      expect(innerData).toBeDefined();
+      expect(innerData!.track.trackType).toBe(trackType);
+    });
 
-  it("should not initialize the context if the track type is not the correct type", () => {
-    const data: AnyRowData = {
-      rowId: "row1",
-      visible: true,
-      title: "Row 1",
-      tracks: [goodTrack, randomTrack],
-    };
+    it("should return null if it cannot determine the type of track", () => {
+      const MockChild = vi.fn();
 
-    render(
-      <CereusDomainProvider
-        // @ts-expect-error - data only has the necessary fields
-        data={[data]}
-        domainMax={0}
-      >
+      render(
         <svg>
-          <PlotAreaStyleContext.Provider
-            // @ts-expect-error - only include the fields that are necessary
-            value={{width: 500}}
-          >
-            <CereusPlotHorizontal>
-              <TestChild />
-            </CereusPlotHorizontal>
-          </PlotAreaStyleContext.Provider>
-        </svg>
-      </CereusDomainProvider>,
-    );
+          <CereusPlotHorizontal>
+            <Context.Consumer>{() => <MockChild />}</Context.Consumer>
+          </CereusPlotHorizontal>
+        </svg>,
+      );
 
-    expect(actualTrackData.length).toBe(2);
-
-    // should not have initialized the surrounding context if its not the correct track type
-    expect(actualTrackData[1].initialized).toBe(false);
-    expect(actualTrackData[1].rowIndex).toBe(0);
-    expect(actualTrackData[1].rowId).toBe("");
-    expect(actualTrackData[1].title).toBe("");
-
-    // this should take on the default values
-    const randomTrackData = actualTrackData[1].track;
-    expect(randomTrackData.index).toBe(0);
-    expect(randomTrackData.height).toBe(0);
-    expect(randomTrackData.width).toBe(0);
-    expect(randomTrackData.y).toBe(0);
-    expect(randomTrackData.trackId).toBe("");
-    expect(randomTrackData.trackType).toBe(trackType);
-    expect(randomTrackData.data).not.toEqual(randomTrack.data);
-
-    expect(actualTrackType[1]).toBe(undefined);
-  });
-});
+      expect(MockChild).toHaveBeenCalledTimes(1);
+    });
+  },
+);

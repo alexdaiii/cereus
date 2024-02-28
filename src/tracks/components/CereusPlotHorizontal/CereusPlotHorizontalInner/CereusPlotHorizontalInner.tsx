@@ -1,7 +1,11 @@
 import {ReactNode} from "react";
 
-import {HorizontalPlotGroup, PlotAreaPositioner, PlotHorizontal} from "@/core";
-import {useVisibleRows} from "@/core/hooks/useVisibleRows/useVisibleRows";
+import {
+  HorizontalPlotGroup,
+  PlotAreaPositioner,
+  PlotHorizontal,
+  useVisibleRows,
+} from "@/core";
 import {useCereusDomain, useCereusScale} from "@/tracks";
 import {
   AnyCereusTrackDataWithHeight,

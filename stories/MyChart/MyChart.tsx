@@ -414,8 +414,8 @@ const BarTrack = () => {
   const {xScale} = useCereusScale();
 
   return track.data.map((val, index) => {
-    const barStart = Math.max(val.start, domainMin) - domainMin;
-    const barEnd = Math.min(val.end, domainMax) - domainMin;
+    const barStart = Math.max(val.start, domainMin);
+    const barEnd = Math.min(val.end, domainMax);
 
     const barWidth = xScale(barEnd) - xScale(barStart);
     const barStartPx = xScale(barStart);

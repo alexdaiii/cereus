@@ -144,13 +144,11 @@ export const PlotHorizontal = <RowDataT extends RowData<TrackData>>({
         y0: y0Scale(row.rowId) ?? 0,
         tracks: row.tracks.map((track, j) => {
           return {
+            ...track,
             index: j,
             width,
             height: y1Scale.bandwidth(),
             y: y1Scale(track.trackId) ?? 0,
-            trackId: track.trackId,
-            trackType: track.trackType,
-            data: track.data,
           };
         }),
       };

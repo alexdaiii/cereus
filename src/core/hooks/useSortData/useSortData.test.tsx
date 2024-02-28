@@ -8,6 +8,7 @@ import {
   PointTrack,
   RowData,
   SequenceTrack,
+  TrackData,
   useSortData,
 } from "@/core";
 
@@ -26,11 +27,48 @@ describe("SortData", () => {
       },
     ];
 
-    const {
-      result: {current: sortedData},
-    } = renderHook(() => useSortData(data));
+    const sortedData = renderHook(() => useSortData(data)).result.current;
 
     expect(sortedData).toEqual(data);
+  });
+
+  it("should handle invalid track data", () => {
+    const data: RowData<TrackData & Record<string, unknown>>[] = [
+      {
+        title: "bad data",
+        rowId: "bad data",
+        visible: true,
+        tracks: [
+          {
+            trackId: "bad data 1",
+            trackType: "bad data 1",
+            data: "some bad data",
+          },
+          {
+            trackId: "bad data 2",
+            trackType: "bad data 2",
+            data: {
+              foo: "bar",
+            },
+          },
+          {
+            trackId: "bad data 3",
+            trackType: "bad data 3",
+            data: [
+              {
+                other: "bad data",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    // @ts-expect-error - testing for invalid inputs
+    const result = renderHook(() => useSortData(data)).result.current;
+
+    // should just return the bad data unchanged
+    expect(result).toEqual(data);
   });
 
   it.each([

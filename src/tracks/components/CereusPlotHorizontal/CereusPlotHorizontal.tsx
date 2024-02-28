@@ -1,6 +1,14 @@
 import {ReactNode} from "react";
 
-import {TrackProviderHandler} from "@/tracks";
+import {
+  CereusAreaTrackProvider,
+  CereusBarTrackProvider,
+  CereusBondTrackProvider,
+  CereusHeatmapTrackProvider,
+  CereusLineTrackProvider,
+  CereusPointTrackProvider,
+  CereusSequenceTrackProvider,
+} from "@/tracks";
 import {CereusPlotHorizontalInner} from "@/tracks/components/CereusPlotHorizontal/CereusPlotHorizontalInner";
 
 type CereusPlotHorizontalProps = {
@@ -51,7 +59,6 @@ type CereusPlotHorizontalProps = {
  * const MySequenceComponent = () => {
  *   const sequenceTrackData = useCereusSequenceTrack();
  *
- *   // should use Text (or just regular SVG <text>) for text inside a svg
  *   return <Text>{JSON.stringify(sequenceTrackData, null, 2)}</Text>;
  * };
  *
@@ -66,16 +73,92 @@ type CereusPlotHorizontalProps = {
 export const CereusPlotHorizontal = ({children}: CereusPlotHorizontalProps) => {
   return (
     <CereusPlotHorizontalInner>
-      {(track, rowIndex, rowId, title) => (
-        <TrackProviderHandler
-          track={track}
-          rowIndex={rowIndex}
-          rowId={rowId}
-          title={title}
-        >
-          {children}
-        </TrackProviderHandler>
-      )}
+      {(track, rowIndex, rowId, title) => {
+        switch (track.trackType) {
+          case "sequence":
+            return (
+              <CereusSequenceTrackProvider
+                title={title}
+                rowId={rowId}
+                track={track}
+                rowIndex={rowIndex}
+              >
+                {children}
+              </CereusSequenceTrackProvider>
+            );
+
+          case "bar":
+            return (
+              <CereusBarTrackProvider
+                title={title}
+                rowId={rowId}
+                track={track}
+                rowIndex={rowIndex}
+              >
+                {children}
+              </CereusBarTrackProvider>
+            );
+
+          case "bond":
+            return (
+              <CereusBondTrackProvider
+                title={title}
+                rowId={rowId}
+                track={track}
+                rowIndex={rowIndex}
+              >
+                {children}
+              </CereusBondTrackProvider>
+            );
+          case "point":
+            return (
+              <CereusPointTrackProvider
+                title={title}
+                rowId={rowId}
+                track={track}
+                rowIndex={rowIndex}
+              >
+                {children}
+              </CereusPointTrackProvider>
+            );
+          case "heatmap":
+            return (
+              <CereusHeatmapTrackProvider
+                title={title}
+                rowId={rowId}
+                track={track}
+                rowIndex={rowIndex}
+              >
+                {children}
+              </CereusHeatmapTrackProvider>
+            );
+          case "line":
+            return (
+              <CereusLineTrackProvider
+                title={title}
+                rowId={rowId}
+                track={track}
+                rowIndex={rowIndex}
+              >
+                {children}
+              </CereusLineTrackProvider>
+            );
+          case "area":
+            return (
+              <CereusAreaTrackProvider
+                title={title}
+                rowId={rowId}
+                track={track}
+                rowIndex={rowIndex}
+              >
+                {children}
+              </CereusAreaTrackProvider>
+            );
+        }
+
+        // @ts-expect-error - Just in case we forget to handle a track type.
+        return null;
+      }}
     </CereusPlotHorizontalInner>
   );
 };

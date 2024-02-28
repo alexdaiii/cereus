@@ -1,8 +1,7 @@
 import {scaleOrdinal} from "@visx/scale";
 import {ReactNode, useMemo} from "react";
 
-import {useRange} from "@/core";
-import {useVisibleRows} from "@/core/hooks/useVisibleRows/useVisibleRows";
+import {useRange, useVisibleRows} from "@/core";
 import {CereusYScaleContext, useCereusDomain} from "@/tracks";
 
 type CereusYScaleProviderProps = {
