@@ -16,11 +16,15 @@ export const filterSequenceData = <
   const arrayLength = domainMax - domainMin + 1;
   const sequenceArray: (string | null)[] = Array(arrayLength).fill(null);
 
-  const maxLoop = Math.min(sequenceArray.length, track.data.sequence.length);
-  const startIdx = Math.max(0, track.data.begin - domainMin);
+  const startArrayIdx = Math.max(0, track.data.begin - domainMin);
+  const startSequenceIdx = Math.max(0, domainMin - track.data.begin);
 
-  for (let i = startIdx, j = 0; i < maxLoop; i++, j++) {
-    sequenceArray[i] = track.data.sequence[j];
+  for (
+    let idxArray = startArrayIdx, idxSequence = startSequenceIdx;
+    idxArray < sequenceArray.length && idxSequence < track.data.sequence.length;
+    idxArray++, idxSequence++
+  ) {
+    sequenceArray[idxArray] = track.data.sequence[idxSequence];
   }
 
   return {
