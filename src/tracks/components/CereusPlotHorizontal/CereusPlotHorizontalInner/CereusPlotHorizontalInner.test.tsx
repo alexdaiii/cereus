@@ -44,7 +44,7 @@ const tracks: CereusTracks[] = [
     trackId: "track3",
     data: [
       {
-        begin: 0,
+        start: 0,
         end: 1,
       },
     ],

@@ -17,18 +17,14 @@ export const createUseFilteredFactory = <
   RowTypeT extends AnyRowData,
 >(
   useDomainHook: () => DomainContextType<RowTypeT>,
-  useTrackHookOriginal: () => ReturnType<
-    typeof useContext<HorizontalTrackGroupContextType<TrackDataT>>
-  >,
+  useTrackHookOriginal: () => HorizontalTrackGroupContextType<TrackDataT>,
   filterData: (
     track: TrackDataWithHeight<TrackDataT>,
     domainMin: number,
     domainMax: number,
   ) => TrackDataWithHeight<TrackDataT>,
 ) => {
-  return function useFilteredTrack(
-    filter: boolean = true,
-  ): ReturnType<
+  return function useFilteredTrack(): ReturnType<
     typeof useContext<HorizontalTrackGroupContextType<TrackDataT>>
   > {
     const {track, ...rest} = useTrackHookOriginal();
@@ -41,7 +37,7 @@ export const createUseFilteredFactory = <
 
     return {
       ...rest,
-      track: filter ? newTrack : track,
+      track: newTrack,
     };
   };
 };

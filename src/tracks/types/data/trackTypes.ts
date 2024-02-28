@@ -1,7 +1,7 @@
 import {
-  BarData,
-  BarTrack,
   DefaultTracks,
+  IntervalData,
+  IntervalTrack,
   PointData,
   PointTrack,
   SequenceData,
@@ -38,20 +38,23 @@ export type CereusSequenceTrack = SequenceTrack<
 // -------------------
 
 // TODO: add config for border and fill color
-export type CereusBarData = BarData;
+export type CereusBarData = IntervalData;
 
 /**
  * Display a bar from start to end
  */
-export type CereusBarTrack = BarTrack<"bar", DiscreteData<CereusBarData>>;
+export type CereusBarTrack = IntervalTrack<"bar", DiscreteData<CereusBarData>>;
 
 // TODO: add config for polygon or circle type, line type, and color
-export type CereusBondData = BarData;
+export type CereusBondData = IntervalData;
 
 /**
  * Display a polygon or circle connected by a line from start to end
  */
-export type CereusBondTrack = BarTrack<"bond", DiscreteData<CereusBondData>>;
+export type CereusBondTrack = IntervalTrack<
+  "bond",
+  DiscreteData<CereusBondData>
+>;
 
 // -------------------
 // Point tracks

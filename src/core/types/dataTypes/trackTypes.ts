@@ -56,12 +56,12 @@ export type SequenceTrack<
  * Generic data shape for a track that has a begin and end.
  * Inherit from this type to create a new track type that has a begin and end.
  */
-export type BarData = {
+export type IntervalData = {
   /**
    * The beginning of the bar. Should be less than end (not checked during
    * runtime).
    */
-  readonly begin: number;
+  readonly start: number;
   /**
    * The end of the bar. Should be greater or equal to begin (not checked during
    * runtime).
@@ -69,10 +69,10 @@ export type BarData = {
   readonly end: number;
 };
 
-export type BarTrack<
+export type IntervalTrack<
   TrackName extends string,
-  BarDataT extends BarData = BarData,
-> = TrackData<TrackName, BarDataT[]> & {
+  IntervalDataT extends IntervalData = IntervalData,
+> = TrackData<TrackName, IntervalDataT[]> & {
   /**
    * An interval search tree (binary tree) for the bar data. Should be left
    * blank when initializing the data. The tree will be created when using
@@ -105,6 +105,8 @@ export type DefaultTracks<
   SequenceTrackT extends
     | SequenceTrack<string>
     | undefined = SequenceTrack<string>,
-  BarTrackT extends BarTrack<string> | undefined = BarTrack<string>,
+  IntervalTrackT extends
+    | IntervalTrack<string>
+    | undefined = IntervalTrack<string>,
   PointTrackT extends PointTrack<string> | undefined = PointTrack<string>,
-> = SequenceTrackT | BarTrackT | PointTrackT;
+> = SequenceTrackT | IntervalTrackT | PointTrackT;

@@ -3,8 +3,8 @@ import {renderHook} from "@testing-library/react";
 import {afterEach, describe, expect, it, vi} from "vitest";
 
 import {
-  BarTrack,
   DefaultTracks,
+  IntervalTrack,
   PointTrack,
   RowData,
   SequenceTrack,
@@ -138,17 +138,19 @@ describe("SortData", () => {
         ],
       ];
 
-      const data: RowData<DefaultTracks<never, BarTrack<"test">, never>>[] = [
+      const data: RowData<
+        DefaultTracks<never, IntervalTrack<"test">, never>
+      >[] = [
         {
           rowId: "test",
           title: "test",
           visible: true,
           tracks: intervals.map(trackIntervals => {
-            const track: BarTrack<"test"> = {
+            const track: IntervalTrack<"test"> = {
               trackId: "test",
               trackType: "test",
               data: trackIntervals.map(interval => ({
-                begin: interval[0],
+                start: interval[0],
                 end: interval[1],
               })),
             };
@@ -215,11 +217,11 @@ describe("SortData", () => {
               trackType: "1",
               data: [
                 {
-                  begin: 0,
+                  start: 0,
                   end: 1,
                 },
                 {
-                  begin: 1,
+                  start: 1,
                   end: 2,
                 },
               ],

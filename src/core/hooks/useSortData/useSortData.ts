@@ -3,8 +3,8 @@ import IntervalTree from "node-interval-tree";
 import {useMemo} from "react";
 
 import {
-  BarTrack,
   DefaultTracks,
+  IntervalTrack,
   PointTrack,
   RowData,
   SequenceTrack,
@@ -17,7 +17,7 @@ import {
  * average time for most browsers that implement quicksort or mergesort.
  * Allows for binary search of a specific position in O(log(n)) time.
  *
- * Creates a new {@link IntervalTree} for the {@link BarTrack} to retrieve the index
+ * Creates a new {@link IntervalTree} for the {@link IntervalTrack} to retrieve the index
  *  in O(n * log(n)) time. Allow for retrieval of indices of the bar data
  *  between an interval in O(min(n, k * log(n))) time, where n is the size of the
  *  data, and k is the number of indices returned
@@ -46,16 +46,19 @@ export const useSortData = <TrackDataT extends DefaultTracks>(
  */
 const sortTrackData = <
   SequenceTrackT extends SequenceTrack<string>,
-  BarTrackT extends BarTrack<string>,
+  IntervalTrackT extends IntervalTrack<string>,
   PointTrackT extends PointTrack<string>,
 >(
-  data: SequenceTrackT["data"] | BarTrackT["data"] | PointTrackT["data"],
+  data: SequenceTrackT["data"] | IntervalTrackT["data"] | PointTrackT["data"],
 ):
   | {
-      data: SequenceTrackT["data"] | BarTrackT["data"] | PointTrackT["data"];
+      data:
+        | SequenceTrackT["data"]
+        | IntervalTrackT["data"]
+        | PointTrackT["data"];
     }
   | {
-      data: BarTrackT["data"];
+      data: IntervalTrackT["data"];
       intervalTree: IntervalTree<number>;
     } => {
   // check that the data is an object and is not null
@@ -79,8 +82,8 @@ const sortTrackData = <
     };
   }
 
-  if ("begin" in data[0] && "end" in data[0]) {
-    const barDataWithTree = sortBarData(data as BarTrackT["data"]);
+  if ("start" in data[0] && "end" in data[0]) {
+    const barDataWithTree = sortBarData(data as IntervalTrackT["data"]);
 
     return barDataWithTree;
   }
@@ -95,13 +98,13 @@ const sortTrackData = <
  * interval that is used to get the index of the bar data
  * @param data
  */
-const sortBarData = <BarTrackT extends BarTrack<string>>(
-  data: BarTrackT["data"],
-): Required<Pick<BarTrackT, "data" | "intervalTree">> => {
+const sortBarData = <IntervalTrackT extends IntervalTrack<string>>(
+  data: IntervalTrackT["data"],
+): Required<Pick<IntervalTrackT, "data" | "intervalTree">> => {
   const intervalTree = new IntervalTree<number>();
 
   for (let i = 0; i < data.length; i++) {
-    intervalTree.insert(data[i].begin, data[i].end, i);
+    intervalTree.insert(data[i].start, data[i].end, i);
   }
 
   return {

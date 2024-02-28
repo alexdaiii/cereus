@@ -91,11 +91,11 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-1",
         data: [
           {
-            begin: 1,
+            start: 1,
             end: 10,
           },
           {
-            begin: 11,
+            start: 11,
             end: 25,
           },
         ],
@@ -105,7 +105,7 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-2",
         data: [
           {
-            begin: -10,
+            start: -10,
             end: 100,
           },
         ],
@@ -115,7 +115,7 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-3",
         data: [
           {
-            begin: 50,
+            start: 50,
             end: 75,
           },
         ],
@@ -125,7 +125,7 @@ const data: CereusRowData[] = [
         trackId: "row-2-track-4",
         data: [
           {
-            begin: 23,
+            start: 23,
             end: 45,
           },
         ],
@@ -414,7 +414,7 @@ const BarTrack = () => {
   const {xScale} = useCereusScale();
 
   return track.data.map((val, index) => {
-    const barStart = Math.max(val.begin, domainMin) - domainMin;
+    const barStart = Math.max(val.start, domainMin) - domainMin;
     const barEnd = Math.min(val.end, domainMax) - domainMin;
 
     const barWidth = xScale(barEnd) - xScale(barStart);
@@ -422,7 +422,7 @@ const BarTrack = () => {
 
     return (
       <Bar
-        key={`block-${track.trackId}-${val.begin}-${val.end}-${index}`}
+        key={`block-${track.trackId}-${val.start}-${val.end}-${index}`}
         height={track.height}
         width={barWidth}
         x={barStartPx}
