@@ -13,8 +13,9 @@ export const filterSequenceData = <
   domainMin: number,
   domainMax: number,
 ): TrackDataWithHeight<SequenceTrackT> => {
-  const arrayLength = domainMax - domainMin + 1;
-  const sequenceArray: (string | null)[] = Array(arrayLength).fill(null);
+  const sequenceArray: (string | null)[] = Array(
+    domainMax - domainMin + 1,
+  ).fill(null);
 
   const startArrayIdx = Math.max(0, track.data.begin - domainMin);
   const startSequenceIdx = Math.max(0, domainMin - track.data.begin);
