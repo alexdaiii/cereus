@@ -29,8 +29,8 @@ export const createUnsortedDomainProvider = <RowDataT extends AnyRowData>(
       <DomainContext.Provider
         value={{
           data,
-          domainMax,
-          domainMin,
+          domainMax: Math.max(domainMin, domainMax),
+          domainMin: Math.min(domainMin, domainMax),
         }}
       >
         {children}
