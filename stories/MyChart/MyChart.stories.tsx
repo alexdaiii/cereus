@@ -224,6 +224,22 @@ export const CustomizeDomain: Story = {
     ...disable.padding,
     ...disable.axisConfig,
     ...disable.margins,
+    domainMax: {
+      control: {
+        type: "range",
+        min: -100,
+        max: 100,
+        step: 1,
+      },
+    },
+    domainMin: {
+      control: {
+        type: "range",
+        min: -100,
+        max: 100,
+        step: 1,
+      },
+    },
   },
 };
 
